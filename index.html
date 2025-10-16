@@ -31,19 +31,6 @@
     <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/radiohost-cloud/radiomorelove/main/logo.png">
     <meta name="theme-color" content="#111827" />
     
-    <script>
-      // Capture the PWA install prompt early to avoid race conditions
-      window.deferredInstallPrompt = null;
-      window.addEventListener('beforeinstallprompt', (e) => {
-        // Prevent the mini-infobar from appearing on mobile
-        e.preventDefault();
-        // Stash the event so it can be triggered later.
-        window.deferredInstallPrompt = e;
-        // Dispatch a custom event to notify the React app that the prompt is ready.
-        window.dispatchEvent(new Event('pwa-install-ready'));
-      });
-    </script>
-    
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
@@ -90,8 +77,6 @@
     <script type="text/babel">
       const App = () => {
         const { useState, useEffect, useRef, useLayoutEffect } = React;
-        const [installPromptEvent, setInstallPromptEvent] = useState(null);
-        const [showInstallButton, setShowInstallButton] = useState(false);
         const [isMenuOpen, setIsMenuOpen] = useState(false);
         const [tickerText, setTickerText] = useState('Loading latest updates...');
         const [showUpdateBanner, setShowUpdateBanner] = useState(false);
@@ -189,38 +174,6 @@
             }
         }, [tickerText]);
 
-        useEffect(() => {
-          const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
-
-          const checkInstallPrompt = () => {
-            if (!isStandalone && window.deferredInstallPrompt) {
-              setInstallPromptEvent(window.deferredInstallPrompt);
-              setShowInstallButton(true);
-            }
-          };
-
-          window.addEventListener('pwa-install-ready', checkInstallPrompt);
-          const timeoutId = setTimeout(checkInstallPrompt, 1000);
-
-          return () => {
-            window.removeEventListener('pwa-install-ready', checkInstallPrompt);
-            clearTimeout(timeoutId);
-          };
-        }, []);
-
-        const handleInstallClick = async () => {
-          if (!installPromptEvent) {
-            return;
-          }
-          installPromptEvent.prompt();
-          const { outcome } = await installPromptEvent.userChoice;
-          console.log(`User response to the install prompt: ${outcome}`);
-          
-          setInstallPromptEvent(null);
-          setShowInstallButton(false);
-          window.deferredInstallPrompt = null;
-        };
-
         const toggleMenu = (e) => {
             e.stopPropagation();
             setIsMenuOpen(!isMenuOpen);
@@ -270,19 +223,6 @@
                                   </button>
                               </li>
                           ))}
-                          {showInstallButton && (
-                            <li>
-                                <button
-                                    onClick={handleInstallClick}
-                                    className={`w-16 h-16 bg-indigo-600 text-white rounded-full flex items-center justify-center text-xs font-bold shadow-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-indigo-400 transition-all duration-300 ease-out ${isMenuOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'}`}
-                                    style={{ transitionDelay: isMenuOpen ? `${menuItems.length * 60}ms` : '0ms' }}
-                                    tabIndex={isMenuOpen ? 0 : -1}
-                                    aria-label="Install the app"
-                                >
-                                    Install
-                                </button>
-                            </li>
-                          )}
                       </ul>
                   </nav>
               </div>
@@ -307,25 +247,6 @@
             <div className="absolute bottom-4 right-4 z-20">
               <elevenlabs-convai agent-id="agent_01jzk1yswsenmr9h8h60ybk8xf"></elevenlabs-convai>
             </div>
-            
-            {showInstallButton && (
-                <div className="fixed inset-x-0 bottom-24 flex justify-center z-50 px-4">
-                    <div className="bg-white text-gray-800 p-4 rounded-lg shadow-2xl flex items-center gap-4 animate-fade-in-up">
-                        <img src={logoUrl} alt="App Logo" className="w-10 h-10 rounded-md" />
-                        <div className="flex-grow">
-                            <h3 className="font-bold">Install the app</h3>
-                            <p className="text-sm">Add it to your home screen for quick access.</p>
-                        </div>
-                        <button 
-                            onClick={handleInstallClick}
-                            className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-lg transition-colors"
-                            aria-label="Install the app"
-                        >
-                            Install
-                        </button>
-                    </div>
-                </div>
-            )}
 
             {showUpdateBanner && (
                  <div className="fixed inset-x-0 bottom-24 flex justify-center z-50 px-4">
