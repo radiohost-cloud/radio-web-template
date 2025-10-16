@@ -1,342 +1,56 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+const CACHE_NAME = 'radiomorelove-cache-v2'; // Bumped version
+const urlsToCache = [
+  '/',
+  '/index.html',
+  '/manifest.json',
+  'https://raw.githubusercontent.com/radiohost-cloud/radiomorelove/main/logo.png',
+  'https://cdn.tailwindcss.com',
+  'https://unpkg.com/react@18/umd/react.development.js',
+  'https://unpkg.com/react-dom@18/umd/react-dom.development.js',
+  'https://unpkg.com/@babel/standalone/babel.min.js',
+  'https://unpkg.com/@elevenlabs/convai-widget-embed'
+];
 
-    <!-- SEO Meta Tags -->
-    <title>radiomore.love - Music, Fashion & Chill | #LLL Online Radio</title>
-    <meta name="description" content="Tune in to our online radio for the best mix of chill music and fashion-forward vibes. Your perfect soundtrack for a relaxed lifestyle. #LLL Radio." />
-    <meta name="keywords" content="online radio, music, fashion, chill, LLL, radio stream, lifestyle music, chillout, internet radio, streaming" />
-    <meta name="author" content="RadioHost" />
-    <link rel="canonical" href="https://your-radio-stream.com/" />
+self.addEventListener('install', event => {
+  event.waitUntil(
+    caches.open(CACHE_NAME)
+      .then(cache => {
+        console.log('Opened cache');
+        return cache.addAll(urlsToCache);
+      })
+  );
+});
 
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://your-radio-stream.com/" />
-    <meta property="og:title" content="radiomore.love - Music, Fashion & Chill | #LLL Online Radio" />
-    <meta property="og:description" content="Tune in to our online radio for the best mix of chill music and fashion-forward vibes. Your perfect soundtrack for a relaxed lifestyle. #LLL Radio." />
-    <meta property="og:image" content="https://raw.githubusercontent.com/radiohost-cloud/radiomorelove/main/logo.png" />
-
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://your-radio-stream.com/" />
-    <meta property="twitter:title" content="radiomore.love - Music, Fashion & Chill | #LLL Online Radio" />
-    <meta property="twitter:description" content="Tune in to our online radio for the best mix of chill music and fashion-forward vibes. Your perfect soundtrack for a relaxed lifestyle. #LLL Radio." />
-    <meta property="twitter:image" content="https://raw.githubusercontent.com/radiohost-cloud/radiomorelove/main/logo.png" />
-
-    <!-- PWA and General -->
-    <link rel="icon" href="https://raw.githubusercontent.com/radiohost-cloud/radiomorelove/main/logo.png" />
-    <link rel="manifest" href="/manifest.json" />
-    <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/radiohost-cloud/radiomorelove/main/logo.png">
-    <meta name="theme-color" content="#111827" />
-    
-    <script>
-      // Capture the PWA install prompt early to avoid race conditions
-      window.deferredInstallPrompt = null;
-      window.addEventListener('beforeinstallprompt', (e) => {
-        // Prevent the mini-infobar from appearing on mobile
-        e.preventDefault();
-        // Stash the event so it can be triggered later.
-        window.deferredInstallPrompt = e;
-        // Dispatch a custom event to notify the React app that the prompt is ready.
-        window.dispatchEvent(new Event('pwa-install-ready'));
-      });
-    </script>
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <style>
-        /* Custom Splash Screen Styles */
-        #splash-screen {
-            position: fixed;
-            inset: 0;
-            z-index: 10000;
-            background-color: #111827;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: opacity 0.5s ease-out;
+self.addEventListener('fetch', event => {
+  event.respondWith(
+    caches.match(event.request)
+      .then(response => {
+        if (response) {
+          return response;
         }
-        #splash-screen img {
-            width: 150px;
-            height: 150px;
-            animation: pulse 2s infinite ease-in-out;
-        }
-        #splash-screen.fade-out {
-            opacity: 0;
-        }
+        return fetch(event.request);
+      })
+  );
+});
 
-        @keyframes pulse {
-            0% {
-                transform: scale(0.95);
-            }
-            50% {
-                transform: scale(1);
-            }
-            100% {
-                transform: scale(0.95);
-            }
-        }
-    </style>
-  </head>
-  <body class="overflow-hidden">
-    <div id="splash-screen">
-      <img src="https://raw.githubusercontent.com/radiohost-cloud/radiomorelove/main/logo.png" alt="radiomore.love Logo">
-    </div>
-    <div id="root"></div>
-    <script type="text/babel">
-      const App = () => {
-        const { useState, useEffect, useRef, useLayoutEffect } = React;
-        const [installPromptEvent, setInstallPromptEvent] = useState(null);
-        const [showInstallButton, setShowInstallButton] = useState(false);
-        const [isMenuOpen, setIsMenuOpen] = useState(false);
-        const [tickerText, setTickerText] = useState('Loading latest updates...');
-        
-        const tickerContainerRef = useRef(null);
-        const textRef = useRef(null);
-        const iframeRef = useRef(null);
-
-        const streamUrl = 'https://stream.radiohost.cloud/public/live';
-        const logoUrl = 'https://raw.githubusercontent.com/radiohost-cloud/radiomorelove/main/logo.png';
-        const feedUrl = 'https://raw.githubusercontent.com/radiohost-cloud/radiomorelove/main/feed.txt';
-
-        // Hide splash screen on component mount
-        useEffect(() => {
-          const splash = document.getElementById('splash-screen');
-          if (splash) {
-            splash.classList.add('fade-out');
-            setTimeout(() => {
-              splash.style.display = 'none';
-            }, 500); // Match transition duration
+self.addEventListener('activate', event => {
+  const cacheWhitelist = [CACHE_NAME];
+  event.waitUntil(
+    caches.keys().then(cacheNames => {
+      return Promise.all(
+        cacheNames.map(cacheName => {
+          if (cacheWhitelist.indexOf(cacheName) === -1) {
+            return caches.delete(cacheName);
           }
-        }, []);
-
-        useEffect(() => {
-          const fetchTickerText = async () => {
-            try {
-              const response = await fetch(feedUrl);
-              if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-              }
-              const text = await response.text();
-              const fullTickerText = (text.trim() + '  •  ').repeat(10); 
-              setTickerText(fullTickerText);
-            } catch (error) {
-              console.error("Could not fetch ticker text:", error);
-              const fallbackText = 'Welcome to #LLL Radio 🎧  •  Your daily dose of chill beats 🎵, fashion 🕶️, and good vibes ✨  •  Tune in and relax 😌  •  ';
-              setTickerText(fallbackText.repeat(10));
-            }
-          };
-
-          fetchTickerText();
-        }, []);
-        
-        useLayoutEffect(() => {
-            if (tickerContainerRef.current && textRef.current) {
-                const textWidth = textRef.current.offsetWidth;
-                const pixelsPerSecond = 50;
-                if (textWidth > 0 && pixelsPerSecond > 0) {
-                    const duration = textWidth / pixelsPerSecond;
-                    tickerContainerRef.current.style.animationDuration = `${duration}s`;
-                }
-            }
-        }, [tickerText]);
-
-        useEffect(() => {
-          const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
-
-          const checkInstallPrompt = () => {
-            if (!isStandalone && window.deferredInstallPrompt) {
-              setInstallPromptEvent(window.deferredInstallPrompt);
-              setShowInstallButton(true);
-            }
-          };
-
-          window.addEventListener('pwa-install-ready', checkInstallPrompt);
-          // Also check immediately in case the event fired before the listener was attached
-          const timeoutId = setTimeout(checkInstallPrompt, 1000);
-
-          return () => {
-            window.removeEventListener('pwa-install-ready', checkInstallPrompt);
-            clearTimeout(timeoutId);
-          };
-        }, []);
-
-        const handleInstallClick = async () => {
-          if (!installPromptEvent) {
-            return;
-          }
-          installPromptEvent.prompt();
-          const { outcome } = await installPromptEvent.userChoice;
-          console.log(`User response to the install prompt: ${outcome}`);
-          
-          // The prompt can only be used once.
-          setInstallPromptEvent(null);
-          setShowInstallButton(false);
-          window.deferredInstallPrompt = null;
-        };
-
-        const toggleMenu = (e) => {
-            e.stopPropagation();
-            setIsMenuOpen(!isMenuOpen);
-        };
-
-        const handleMenuItemClick = (page) => {
-            console.log(`Navigating to ${page}`);
-            setIsMenuOpen(false);
-        };
-        
-        const menuItems = [
-            { name: 'Home' },
-            { name: 'News' },
-            { name: 'About Us' },
-        ];
-
-        return (
-          <div className="relative w-screen h-screen bg-gray-900">
-            {isMenuOpen && <div className="fixed inset-0 z-30" onClick={() => setIsMenuOpen(false)}></div>}
-
-            <header className="absolute top-4 left-4 right-4 h-16 bg-black/80 backdrop-blur-sm rounded-full flex items-center z-20 shadow-lg">
-              <div className="relative flex-shrink-0 w-16 h-16 z-40">
-                  <button
-                      onClick={toggleMenu}
-                      className="relative z-10 w-16 h-16 rounded-full p-0 border-0 bg-transparent cursor-pointer"
-                      aria-label="Toggle navigation menu"
-                      aria-haspopup="true" 
-                      aria-expanded={isMenuOpen}
-                  >
-                      <img
-                          src={logoUrl}
-                          alt="RadioHost Logo"
-                          className="w-full h-full rounded-full object-cover transition-transform duration-300 hover:scale-110"
-                      />
-                  </button>
-                  <nav aria-label="Main navigation" className={`absolute top-full left-0 mt-2 w-16 flex flex-col items-center gap-2 ${isMenuOpen ? 'pointer-events-auto' : 'pointer-events-none'}`}>
-                      <ul className="list-none m-0 p-0 flex flex-col items-center gap-2">
-                          {menuItems.map((item, index) => (
-                              <li key={item.name}>
-                                  <button
-                                      onClick={() => handleMenuItemClick(item.name)}
-                                      className={`w-16 h-16 bg-black text-white rounded-full flex items-center justify-center text-xs font-bold shadow-lg hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-gray-400 transition-all duration-300 ease-out ${isMenuOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'}`}
-                                      style={{ transitionDelay: isMenuOpen ? `${index * 60}ms` : '0ms' }}
-                                      tabIndex={isMenuOpen ? 0 : -1}
-                                  >
-                                      {item.name}
-                                  </button>
-                              </li>
-                          ))}
-                          {showInstallButton && (
-                            <li>
-                                <button
-                                    onClick={handleInstallClick}
-                                    className={`w-16 h-16 bg-indigo-600 text-white rounded-full flex items-center justify-center text-xs font-bold shadow-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-indigo-400 transition-all duration-300 ease-out ${isMenuOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'}`}
-                                    style={{ transitionDelay: isMenuOpen ? `${menuItems.length * 60}ms` : '0ms' }}
-                                    tabIndex={isMenuOpen ? 0 : -1}
-                                    aria-label="Install the app"
-                                >
-                                    Install
-                                </button>
-                            </li>
-                          )}
-                      </ul>
-                  </nav>
-              </div>
-
-              <div className="flex-grow h-full relative overflow-hidden">
-                <div ref={tickerContainerRef} className="absolute top-0 left-0 h-full flex items-center animate-marquee">
-                  <p ref={textRef} className="text-gray-200 text-lg whitespace-nowrap px-8">{tickerText}</p>
-                  <p className="text-gray-200 text-lg whitespace-nowrap px-8" aria-hidden="true">{tickerText}</p>
-                </div>
-              </div>
-            </header>
-
-            <iframe
-              ref={iframeRef}
-              src={streamUrl}
-              title="radiomore.love"
-              className="absolute top-0 left-0 w-full h-full border-0"
-              allow="autoplay; encrypted-media"
-              sandbox="allow-forms allow-scripts allow-same-origin"
-            ></iframe>
-
-            <div className="absolute bottom-4 right-4 z-20">
-              <elevenlabs-convai agent-id="agent_01jzk1yswsenmr9h8h60ybk8xf"></elevenlabs-convai>
-            </div>
-            
-            {showInstallButton && (
-                <div className="fixed inset-x-0 bottom-24 flex justify-center z-50 px-4">
-                    <div className="bg-white text-gray-800 p-4 rounded-lg shadow-2xl flex items-center gap-4 animate-fade-in-up">
-                        <img src={logoUrl} alt="App Logo" className="w-10 h-10 rounded-md" />
-                        <div className="flex-grow">
-                            <h3 className="font-bold">Install the app</h3>
-                            <p className="text-sm">Add it to your home screen for quick access.</p>
-                        </div>
-                        <button 
-                            onClick={handleInstallClick}
-                            className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-lg transition-colors"
-                            aria-label="Install the app"
-                        >
-                            Install
-                        </button>
-                    </div>
-                </div>
-            )}
-          </div>
-        );
-      };
-
-      const rootElement = document.getElementById('root');
-      if (!rootElement) {
-        throw new Error("Could not find root element to mount to");
-      }
-
-      const root = ReactDOM.createRoot(rootElement);
-      root.render(
-        <React.StrictMode>
-          <App />
-        </React.StrictMode>
+        })
       );
-    </script>
-    <script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>
-    <script>
-      // Register Service Worker from external file
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/service-worker.js')
-            .then(registration => {
-              console.log('ServiceWorker registration successful with scope: ', registration.scope);
-            })
-            .catch(err => {
-              console.error('ServiceWorker registration failed: ', err);
-            });
-        });
-      }
-    </script>
-    <style>
-        @keyframes fade-in-up {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        .animate-fade-in-up {
-            animation: fade-in-up 0.5s ease-out forwards;
-        }
+    }).then(() => self.clients.claim()) // Take control of all pages
+  );
+});
 
-        @keyframes marquee {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
-        .animate-marquee {
-            animation: marquee 60s linear infinite;
-        }
-    </style>
-  </body>
-</html>
+// Listen for a message from the client to skip waiting.
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
+});
