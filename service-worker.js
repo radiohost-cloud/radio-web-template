@@ -1,4 +1,4 @@
-const CACHE_NAME = 'radiomorelove-cache-v1';
+const CACHE_NAME = 'radiomorelove-cache-v2'; // Bumped version
 const urlsToCache = [
   '/',
   '/index.html',
@@ -44,6 +44,13 @@ self.addEventListener('activate', event => {
           }
         })
       );
-    })
+    }).then(() => self.clients.claim()) // Take control of all pages
   );
+});
+
+// Listen for a message from the client to skip waiting.
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
 });
