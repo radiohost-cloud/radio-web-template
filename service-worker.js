@@ -2,6 +2,7 @@ const CACHE_NAME = 'radiomorelove-cache-v2'; // Bumped version
 const urlsToCache = [
   '/',
   '/index.html',
+  '/app.js',
   '/manifest.json',
   'https://raw.githubusercontent.com/radiohost-cloud/radiomorelove/main/logo.png',
   'https://cdn.tailwindcss.com',
