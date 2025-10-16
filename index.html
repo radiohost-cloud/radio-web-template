@@ -108,6 +108,27 @@
         const logoUrl = 'https://raw.githubusercontent.com/radiohost-cloud/radiomorelove/main/logo.png';
         const feedUrl = 'https://raw.githubusercontent.com/radiohost-cloud/radiomorelove/main/feed.txt';
 
+        // --- Overlay Calculations for Player Controls ---
+        // Based on analysis of the provided screenshot.
+        // The player widget seems to be a centered box of approx. 640x180px.
+        const WIDGET_WIDTH = 640;
+        const WIDGET_HEIGHT = 180;
+
+        // The interactive area (play button + quality selector) inside the widget.
+        const HOLE_WIDTH = 250;
+        const HOLE_HEIGHT = 50;
+        const HOLE_OFFSET_X_FROM_WIDGET = 20; // from widget's left edge
+        const HOLE_OFFSET_Y_FROM_WIDGET = 115; // from widget's top edge
+
+        // Calculate CSS `calc()` values for the hole's position.
+        // This assumes the widget is perfectly centered in the iframe.
+        const holeTop = `calc(50vh - ${WIDGET_HEIGHT / 2}px + ${HOLE_OFFSET_Y_FROM_WIDGET}px)`;
+        const holeLeft = `calc(50vw - ${WIDGET_WIDTH / 2}px + ${HOLE_OFFSET_X_FROM_WIDGET}px)`;
+        const holeBottom = `calc(${holeTop} + ${HOLE_HEIGHT}px)`;
+        const holeRight = `calc(${holeLeft} + ${HOLE_WIDTH}px)`;
+        
+        const baseOverlayStyle = { position: 'absolute', zIndex: 10 };
+
         // Hide splash screen on component mount
         useEffect(() => {
           const splash = document.getElementById('splash-screen');
@@ -267,12 +288,36 @@
               sandbox="allow-forms allow-scripts allow-same-origin"
             ></iframe>
             
-            {/* Transparent overlay to block interactions with the iframe */}
+            {/* Overlays to block interaction, with a "hole" for the player controls. */}
+            
+            {/* 1. Top overlay (covers everything above the hole) */}
             <div
-                className="absolute top-0 left-0 w-full h-full z-10"
                 onContextMenu={(e) => e.preventDefault()}
                 aria-hidden="true"
-            ></div>
+                style={{ ...baseOverlayStyle, top: '0', left: '0', right: '0', height: holeTop }}
+            />
+
+            {/* 2. Bottom overlay (covers everything below the hole) */}
+            <div
+                onContextMenu={(e) => e.preventDefault()}
+                aria-hidden="true"
+                style={{ ...baseOverlayStyle, top: holeBottom, left: '0', right: '0', bottom: '0' }}
+            />
+
+            {/* 3. Left-side overlay (covers the area left of the hole, at the same height) */}
+            <div
+                onContextMenu={(e) => e.preventDefault()}
+                aria-hidden="true"
+                style={{ ...baseOverlayStyle, top: holeTop, left: '0', width: holeLeft, height: `${HOLE_HEIGHT}px` }}
+            />
+
+            {/* 4. Right-side overlay (covers the area right of the hole, at the same height) */}
+            <div
+                onContextMenu={(e) => e.preventDefault()}
+                aria-hidden="true"
+                style={{ ...baseOverlayStyle, top: holeTop, left: holeRight, right: '0', height: `${HOLE_HEIGHT}px` }}
+            />
+
 
             <div className="absolute bottom-4 right-4 z-20">
               <elevenlabs-convai agent-id="agent_01jzk1yswsenmr9h8h60ybk8xf"></elevenlabs-convai>
