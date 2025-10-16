@@ -32,44 +32,8 @@
     <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <style>
-        /* Custom Splash Screen Styles */
-        #splash-screen {
-            position: fixed;
-            inset: 0;
-            z-index: 10000;
-            background-color: #111827;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: opacity 0.5s ease-out;
-        }
-        #splash-screen img {
-            width: 150px;
-            height: 150px;
-            animation: pulse 2s infinite ease-in-out;
-        }
-        #splash-screen.fade-out {
-            opacity: 0;
-        }
-
-        @keyframes pulse {
-            0% {
-                transform: scale(0.95);
-            }
-            50% {
-                transform: scale(1);
-            }
-            100% {
-                transform: scale(0.95);
-            }
-        }
-    </style>
   </head>
   <body class="overflow-hidden">
-    <div id="splash-screen">
-      <img src="https://raw.githubusercontent.com/radiohost-cloud/radiomorelove/main/logo.png" alt="radiomore.love Logo">
-    </div>
     <div id="root"></div>
     <script type="text/babel">
       const App = () => {
@@ -84,17 +48,6 @@
         const streamUrl = 'https://stream.radiohost.cloud/public/live';
         const logoUrl = 'https://raw.githubusercontent.com/radiohost-cloud/radiomorelove/main/logo.png';
         const feedUrl = 'https://raw.githubusercontent.com/radiohost-cloud/radiomorelove/main/feed.txt';
-
-        // Hide splash screen on component mount
-        useEffect(() => {
-          const splash = document.getElementById('splash-screen');
-          if (splash) {
-            splash.classList.add('fade-out');
-            setTimeout(() => {
-              splash.style.display = 'none';
-            }, 500); // Match transition duration
-          }
-        }, []);
 
         useEffect(() => {
           const fetchTickerText = async () => {
