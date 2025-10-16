@@ -1,0 +1,5 @@
+{
+  "name": "radiomore.love",
+  "description": "A simple web application to display an embedded radio stream page with a logo overlay in the top-left corner.",
+  "requestFramePermissions": []
+}
