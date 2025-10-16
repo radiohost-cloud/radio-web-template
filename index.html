@@ -25,11 +25,8 @@
     <meta property="twitter:description" content="Tune in to our online radio for the best mix of chill music and fashion-forward vibes. Your perfect soundtrack for a relaxed lifestyle. #LLL Radio." />
     <meta property="twitter:image" content="https://raw.githubusercontent.com/radiohost-cloud/radiomorelove/main/logo.png" />
 
-    <!-- PWA and General -->
+    <!-- General -->
     <link rel="icon" href="https://raw.githubusercontent.com/radiohost-cloud/radiomorelove/main/logo.png" />
-    <link rel="manifest" href="data:application/manifest+json;base64,eyJuYW1lIjoicmFkaW9tb3JlLmxvdmUiLCJzaG9ydF9uYW1lIjoicmFkaW9tb3JlLmxvdmUiLCJkZXNjcmlwdGlvbiI6IkEgc2ltcGxlIHdlYiBhcHBsaWNhdGlvbiB0byBkaXNwbGF5IGFuIGVtYmVkZGVkIHJhZGlvIHN0cmVhbSBwYWdlIHdpdGggYSBsb2dvIG92ZXJsYXkgaW4gdGhlIHRvcC1sZWZ0IGNvcm5lci4iLCJzdGFydF91cmwiOiIuIiwiZGlzcGxheSI6InN0YW5kYWxvbmUiLCJiYWNrZ3JvdW5kX2NvbG9yIjoiIzExMTgyNyIsInRoZW1lX2NvbG9yIjoiIzExMTgyNyIsImljb25zIjpbeyJzcmMiOiJodHRwczovL3Jhdy5naXRodWJ1c2VyY29udGVudC5jb20vcmFkaW9ob3N0LWNsb3VkL3JhZGlvbW9yZWxvdmUvbWFpbi9sb2dvLnBuZyIsInNpemVzIjoiMTkyeDE5MiIsInR5cGUiOiJpbWFnZS9wbmciLCJwdXJwb3NlIjoiYW55IG1hc2thYmxlIn0seyJzcmMiOiJodHRwczovL3Jhdy5naXRodWJ1c2VyY29udGVudC5jb20vcmFkaW9ob3N0LWNsb3VkL3JhZGlvbW9yZWxvdmUvbWFpbi9sb2dvLnBuZyIsInNpemVzIjoiNTEyeDUxMiIsInR5cGUiOiJpbWFnZS9wbmciLCJwdXJwb3NlIjoiYW55IG1hc2thYmxlIn1dfQ==" />
-    <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/radiohost-cloud/radiomorelove/main/logo.png">
-    <meta name="theme-color" content="#111827" />
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
@@ -79,9 +76,7 @@
         const { useState, useEffect, useRef, useLayoutEffect } = React;
         const [isMenuOpen, setIsMenuOpen] = useState(false);
         const [tickerText, setTickerText] = useState('Loading latest updates...');
-        const [showUpdateBanner, setShowUpdateBanner] = useState(false);
         
-        const waitingWorkerRef = useRef(null);
         const tickerContainerRef = useRef(null);
         const textRef = useRef(null);
         const iframeRef = useRef(null);
@@ -100,106 +95,6 @@
             }, 500); // Match transition duration
           }
         }, []);
-        
-        // Service Worker Update Logic
-        useEffect(() => {
-            if ('serviceWorker' in navigator) {
-              const swCode = `
-                const CACHE_NAME = 'radiomorelove-cache-v2';
-                const urlsToCache = [
-                  '/',
-                  'https://raw.githubusercontent.com/radiohost-cloud/radiomorelove/main/logo.png',
-                  'https://cdn.tailwindcss.com',
-                  'https://unpkg.com/react@18/umd/react.development.js',
-                  'https://unpkg.com/react-dom@18/umd/react-dom.development.js',
-                  'https://unpkg.com/@babel/standalone/babel.min.js',
-                  'https://unpkg.com/@elevenlabs/convai-widget-embed'
-                ];
-
-                self.addEventListener('install', event => {
-                  event.waitUntil(
-                    caches.open(CACHE_NAME)
-                      .then(cache => {
-                        console.log('Opened cache');
-                        return cache.addAll(urlsToCache);
-                      })
-                  );
-                });
-
-                self.addEventListener('fetch', event => {
-                  event.respondWith(
-                    caches.match(event.request)
-                      .then(response => {
-                        if (response) {
-                          return response;
-                        }
-                        return fetch(event.request);
-                      })
-                  );
-                });
-
-                self.addEventListener('activate', event => {
-                  const cacheWhitelist = [CACHE_NAME];
-                  event.waitUntil(
-                    caches.keys().then(cacheNames => {
-                      return Promise.all(
-                        cacheNames.map(cacheName => {
-                          if (cacheWhitelist.indexOf(cacheName) === -1) {
-                            return caches.delete(cacheName);
-                          }
-                        })
-                      );
-                    }).then(() => self.clients.claim())
-                  );
-                });
-
-                self.addEventListener('message', (event) => {
-                  if (event.data && event.data.type === 'SKIP_WAITING') {
-                    self.skipWaiting();
-                  }
-                });
-              `;
-
-                const swBlob = new Blob([swCode], { type: 'application/javascript' });
-                const swUrl = URL.createObjectURL(swBlob);
-
-                const registerServiceWorker = async () => {
-                    try {
-                        const registration = await navigator.serviceWorker.register(swUrl);
-                        registration.onupdatefound = () => {
-                            const installingWorker = registration.installing;
-                            if (installingWorker) {
-                                installingWorker.onstatechange = () => {
-                                    if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                                        waitingWorkerRef.current = installingWorker;
-                                        setShowUpdateBanner(true);
-                                    }
-                                };
-                            }
-                        };
-                    } catch (error) {
-                        console.error('ServiceWorker registration failed: ', error);
-                    }
-                };
-
-                registerServiceWorker();
-
-                let refreshing;
-                navigator.serviceWorker.addEventListener('controllerchange', () => {
-                    if (!refreshing) {
-                        window.location.reload();
-                        refreshing = true;
-                    }
-                });
-            }
-        }, []);
-
-        const handleUpdateClick = () => {
-            if (waitingWorkerRef.current) {
-                waitingWorkerRef.current.postMessage({ type: 'SKIP_WAITING' });
-                setShowUpdateBanner(false);
-            }
-        };
 
         useEffect(() => {
           const fetchTickerText = async () => {
@@ -305,25 +200,6 @@
             <div className="absolute bottom-4 right-4 z-20">
               <elevenlabs-convai agent-id="agent_01jzk1yswsenmr9h8h60ybk8xf"></elevenlabs-convai>
             </div>
-
-            {showUpdateBanner && (
-                 <div className="fixed inset-x-0 bottom-24 flex justify-center z-50 px-4">
-                    <div className="bg-white text-gray-800 p-4 rounded-lg shadow-2xl flex items-center gap-4 animate-fade-in-up">
-                        <img src={logoUrl} alt="App Logo" className="w-10 h-10 rounded-md" />
-                        <div className="flex-grow">
-                            <h3 className="font-bold">Dostępna nowa wersja</h3>
-                            <p className="text-sm">Odśwież, aby załadować najnowsze zmiany.</p>
-                        </div>
-                        <button 
-                            onClick={handleUpdateClick}
-                            className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg transition-colors"
-                            aria-label="Update the app"
-                        >
-                            Aktualizuj
-                        </button>
-                    </div>
-                </div>
-            )}
           </div>
         );
       };
