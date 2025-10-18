@@ -40,6 +40,9 @@
         const { useState, useEffect, useRef, useLayoutEffect } = React;
         const [isMenuOpen, setIsMenuOpen] = useState(false);
         const [tickerText, setTickerText] = useState('Loading latest updates...');
+        const [isPopupOpen, setIsPopupOpen] = useState(false);
+        const [popupTitle, setPopupTitle] = useState('');
+        const [popupContent, setPopupContent] = useState('');
         
         const tickerContainerRef = useRef(null);
         const textRef = useRef(null);
@@ -48,6 +51,31 @@
         const streamUrl = 'https://stream.radiohost.cloud/public/live';
         const logoUrl = 'https://raw.githubusercontent.com/radiohost-cloud/radiomorelove/main/logo.png';
         const feedUrl = 'https://raw.githubusercontent.com/radiohost-cloud/radiomorelove/main/feed.txt';
+
+        const menuItems = [
+            { 
+                name: 'Home', 
+                content: '<p>Welcome to radiomore.love! The premier destination for chill beats and fashion-forward sounds. Tune in and enjoy the vibes.</p>' 
+            },
+            { 
+                name: 'News', 
+                content: '<p><strong>Latest Update:</strong> Our new curated playlist just dropped! Featuring a mix of lofi hip hop and chillwave, perfect for your study, work, or relaxation sessions. Stay tuned for more updates from our DJs.</p>' 
+            },
+            { 
+                name: 'About Us', 
+                content: `
+                    <p><strong>radiomore.love</strong> is more than just a radio station; it's a lifestyle.</p>
+                    <p>We are dedicated to curating the perfect auditory experience for the modern listener who appreciates a blend of music, fashion, and culture. Our mission is to provide a continuous stream of chill, high-quality music that serves as the perfect backdrop to your life.</p>
+                    <h3 class="text-lg font-semibold mt-4 mb-2 text-white">What We Play:</h3>
+                    <ul class="list-disc list-inside space-y-1 text-gray-400">
+                        <li>Chillwave & Lofi Hip Hop</li>
+                        <li>Indie & Alternative</li>
+                        <li>Ambient & Electronic</li>
+                        <li>Future Beats</li>
+                    </ul>
+                `
+            },
+        ];
 
         useEffect(() => {
           const fetchTickerText = async () => {
@@ -68,6 +96,22 @@
 
           fetchTickerText();
         }, []);
+
+        useEffect(() => {
+            const handleKeyDown = (event) => {
+                if (event.key === 'Escape') {
+                    setIsPopupOpen(false);
+                }
+            };
+
+            if (isPopupOpen) {
+                window.addEventListener('keydown', handleKeyDown);
+            }
+
+            return () => {
+                window.removeEventListener('keydown', handleKeyDown);
+            };
+        }, [isPopupOpen]);
         
         useLayoutEffect(() => {
             if (tickerContainerRef.current && textRef.current) {
@@ -85,23 +129,19 @@
             setIsMenuOpen(!isMenuOpen);
         };
 
-        const handleMenuItemClick = (page) => {
-            console.log(`Navigating to ${page}`);
+        const handleMenuItemClick = (item) => {
+            setPopupTitle(item.name);
+            setPopupContent(item.content);
+            setIsPopupOpen(true);
             setIsMenuOpen(false);
         };
-        
-        const menuItems = [
-            { name: 'Home' },
-            { name: 'News' },
-            { name: 'About Us' },
-        ];
 
         return (
           <div className="relative w-screen h-screen bg-gray-900">
             {isMenuOpen && <div className="fixed inset-0 z-30" onClick={() => setIsMenuOpen(false)}></div>}
 
-            <header className="absolute top-4 left-4 right-4 h-16 bg-black/80 backdrop-blur-sm rounded-full flex items-center z-20 shadow-lg">
-              <div className="relative flex-shrink-0 w-16 h-16 z-40">
+            <header className="absolute top-4 left-4 right-4 h-16 bg-black/80 backdrop-blur-sm rounded-full flex items-center z-40 shadow-lg">
+              <div className="relative flex-shrink-0 w-16 h-16">
                   <button
                       onClick={toggleMenu}
                       className="relative z-10 w-16 h-16 rounded-full p-0 border-0 bg-transparent cursor-pointer"
@@ -120,8 +160,8 @@
                           {menuItems.map((item, index) => (
                               <li key={item.name}>
                                   <button
-                                      onClick={() => handleMenuItemClick(item.name)}
-                                      className={`w-16 h-16 bg-black text-white rounded-full flex items-center justify-center text-xs font-bold shadow-lg hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-gray-400 transition-all duration-300 ease-out ${isMenuOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'}`}
+                                      onClick={() => handleMenuItemClick(item)}
+                                      className={`w-16 h-16 bg-black text-white rounded-full flex items-center justify-center text-xs font-bold shadow-lg hover:bg-white hover:text-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-gray-400 transition-all duration-300 ease-out ${isMenuOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'}`}
                                       style={{ transitionDelay: isMenuOpen ? `${index * 60}ms` : '0ms' }}
                                       tabIndex={isMenuOpen ? 0 : -1}
                                   >
@@ -149,6 +189,38 @@
               allow="autoplay; encrypted-media"
               sandbox="allow-forms allow-scripts allow-same-origin"
             ></iframe>
+            
+            {isPopupOpen && (
+              <div 
+                  className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 animate-fade-in"
+                  onClick={() => setIsPopupOpen(false)}
+                  role="dialog"
+                  aria-modal="true"
+                  aria-labelledby="popup-title"
+              >
+                  <div 
+                      className="bg-black/80 rounded-2xl shadow-2xl p-6 w-full max-w-md m-4 text-white relative animate-scale-in flex flex-col"
+                      onClick={(e) => e.stopPropagation()}
+                  >
+                      <button 
+                          onClick={() => setIsPopupOpen(false)}
+                          className="absolute top-3 right-3 text-gray-400 hover:text-white transition-colors"
+                          aria-label="Close popup"
+                      >
+                          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                      </button>
+                      <h2 id="popup-title" className="text-xl font-bold mb-4">{popupTitle}</h2>
+                      
+                      <div 
+                        className="text-gray-300 space-y-3 max-h-[60vh] overflow-y-auto pr-2"
+                        dangerouslySetInnerHTML={{ __html: popupContent }}
+                      >
+                      </div>
+
+                  </div>
+              </div>
+            )}
+
 
             <div className="absolute bottom-4 right-4 z-20">
               <elevenlabs-convai agent-id="agent_01jzk1yswsenmr9h8h60ybk8xf"></elevenlabs-convai>
@@ -191,6 +263,28 @@
         }
         .animate-marquee {
             animation: marquee 60s linear infinite;
+        }
+
+        @keyframes fade-in {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .animate-fade-in {
+            animation: fade-in 0.3s ease-out forwards;
+        }
+
+        @keyframes scale-in {
+            from { 
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to { 
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        .animate-scale-in {
+            animation: scale-in 0.3s ease-out forwards;
         }
     </style>
   </body>
