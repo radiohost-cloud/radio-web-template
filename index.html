@@ -39,6 +39,7 @@
       const App = () => {
         const { useState, useEffect, useRef, useLayoutEffect } = React;
         const [isMenuOpen, setIsMenuOpen] = useState(false);
+        const [isMounted, setIsMounted] = useState(false); // To prevent animations on initial render
         const [tickerText, setTickerText] = useState('Loading latest updates...');
         const [isPopupOpen, setIsPopupOpen] = useState(false);
         const [popupTitle, setPopupTitle] = useState('');
@@ -95,6 +96,9 @@
         ];
 
         useEffect(() => {
+          // Set isMounted after the first render to enable animations, preventing a flash on load.
+          setIsMounted(true);
+
           // Timer to open the menu after a delay
           const openTimer = setTimeout(() => {
             setIsMenuOpen(true);
@@ -292,7 +296,7 @@
                     aria-label="Main navigation" 
                     className={`absolute 
                         ${isMenuOpen ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'}
-                        transition-opacity duration-300
+                        ${isMounted ? 'transition-opacity duration-300' : ''}
                         md:opacity-100 md:pointer-events-auto 
                         
                         top-0 left-0 w-full h-full rounded-full bg-black/90 backdrop-blur-sm z-10 
@@ -310,7 +314,8 @@
                                     className={`
                                         w-12 h-12 md:w-16 md:h-16 bg-black text-white rounded-full flex items-center justify-center 
                                         md:shadow-lg hover:bg-white hover:text-black focus:outline-none focus:ring-2 focus:ring-offset-2 
-                                        focus:ring-offset-gray-900 focus:ring-gray-400 transition-all duration-300 ease-out 
+                                        focus:ring-offset-gray-900 focus:ring-gray-400 
+                                        ${isMounted ? 'transition-all duration-300 ease-out' : ''}
                                         ${isMenuOpen ? 'opacity-100 translate-x-0 md:translate-y-0' : 'opacity-0 -translate-x-4 md:-translate-y-4'}
                                     `}
                                     style={{ transitionDelay: isMenuOpen ? `${index * 60}ms` : '0ms' }}
