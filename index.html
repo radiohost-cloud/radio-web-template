@@ -36,9 +36,8 @@
   <body class="overflow-hidden">
     <div id="root"></div>
     <script type="text/babel">
-      const { useState, useEffect, useRef, useLayoutEffect } = React;
-
-      const RadioPlayer = () => {
+      const App = () => {
+        const { useState, useEffect, useRef, useLayoutEffect } = React;
         const [isMenuOpen, setIsMenuOpen] = useState(false);
         const [tickerText, setTickerText] = useState('Loading latest updates...');
         const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -54,7 +53,6 @@
         const streamUrl = 'https://stream.radiohost.cloud/public/live';
         const logoUrl = 'https://raw.githubusercontent.com/radiohost-cloud/radiomorelove/main/logo.png';
         const feedUrl = 'https://raw.githubusercontent.com/radiohost-cloud/radiomorelove/main/feed.txt';
-        const tickerStorageKey = 'radiomore.love-ticker-text';
 
         const menuItems = [
             { 
@@ -95,13 +93,7 @@
         ];
 
         useEffect(() => {
-          const loadTickerText = async () => {
-            const localText = localStorage.getItem(tickerStorageKey);
-            if (localText && localText.trim() !== '') {
-                setTickerText((localText.trim() + '  •  ').repeat(10));
-                return;
-            }
-
+          const fetchTickerText = async () => {
             try {
               const response = await fetch(feedUrl);
               if (!response.ok) {
@@ -117,19 +109,7 @@
             }
           };
 
-          loadTickerText();
-
-          const handleStorageChange = (event) => {
-            if (event.key === tickerStorageKey) {
-                loadTickerText();
-            }
-          };
-
-          window.addEventListener('storage', handleStorageChange);
-
-          return () => {
-            window.removeEventListener('storage', handleStorageChange);
-          }
+          fetchTickerText();
         }, []);
 
         useEffect(() => {
@@ -325,67 +305,12 @@
               </div>
             )}
 
+
             <div className="absolute bottom-4 right-4 z-20">
               <elevenlabs-convai agent-id="agent_01jzk1yswsenmr9h8h60ybk8xf"></elevenlabs-convai>
             </div>
           </div>
         );
-      };
-
-      const FeedEditor = () => {
-        const tickerStorageKey = 'radiomore.love-ticker-text';
-        const [text, setText] = useState('');
-        const [saved, setSaved] = useState(false);
-
-        useEffect(() => {
-            const currentText = localStorage.getItem(tickerStorageKey);
-            if (currentText) {
-                setText(currentText);
-            }
-        }, []);
-
-        const handleSave = () => {
-            localStorage.setItem(tickerStorageKey, text);
-            setSaved(true);
-            setTimeout(() => setSaved(false), 2500);
-        };
-
-        return (
-            <div className="w-screen h-screen bg-gray-900 text-white flex flex-col items-center justify-center p-4">
-                <div className="w-full max-w-2xl">
-                    <a href="/" className="text-gray-400 hover:text-white transition-colors mb-8 inline-block">&larr; Back to Radio</a>
-                    <h1 className="text-3xl font-bold mb-4 text-center">Update Ticker Feed</h1>
-                    <p className="text-gray-400 mb-6 text-center">The text entered here will appear in the scrolling ticker on the main page.</p>
-                    
-                    <textarea
-                        value={text}
-                        onChange={(e) => setText(e.target.value)}
-                        className="w-full h-40 p-4 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-gray-500 focus:outline-none transition-shadow"
-                        placeholder="Enter your ticker text here..."
-                    ></textarea>
-
-                    <div className="flex items-center justify-end mt-4">
-                        {saved && <span className="text-green-400 mr-4 transition-opacity duration-300">Saved successfully!</span>}
-                        <button
-                            onClick={handleSave}
-                            className="bg-white text-black font-bold py-2 px-6 rounded-full hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-white transition-colors"
-                        >
-                            Update Feed
-                        </button>
-                    </div>
-                </div>
-            </div>
-        );
-      };
-
-      const App = () => {
-        const path = window.location.pathname;
-
-        if (path === '/feed') {
-          return <FeedEditor />;
-        }
-        
-        return <RadioPlayer />;
       };
 
       const rootElement = document.getElementById('root');
