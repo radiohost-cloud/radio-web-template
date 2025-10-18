@@ -53,44 +53,30 @@
         const logoUrl = 'https://raw.githubusercontent.com/radiohost-cloud/radiomorelove/main/logo.png';
         const feedUrl = 'https://raw.githubusercontent.com/radiohost-cloud/radiomorelove/main/feed.txt';
 
-        /*
-        ================================================================================
-        == EDYTUJ POZYCJE MENU TUTAJ / EDIT MENU ITEMS HERE                             ==
-        ================================================================================
-
-        Aby edytować, dodać lub usunąć pozycje w menu, zmodyfikuj poniższą tablicę `menuItems`.
-        Każdy element to obiekt z dwoma właściwościami:
-        - `name`: Tekst, który pojawi się na przycisku menu (np. 'Home').
-        - `content`: Treść HTML, która zostanie wyświetlona w okienku popup po kliknięciu.
-                   Możesz używać tagów HTML, takich jak <p>, <strong>, <ul>, <li> itp.
-                   Aby osadzić film, skopiuj kod do osadzania z serwisu (np. YouTube, TikTok) i wklej go tutaj.
-
-        To edit, add, or remove menu items, modify the `menuItems` array below.
-        Each item is an object with two properties:
-        - `name`: The text that will appear on the menu button (e.g., 'Home').
-        - `content`: The HTML content that will be displayed in the popup when clicked.
-                     You can use HTML tags like <p>, <strong>, <ul>, <li>, etc.
-                     To embed a video, copy the embed code from the service (e.g., YouTube, TikTok) and paste it here.
-        */
         const menuItems = [
             { 
                 name: 'Home', 
+                icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>',
                 content: '<p>Welcome to radiomore.love! The premier destination for chill beats and fashion-forward sounds. Tune in and enjoy the vibes.</p>' 
             },
             { 
                 name: 'X', 
+                icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" viewBox="0 0 24 24" fill="currentColor"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg>',
                 content: `<div id="curator-feed-x-layout"><a href="https://curator.io" target="_blank" class="crt-logo crt-tag">Powered by Curator.io</a></div>`
             },
             {
                 name: 'Facebook',
+                icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>',
                 content: `<div id="curator-feed-default-feed-layout"><a href="https://curator.io" target="_blank" class="crt-logo crt-tag">Powered by Curator.io</a></div>`
             },
             { 
                 name: 'YouTube', 
+                icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>',
                 content: `<div id="curator-feed-youtube-layout"><a href="https://curator.io" target="_blank" class="crt-logo crt-tag">Powered by Curator.io</a></div>`
             },
             { 
                 name: 'About Us', 
+                icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>',
                 content: `
                     <p><strong>radiomore.love</strong> is more than just a radio station; it's a lifestyle.</p>
                     <p>We are dedicated to curating the perfect auditory experience for the modern listener who appreciates a blend of music, fashion, and culture. Our mission is to provide a continuous stream of chill, high-quality music that serves as the perfect backdrop to your life.</p>
@@ -237,11 +223,12 @@
                               <li key={item.name}>
                                   <button
                                       onClick={() => handleMenuItemClick(item)}
-                                      className={`w-16 h-16 bg-black text-white rounded-full flex items-center justify-center text-xs font-bold shadow-lg hover:bg-white hover:text-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-gray-400 transition-all duration-300 ease-out ${isMenuOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'}`}
+                                      className={`w-16 h-16 bg-black text-white rounded-full flex items-center justify-center shadow-lg hover:bg-white hover:text-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-gray-400 transition-all duration-300 ease-out ${isMenuOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'}`}
                                       style={{ transitionDelay: isMenuOpen ? `${index * 60}ms` : '0ms' }}
                                       tabIndex={isMenuOpen ? 0 : -1}
+                                      aria-label={item.name}
+                                      dangerouslySetInnerHTML={{ __html: item.icon }}
                                   >
-                                      {item.name}
                                   </button>
                               </li>
                           ))}
