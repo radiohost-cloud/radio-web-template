@@ -36,7 +36,6 @@
   </head>
   <body class="overflow-hidden">
     <div id="root"></div>
-    <div id="fb-root"></div>
     <script type="text/babel">
       const App = () => {
         const { useState, useEffect, useRef, useLayoutEffect } = React;
@@ -49,6 +48,7 @@
         const tickerContainerRef = useRef(null);
         const textRef = useRef(null);
         const iframeRef = useRef(null);
+        const popupContentRef = useRef(null);
 
         const streamUrl = 'https://stream.radiohost.cloud/public/live';
         const logoUrl = 'https://raw.githubusercontent.com/radiohost-cloud/radiomorelove/main/logo.png';
@@ -123,19 +123,7 @@
                 name: 'Facebook',
                 content: `
                     <p class="mb-4">Follow our latest updates on Facebook.</p>
-                    <div class="fb-page" 
-                         data-href="https://www.facebook.com/profile.php?id=61581698015964" 
-                         data-tabs="timeline" 
-                         data-width="400"
-                         data-height="500" 
-                         data-small-header="false" 
-                         data-adapt-container-width="true" 
-                         data-hide-cover="false" 
-                         data-show-facepile="true">
-                        <blockquote cite="https://www.facebook.com/profile.php?id=61581698015964" class="fb-xfbml-parse-ignore">
-                            <a href="https://www.facebook.com/profile.php?id=61581698015964">radiomore.love</a>
-                        </blockquote>
-                    </div>
+                    <iframe src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fpermalink.php%3Fstory_fbid%3Dpfbid0ME2ACNxQtNCoDdiJLGoFJtca55vU5o2Ly2ZBcWNgFzvp7jSGXn7kpQZmABdbNWygl%26id%3D61581698015964&show_text=true&width=500" width="500" height="667" style="border:none;overflow:hidden;max-width:100%;" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
                 `
             }
         ];
@@ -170,18 +158,9 @@
             if (isPopupOpen) {
                 window.addEventListener('keydown', handleKeyDown);
 
-                // For TikTok embeds, we need to trigger their script to render the video
                 if (popupTitle === 'TikTok' && typeof window.tiktok !== 'undefined') {
-                    // Use a timeout to make sure the popup's DOM is ready
                     setTimeout(() => {
                         window.tiktok.embed.render();
-                    }, 100);
-                }
-                
-                // For Facebook embeds, re-parse the DOM
-                if (popupTitle === 'Facebook' && typeof window.FB !== 'undefined') {
-                    setTimeout(() => {
-                        window.FB.XFBML.parse();
                     }, 100);
                 }
             }
@@ -277,7 +256,7 @@
                   aria-labelledby="popup-title"
               >
                   <div 
-                      className="bg-black/80 rounded-2xl shadow-2xl p-6 w-full max-w-md m-4 text-white relative animate-scale-in flex flex-col"
+                      className={`bg-black/80 rounded-2xl shadow-2xl p-6 w-full m-4 text-white relative animate-scale-in flex flex-col ${popupTitle === 'Facebook' ? 'max-w-lg' : 'max-w-md'}`}
                       onClick={(e) => e.stopPropagation()}
                   >
                       <button 
@@ -290,6 +269,7 @@
                       <h2 id="popup-title" className="text-xl font-bold mb-4">{popupTitle}</h2>
                       
                       <div 
+                        ref={popupContentRef}
                         className="text-gray-300 space-y-3 max-h-[60vh] overflow-y-auto pr-2"
                         dangerouslySetInnerHTML={{ __html: popupContent }}
                       >
@@ -321,7 +301,6 @@
     </script>
     <script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>
     <script async src="https://www.tiktok.com/embed.js"></script>
-    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/pl_PL/sdk.js#xfbml=1&version=v20.0" nonce="zRwb55aI"></script>
     <style>
         @keyframes fade-in-up {
             from {
