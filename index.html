@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -62,12 +63,14 @@
         - `name`: Tekst, który pojawi się na przycisku menu (np. 'Home').
         - `content`: Treść HTML, która zostanie wyświetlona w okienku popup po kliknięciu.
                    Możesz używać tagów HTML, takich jak <p>, <strong>, <ul>, <li> itp.
+                   Aby osadzić film, skopiuj kod do osadzania z serwisu (np. YouTube, TikTok) i wklej go tutaj.
 
         To edit, add, or remove menu items, modify the `menuItems` array below.
         Each item is an object with two properties:
         - `name`: The text that will appear on the menu button (e.g., 'Home').
         - `content`: The HTML content that will be displayed in the popup when clicked.
                      You can use HTML tags like <p>, <strong>, <ul>, <li>, etc.
+                     To embed a video, copy the embed code from the service (e.g., YouTube, TikTok) and paste it here.
         */
         const menuItems = [
             { 
@@ -90,6 +93,29 @@
                         <li>Ambient & Electronic</li>
                         <li>Future Beats</li>
                     </ul>
+                `
+            },
+            { 
+                name: 'YouTube', 
+                content: `
+                    <p class="mb-4">Enjoy a curated selection of chill music videos and live streams right here. Press play and relax.</p>
+                    <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 8px;">
+                        <iframe
+                            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
+                            src="https://www.youtube.com/embed/0iOWKMf-nP0" 
+                            title="YouTube video player" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                `
+            },
+             { 
+                name: 'TikTok', 
+                content: `
+                    <p class="mb-4">Check out our latest vibes on TikTok.</p>
+                    <blockquote class="tiktok-embed" cite="https://www.tiktok.com/@radiomore.love?_t=ZN-90dqAKNF4ru&_r=1" data-unique-id="radiomore.love" data-embed-from="embed_page" data-embed-type="creator" style="max-width:780px; min-width:288px; margin: 20px auto;"><section></section><a href="https://producer.ua" style="display:none;">talent manager</a></blockquote>
                 `
             },
         ];
@@ -123,12 +149,20 @@
 
             if (isPopupOpen) {
                 window.addEventListener('keydown', handleKeyDown);
+
+                // For TikTok embeds, we need to trigger their script to render the video
+                if (popupTitle === 'TikTok' && typeof window.tiktok !== 'undefined') {
+                    // Use a timeout to make sure the popup's DOM is ready
+                    setTimeout(() => {
+                        window.tiktok.embed.render();
+                    }, 100);
+                }
             }
 
             return () => {
                 window.removeEventListener('keydown', handleKeyDown);
             };
-        }, [isPopupOpen]);
+        }, [isPopupOpen, popupTitle]);
         
         useLayoutEffect(() => {
             if (tickerContainerRef.current && textRef.current) {
@@ -259,6 +293,7 @@
       );
     </script>
     <script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>
+    <script async src="https://www.tiktok.com/embed.js"></script>
     <style>
         @keyframes fade-in-up {
             from {
