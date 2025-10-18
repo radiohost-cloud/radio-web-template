@@ -228,6 +228,7 @@
                 </div>
 
                 <nav 
+                    onClick={(e) => e.stopPropagation()}
                     aria-label="Main navigation" 
                     className={`absolute 
                         ${isMenuOpen ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'}
@@ -268,7 +269,7 @@
               ref={iframeRef}
               src={streamUrl}
               title="radiomore.love"
-              className="absolute top-0 left-0 w-full h-full border-0"
+              className={`absolute top-0 left-0 w-full h-full border-0 ${isMenuOpen ? 'pointer-events-none' : ''}`}
               allow="autoplay; encrypted-media"
               sandbox="allow-forms allow-scripts allow-same-origin"
             ></iframe>
