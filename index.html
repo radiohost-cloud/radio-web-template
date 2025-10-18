@@ -49,6 +49,7 @@
         const textRef = useRef(null);
         const iframeRef = useRef(null);
         const popupContentRef = useRef(null);
+        const autoCloseTimerRef = useRef(null);
 
         const streamUrl = 'https://stream.radiohost.cloud/public/live';
         const logoUrl = 'https://raw.githubusercontent.com/radiohost-cloud/radiomorelove/main/logo.png';
@@ -91,6 +92,23 @@
                 `
             }
         ];
+
+        useEffect(() => {
+          // Open the menu on initial load
+          setIsMenuOpen(true);
+
+          // Set a timer to close it after 5 seconds
+          autoCloseTimerRef.current = setTimeout(() => {
+            setIsMenuOpen(false);
+          }, 5000);
+
+          // Cleanup function to clear the timer if the component unmounts
+          return () => {
+            if (autoCloseTimerRef.current) {
+              clearTimeout(autoCloseTimerRef.current);
+            }
+          };
+        }, []); // Empty dependency array ensures this runs only once on mount
 
         useEffect(() => {
           const fetchTickerText = async () => {
@@ -184,10 +202,18 @@
 
         const toggleMenu = (e) => {
             e.stopPropagation();
+            if (autoCloseTimerRef.current) {
+              clearTimeout(autoCloseTimerRef.current);
+              autoCloseTimerRef.current = null;
+            }
             setIsMenuOpen(!isMenuOpen);
         };
 
         const handleMenuItemClick = (item) => {
+            if (autoCloseTimerRef.current) {
+              clearTimeout(autoCloseTimerRef.current);
+              autoCloseTimerRef.current = null;
+            }
             setPopupTitle(item.name);
             setPopupContent(item.content);
             setPopupIcon(item.icon);
@@ -201,7 +227,15 @@
         });
 
         return (
-          <div className="relative w-screen h-screen bg-gray-900" onClick={() => isMenuOpen && setIsMenuOpen(false)}>
+          <div className="relative w-screen h-screen bg-gray-900" onClick={() => {
+            if (isMenuOpen) {
+              if (autoCloseTimerRef.current) {
+                clearTimeout(autoCloseTimerRef.current);
+                autoCloseTimerRef.current = null;
+              }
+              setIsMenuOpen(false);
+            }
+          }}>
 
             <header className="absolute top-4 left-4 right-4 h-16 bg-black/80 backdrop-blur-sm rounded-full flex items-center z-40 shadow-lg">
                 <div className="flex-shrink-0 w-16 h-16 z-20">
