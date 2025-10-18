@@ -50,6 +50,7 @@
         const iframeRef = useRef(null);
         const popupContentRef = useRef(null);
         const autoCloseTimerRef = useRef(null);
+        const menuClickIntentRef = useRef(false);
 
         const streamUrl = 'https://stream.radiohost.cloud/public/live';
         const logoUrl = 'https://raw.githubusercontent.com/radiohost-cloud/radiomorelove/main/logo.png';
@@ -94,16 +95,19 @@
         ];
 
         useEffect(() => {
-          // Open the menu on initial load
-          setIsMenuOpen(true);
+          // Timer to open the menu after a delay
+          const openTimer = setTimeout(() => {
+            setIsMenuOpen(true);
 
-          // Set a timer to close it after 5 seconds
-          autoCloseTimerRef.current = setTimeout(() => {
-            setIsMenuOpen(false);
-          }, 5000);
+            // Timer to close the menu after it has been open for 5 seconds
+            autoCloseTimerRef.current = setTimeout(() => {
+              setIsMenuOpen(false);
+            }, 5000);
+          }, 2000); // 2-second delay
 
-          // Cleanup function to clear the timer if the component unmounts
+          // Cleanup function to clear both timers
           return () => {
+            clearTimeout(openTimer);
             if (autoCloseTimerRef.current) {
               clearTimeout(autoCloseTimerRef.current);
             }
@@ -206,6 +210,7 @@
               clearTimeout(autoCloseTimerRef.current);
               autoCloseTimerRef.current = null;
             }
+            menuClickIntentRef.current = !isMenuOpen;
             setIsMenuOpen(!isMenuOpen);
         };
 
@@ -214,6 +219,7 @@
               clearTimeout(autoCloseTimerRef.current);
               autoCloseTimerRef.current = null;
             }
+            menuClickIntentRef.current = false;
             setPopupTitle(item.name);
             setPopupContent(item.content);
             setPopupIcon(item.icon);
@@ -233,11 +239,31 @@
                 clearTimeout(autoCloseTimerRef.current);
                 autoCloseTimerRef.current = null;
               }
+              menuClickIntentRef.current = false;
               setIsMenuOpen(false);
             }
           }}>
 
-            <header className="absolute top-4 left-4 right-4 h-16 bg-black/80 backdrop-blur-sm rounded-full flex items-center z-40 shadow-lg">
+            <header 
+                className="absolute top-4 left-4 right-4 h-16 bg-black/80 backdrop-blur-sm rounded-full flex items-center z-40 shadow-lg"
+                onMouseEnter={() => {
+                    // md breakpoint in Tailwind is 768px
+                    if (window.innerWidth >= 768) {
+                        if (autoCloseTimerRef.current) {
+                            clearTimeout(autoCloseTimerRef.current);
+                            autoCloseTimerRef.current = null;
+                        }
+                        setIsMenuOpen(true);
+                    }
+                }}
+                onMouseLeave={() => {
+                    if (window.innerWidth >= 768) {
+                        if (!menuClickIntentRef.current) {
+                            setIsMenuOpen(false);
+                        }
+                    }
+                }}
+            >
                 <div className="flex-shrink-0 w-16 h-16 z-20">
                     <button
                         onClick={toggleMenu}
