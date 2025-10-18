@@ -61,7 +61,7 @@
             { 
                 name: 'Home', 
                 icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>',
-                content: '<p>Welcome to radiomore.love! The premier destination for chill beats and fashion-forward sounds. Tune in and enjoy the vibes.</p>' 
+                contentUrl: 'https://raw.githubusercontent.com/radiohost-cloud/radiomorelove/main/home.txt'
             },
             { 
                 name: 'X', 
@@ -81,17 +81,7 @@
             { 
                 name: 'About Us', 
                 icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>',
-                content: `
-                    <p><strong>radiomore.love</strong> is more than just a radio station; it's a lifestyle.</p>
-                    <p>We are dedicated to curating the perfect auditory experience for the modern listener who appreciates a blend of music, fashion, and culture. Our mission is to provide a continuous stream of chill, high-quality music that serves as the perfect backdrop to your life.</p>
-                    <h3 class="text-lg font-semibold mt-4 mb-2 text-white">What We Play:</h3>
-                    <ul class="list-disc list-inside space-y-1 text-gray-400">
-                        <li>Chillwave & Lofi Hip Hop</li>
-                        <li>Indie & Alternative</li>
-                        <li>Ambient & Electronic</li>
-                        <li>Future Beats</li>
-                    </ul>
-                `
+                contentUrl: 'https://raw.githubusercontent.com/radiohost-cloud/radiomorelove/main/aboutus.txt'
             }
         ];
 
@@ -218,17 +208,41 @@
             setIsMenuOpen(!isMenuOpen);
         };
 
-        const handleMenuItemClick = (item) => {
+        const handleMenuItemClick = async (item) => {
             if (autoCloseTimerRef.current) {
               clearTimeout(autoCloseTimerRef.current);
               autoCloseTimerRef.current = null;
             }
             menuClickIntentRef.current = false;
+        
+            // Set popup state first to open it immediately
             setPopupTitle(item.name);
-            setPopupContent(item.content);
             setPopupIcon(item.icon);
             setIsPopupOpen(true);
             setIsMenuOpen(false);
+        
+            if (item.contentUrl) {
+              setPopupContent('<p class="text-center text-gray-400">Loading...</p>'); // Initial loading state
+              try {
+                const response = await fetch(item.contentUrl);
+                if (!response.ok) {
+                  throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const text = await response.text();
+                // Convert plain text to HTML paragraphs. Filter out empty lines.
+                const htmlContent = text.split('\n')
+                                        .filter(line => line.trim() !== '')
+                                        .map(line => `<p class="mb-2">${line}</p>`)
+                                        .join('');
+                setPopupContent(htmlContent || '<p>No content available.</p>');
+              } catch (error) {
+                console.error("Could not fetch content:", error);
+                setPopupContent('<p class="text-center text-red-500">Could not load content. Please try again later.</p>');
+              }
+            } else {
+              // Handle items with static content (like social media feeds)
+              setPopupContent(item.content);
+            }
         };
         
         const menuItemsToRender = menuItems.sort((a, b) => {
