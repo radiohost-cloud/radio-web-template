@@ -48,6 +48,7 @@
         const [popupIcon, setPopupIcon] = useState('');
         const [currentSlide, setCurrentSlide] = useState(0);
         const [photos, setPhotos] = useState([]);
+        const [isSlideshowPlaying, setIsSlideshowPlaying] = useState(true);
         
         const tickerContainerRef = useRef(null);
         const textRef = useRef(null);
@@ -153,14 +154,18 @@
         }, []); // Empty dependency array ensures this runs only once on mount
         
         useEffect(() => {
-            if (photos.length > 0) {
-                const slideshowInterval = setInterval(() => {
+            let slideshowInterval = null;
+            if (isSlideshowPlaying && photos.length > 0) {
+                slideshowInterval = setInterval(() => {
                     setCurrentSlide(prevSlide => (prevSlide + 1) % photos.length);
-                }, 5000); // Change slide every 5 seconds
-
-                return () => clearInterval(slideshowInterval);
+                }, 10000); // Change slide every 10 seconds
             }
-        }, [photos.length]);
+            return () => {
+                if (slideshowInterval) {
+                    clearInterval(slideshowInterval);
+                }
+            };
+        }, [photos.length, isSlideshowPlaying]);
 
         useEffect(() => {
           const fetchTickerText = async () => {
@@ -276,6 +281,7 @@
             setIsMenuOpen(false);
         
             if (item.type === 'slideshow') {
+                setIsSlideshowPlaying(true); // Start playing when opened
                 setPopupContent(''); // Special content will be rendered
             } else if (item.contentUrl) {
               setPopupContent('<p class="text-center text-gray-400">Loading...</p>'); // Initial loading state
@@ -305,6 +311,19 @@
           const order = ['Home', 'X', 'Facebook', 'YouTube', 'Photos', 'App', 'About Us'];
           return order.indexOf(a.name) - order.indexOf(b.name);
         });
+
+        const nextSlide = () => {
+            if (photos.length > 0) {
+                setCurrentSlide(prev => (prev + 1) % photos.length);
+            }
+        };
+
+        const prevSlide = () => {
+            if (photos.length > 0) {
+                setCurrentSlide(prev => (prev - 1 + photos.length) % photos.length);
+            }
+        };
+
 
         return (
           <div className="relative w-screen h-screen bg-gray-900" onClick={() => {
@@ -444,16 +463,33 @@
                                         <p>Loading photos...</p>
                                     </div>
                                 )}
-                                <div className="absolute bottom-0 left-0 right-0 p-2 bg-black/50 text-center text-xs text-gray-300">
-                                    <span>Photos from: </span>
-                                    <a 
-                                        href="https://www.facebook.com/ksztaltzmyslow" 
-                                        target="_blank" 
-                                        rel="noopener noreferrer"
-                                        className="underline hover:text-white"
-                                    >
-                                        facebook.com/ksztaltzmyslow
-                                    </a>
+                                <div className="absolute bottom-0 left-0 right-0 p-2 bg-gradient-to-t from-black/70 to-transparent flex items-center justify-between">
+                                    <div className="text-xs text-gray-300">
+                                        <span>Photos from: </span>
+                                        <a 
+                                            href="https://www.facebook.com/ksztaltzmyslow" 
+                                            target="_blank" 
+                                            rel="noopener noreferrer"
+                                            className="underline hover:text-white"
+                                        >
+                                            facebook.com/ksztaltzmyslow
+                                        </a>
+                                    </div>
+                                    <div className="flex items-center gap-2 text-white">
+                                        <button onClick={prevSlide} aria-label="Previous slide" className="p-2 rounded-full hover:bg-white/20 transition-colors">
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+                                        </button>
+                                        <button onClick={() => setIsSlideshowPlaying(!isSlideshowPlaying)} aria-label={isSlideshowPlaying ? 'Pause slideshow' : 'Play slideshow'} className="p-2 rounded-full hover:bg-white/20 transition-colors">
+                                            {isSlideshowPlaying ? (
+                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                                            ) : (
+                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                                            )}
+                                        </button>
+                                        <button onClick={nextSlide} aria-label="Next slide" className="p-2 rounded-full hover:bg-white/20 transition-colors">
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         ) : (
