@@ -1,0 +1,21 @@
+{
+  "name": "radiomore.love",
+  "short_name": "radiomore",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "description": "Music, Fashion & Chill | #LLL Online Radio",
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/radiohost-cloud/radiomorelove/main/logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://raw.githubusercontent.com/radiohost-cloud/radiomorelove/main/logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
