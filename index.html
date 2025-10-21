@@ -339,7 +339,7 @@
             >
                 <div className="flex-shrink-0 w-16 h-16 z-20">
                     <button onClick={toggleMenu} className="relative w-16 h-16 rounded-full p-0 border-0 bg-transparent cursor-pointer" aria-label="Toggle navigation menu" aria-haspopup="true" aria-expanded={isMenuOpen}>
-                        <img src={logoUrl} alt="RadioHost Logo" className="w-full h-full rounded-full object-cover transition-transform duration-300 hover:scale-110" />
+                        <img src={logoUrl} alt="RadioHost Logo" className={`w-full h-full rounded-full object-cover transition-transform duration-300 hover:scale-110 ${isPlaying ? 'logo-spinning' : ''}`} />
                     </button>
                 </div>
 
@@ -535,6 +535,14 @@
         }
         .animate-fade-out-long {
             animation: fade-out-long 1.5s ease-in-out forwards;
+        }
+        
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .logo-spinning {
+            animation: spin 8s linear infinite;
         }
     </style>
   </body>
