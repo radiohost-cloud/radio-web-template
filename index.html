@@ -301,9 +301,18 @@
                 const response = await fetch(item.contentUrl);
                 if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
                 const text = await response.text();
+                
+                const linkify = (line) => {
+                    const urlPattern = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])|(\bwww\.[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
+                    return line.replace(urlPattern, (url) => {
+                        const fullUrl = url.startsWith('www.') ? `http://${url}` : url;
+                        return `<a href="${fullUrl}" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:text-blue-300 underline break-all">${url}</a>`;
+                    });
+                };
+
                 let htmlContent = text.split('\n')
                                         .filter(line => line.trim() !== '')
-                                        .map(line => `<p class="mb-2">${line}</p>`)
+                                        .map(line => `<p class="mb-2">${linkify(line)}</p>`)
                                         .join('');
 
                 if (item.name === 'About Us') {
