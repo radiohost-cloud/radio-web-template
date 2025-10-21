@@ -7,8 +7,8 @@
 
     <!-- SEO Meta Tags -->
     <title>radiomore.love - Music, Fashion & Chill | #LLL Online Radio</title>
-    <meta name="description" content="Tune in to our online radio for the best mix of chill music and fashion-forward vibes. Your perfect soundtrack for a relaxed lifestyle. #LLL Radio." />
-    <meta name="keywords" content="online radio, music, fashion, chill, LLL, radio stream, lifestyle music, chillout, internet radio, streaming" />
+    <meta name="description" content="Tune in to our online radio for the best mix of chill music and fashion-forward vibes. All music is royalty-free, making it ideal for public playback in shops, restaurants, cafes, and other commercial spaces without licensing fees. Your perfect soundtrack for a relaxed lifestyle. #LLL Radio." />
+    <meta name="keywords" content="online radio, music, fashion, chill, LLL, radio stream, lifestyle music, chillout, internet radio, streaming, royalty-free music, copyright-free, public performance, no license fees, background music, shop music, restaurant music, in-store music, cafe music, commercial background music, business music" />
     <meta name="author" content="RadioHost" />
     <link rel="canonical" href="https://radiomore.love" />
 
@@ -16,14 +16,14 @@
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://radiomore.love" />
     <meta property="og:title" content="radiomore.love - Music, Fashion & Chill | #LLL Online Radio" />
-    <meta property="og:description" content="Tune in to our online radio for the best mix of chill music and fashion-forward vibes. Your perfect soundtrack for a relaxed lifestyle. #LLL Radio." />
+    <meta property="og:description" content="Tune in to our online radio for the best mix of chill music and fashion-forward vibes. All music is royalty-free, making it ideal for public playback in shops, restaurants, cafes, and other commercial spaces without licensing fees. Your perfect soundtrack for a relaxed lifestyle. #LLL Radio." />
     <meta property="og:image" content="https://raw.githubusercontent.com/radiohost-cloud/radiomorelove/main/logo.png" />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content="https://radiomore.love" />
     <meta property="twitter:title" content="radiomore.love - Music, Fashion & Chill | #LLL Online Radio" />
-    <meta property="twitter:description" content="Tune in to our online radio for the best mix of chill music and fashion-forward vibes. Your perfect soundtrack for a relaxed lifestyle. #LLL Radio." />
+    <meta property="twitter:description" content="Tune in to our online radio for the best mix of chill music and fashion-forward vibes. All music is royalty-free, making it ideal for public playback in shops, restaurants, cafes, and other commercial spaces without licensing fees. Your perfect soundtrack for a relaxed lifestyle. #LLL Radio." />
     <meta property="twitter:image" content="https://raw.githubusercontent.com/radiohost-cloud/radiomorelove/main/logo.png" />
 
     <!-- General -->
@@ -274,41 +274,35 @@
             }
             menuClickIntentRef.current = false;
         
+            // Set popup state first to open it immediately
             setPopupTitle(item.name);
             setPopupIcon(item.icon);
             setIsPopupOpen(true);
             setIsMenuOpen(false);
         
             if (item.type === 'slideshow') {
-                setIsSlideshowPlaying(true);
-                setPopupContent('');
+                setIsSlideshowPlaying(true); // Start playing when opened
+                setPopupContent(''); // Special content will be rendered
             } else if (item.contentUrl) {
-              setPopupContent('<p class="text-center text-gray-400">Loading...</p>');
+              setPopupContent('<p class="text-center text-gray-400">Loading...</p>'); // Initial loading state
               try {
                 const response = await fetch(item.contentUrl);
                 if (!response.ok) {
                   throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 const text = await response.text();
-                
-                const urlRegex = /(https?:\/\/[^\s]+|www\.[^\s]+)/g;
+                // Convert plain text to HTML paragraphs. Filter out empty lines.
                 const htmlContent = text.split('\n')
-                    .filter(line => line.trim() !== '')
-                    .map(line => {
-                        const processedLine = line.replace(urlRegex, (url) => {
-                            const href = url.startsWith('http') ? url : `https://${url}`;
-                            return `<a href="${href}" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:underline">${url}</a>`;
-                        });
-                        return `<p class="mb-2">${processedLine}</p>`;
-                    })
-                    .join('');
-
+                                        .filter(line => line.trim() !== '')
+                                        .map(line => `<p class="mb-2">${line}</p>`)
+                                        .join('');
                 setPopupContent(htmlContent || '<p>No content available.</p>');
               } catch (error) {
                 console.error("Could not fetch content:", error);
                 setPopupContent('<p class="text-center text-red-500">Could not load content. Please try again later.</p>');
               }
             } else {
+              // Handle items with static content (like social media feeds)
               setPopupContent(item.content);
             }
         };
@@ -512,9 +506,10 @@
             )}
             
             <footer className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 text-center">
-              <div className="bg-black/50 backdrop-blur-sm rounded-full px-4 py-2">
+              <div className="bg-black/50 backdrop-blur-sm rounded-full px-3 py-1.5 sm:px-4 sm:py-2">
                   <p className="text-white/80 text-xs flex items-center">
-                      Music on air is AI-generated
+                      <span className="sm:hidden">AI Music</span>
+                      <span className="hidden sm:inline">Music on air is AI-generated</span>
                       <a 
                         href="https://open.spotify.com/artist/41E9IlYbyBT0GaOwEYkGVM" 
                         target="_blank" 
