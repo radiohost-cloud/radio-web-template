@@ -269,6 +269,42 @@
             };
         }, [isPopupOpen, popupTitle]);
         
+        const togglePlayPause = React.useCallback(() => {
+            if (!audioRef.current) return;
+            if (audioRef.current.paused) {
+                audioRef.current.play().catch(e => console.error("Playback error:", e));
+            } else {
+                audioRef.current.pause();
+            }
+        }, []);
+
+        useEffect(() => {
+            if (!('mediaSession' in navigator)) {
+                return;
+            }
+
+            if (nowPlaying) {
+                const { song } = nowPlaying.now_playing;
+                navigator.mediaSession.metadata = new MediaMetadata({
+                    title: song.title,
+                    artist: song.artist,
+                    album: 'radiomore.love',
+                    artwork: [{ src: song.art }],
+                });
+            }
+            
+            navigator.mediaSession.setActionHandler('play', togglePlayPause);
+            navigator.mediaSession.setActionHandler('pause', togglePlayPause);
+            
+            try {
+                navigator.mediaSession.playbackState = isPlaying ? 'playing' : 'paused';
+            } catch (error) {
+                // Some browsers (like desktop Safari) throw an error here.
+                console.warn('Could not set media session playback state.', error);
+            }
+
+        }, [nowPlaying, isPlaying, togglePlayPause]);
+
         useLayoutEffect(() => {
             if (tickerContainerRef.current && textRef.current) {
                 const textWidth = textRef.current.offsetWidth;
@@ -345,15 +381,6 @@
             }
         };
 
-        const togglePlayPause = () => {
-            if (!audioRef.current) return;
-            if (audioRef.current.paused) {
-                audioRef.current.play().catch(e => console.error("Playback error:", e));
-            } else {
-                audioRef.current.pause();
-            }
-        };
-        
         const menuItemsToRender = menuItems.sort((a, b) => {
           const order = ['Home', 'X', 'Facebook', 'YouTube', 'Photos', 'App', 'About Us'];
           return order.indexOf(a.name) - order.indexOf(b.name);
