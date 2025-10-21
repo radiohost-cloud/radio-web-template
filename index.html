@@ -58,6 +58,7 @@
         const menuClickIntentRef = useRef(false);
         const audioRef = useRef(null);
         const nowPlayingTimeoutRef = useRef(null);
+        const videoRef = useRef(null);
 
         const logoUrl = 'https://raw.githubusercontent.com/radiohost-cloud/radiomorelove/main/logo.png';
         const feedUrl = 'https://raw.githubusercontent.com/radiohost-cloud/radiomorelove/main/feed.txt';
@@ -162,6 +163,21 @@
             if (autoCloseTimerRef.current) clearTimeout(autoCloseTimerRef.current);
             if (nowPlayingTimeoutRef.current) clearTimeout(nowPlayingTimeoutRef.current);
           };
+        }, []);
+
+        useEffect(() => {
+            const videoElement = videoRef.current;
+            if (!videoElement) return;
+
+            const intervalId = setInterval(() => {
+                if (videoElement.paused) {
+                    videoElement.play().catch(() => {});
+                }
+            }, 1000);
+
+            videoElement.play().catch(() => {});
+
+            return () => clearInterval(intervalId);
         }, []);
 
         useEffect(() => {
@@ -314,6 +330,7 @@
             }
           }}>
             <video 
+              ref={videoRef}
               autoPlay 
               loop 
               muted 
