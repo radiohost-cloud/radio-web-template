@@ -42,6 +42,7 @@
     <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
   </head>
   <body class="overflow-hidden">
     <div id="root"></div>
@@ -60,6 +61,9 @@
         const [isSlideshowPlaying, setIsSlideshowPlaying] = useState(true);
         const [nowPlaying, setNowPlaying] = useState(null);
         const [isPlaying, setIsPlaying] = useState(false);
+        const [showInstallPrompt, setShowInstallPrompt] = useState(false);
+        const [deferredInstallPrompt, setDeferredInstallPrompt] = useState(null);
+        const [showIosInstructions, setShowIosInstructions] = useState(false);
         
         const tickerContainerRef = useRef(null);
         const textRef = useRef(null);
@@ -69,11 +73,12 @@
         const audioRef = useRef(null);
         const nowPlayingTimeoutRef = useRef(null);
         const videoRef = useRef(null);
+        const installPromptTimers = useRef({ show: null, hide: null });
 
         const logoUrl = 'https://raw.githubusercontent.com/radiohost-cloud/radiomorelove/main/logo.png';
         const feedUrl = 'https://raw.githubusercontent.com/radiohost-cloud/radiomorelove/main/feed.txt';
         const apiUrl = 'https://stream.radiohost.cloud/api/nowplaying/live';
-        const streamAudioUrl = 'https://stream.radiohost.cloud/listen/live/radio.mp3';
+        const streamAudioUrl = 'https://stream.radiohost.cloud/hls/live/live.m3u8';
         const backgroundVideoUrl = 'https://raw.githubusercontent.com/radiohost-cloud/radiomorelove/main/background.mov';
 
         const menuItems = [
@@ -176,6 +181,33 @@
         }, []);
         
         useEffect(() => {
+            const beforeInstallHandler = (e) => {
+                e.preventDefault();
+                setDeferredInstallPrompt(e);
+            };
+            window.addEventListener('beforeinstallprompt', beforeInstallHandler);
+
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            const isInStandaloneMode = window.matchMedia('(display-mode: standalone)').matches;
+            const hasDismissed = localStorage.getItem('installPromptDismissed') === 'true';
+
+            if (isMobile && !isInStandaloneMode && !hasDismissed) {
+                installPromptTimers.current.show = setTimeout(() => {
+                    setShowInstallPrompt(true);
+                    installPromptTimers.current.hide = setTimeout(() => {
+                        setShowInstallPrompt(false);
+                    }, 10000);
+                }, 3000);
+            }
+
+            return () => {
+                window.removeEventListener('beforeinstallprompt', beforeInstallHandler);
+                clearTimeout(installPromptTimers.current.show);
+                clearTimeout(installPromptTimers.current.hide);
+            };
+        }, []);
+
+        useEffect(() => {
             const handleContextMenu = (e) => e.preventDefault();
             const handleKeyDown = (e) => {
                 if (
@@ -211,6 +243,43 @@
             videoElement.play().catch(() => {});
 
             return () => clearInterval(intervalId);
+        }, []);
+        
+        useEffect(() => {
+            const audio = audioRef.current;
+            if (!audio) return;
+            
+            let hls;
+
+            if (Hls.isSupported()) {
+                hls = new Hls();
+                hls.loadSource(streamAudioUrl);
+                hls.attachMedia(audio);
+                hls.on(Hls.Events.ERROR, function (event, data) {
+                    if (data.fatal) {
+                        console.error('HLS.js fatal error:', data);
+                        switch(data.type) {
+                            case Hls.ErrorTypes.NETWORK_ERROR:
+                                hls.startLoad();
+                                break;
+                            case Hls.ErrorTypes.MEDIA_ERROR:
+                                hls.recoverMediaError();
+                                break;
+                            default:
+                                hls.destroy();
+                                break;
+                        }
+                    }
+                });
+            } else if (audio.canPlayType('application/vnd.apple.mpegurl')) {
+                audio.src = streamAudioUrl;
+            }
+
+            return () => {
+                if (hls) {
+                    hls.destroy();
+                }
+            };
         }, []);
 
         useEffect(() => {
@@ -381,6 +450,27 @@
             }
         };
 
+        const handleInstallClick = async () => {
+            setShowInstallPrompt(false);
+            if (deferredInstallPrompt) {
+                deferredInstallPrompt.prompt();
+                await deferredInstallPrompt.userChoice;
+                setDeferredInstallPrompt(null);
+            } else {
+                const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+                if (isIOS) {
+                    setShowIosInstructions(true);
+                } else {
+                    alert('To add to home screen, use your browser’s menu and look for "Install" or "Add to Home Screen".');
+                }
+            }
+        };
+
+        const handleDismissInstall = () => {
+            setShowInstallPrompt(false);
+            localStorage.setItem('installPromptDismissed', 'true');
+        };
+
         const menuItemsToRender = menuItems.sort((a, b) => {
           const order = ['Home', 'X', 'Facebook', 'YouTube', 'Photos', 'App', 'About Us'];
           return order.indexOf(a.name) - order.indexOf(b.name);
@@ -454,7 +544,7 @@
                 </nav>
             </header>
             
-            <audio ref={audioRef} src={streamAudioUrl} preload="auto" onPlay={() => setIsPlaying(true)} onPause={() => setIsPlaying(false)}></audio>
+            <audio ref={audioRef} preload="auto" onPlay={() => setIsPlaying(true)} onPause={() => setIsPlaying(false)}></audio>
             
             {nowPlaying && (
               <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-xs bg-black/70 backdrop-blur-lg rounded-3xl shadow-2xl p-6 flex flex-col items-center gap-4 z-30 animate-fade-in-up text-center">
@@ -541,6 +631,42 @@
               </div>
             )}
             
+            {showInstallPrompt && (
+                <div className="fixed bottom-0 left-0 right-0 bg-gray-900/90 backdrop-blur-sm p-3 text-white z-50 animate-slide-up shadow-lg">
+                    <div className="container mx-auto flex items-center justify-between gap-3">
+                        <img src={logoUrl} alt="App Logo" className="w-12 h-12 rounded-lg hidden sm:block flex-shrink-0" />
+                        <div className="flex-grow">
+                            <p className="font-bold text-sm sm:text-base">Get the Full App Experience</p>
+                            <p className="text-xs sm:text-sm text-gray-300">Add radiomore.love to your home screen.</p>
+                        </div>
+                        <div className="flex items-center gap-2 flex-shrink-0">
+                            <button onClick={handleInstallClick} className="bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded-lg transition-colors text-sm">
+                                Install
+                            </button>
+                            <button onClick={handleDismissInstall} className="text-gray-400 hover:text-white p-2 rounded-full" aria-label="Dismiss">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {showIosInstructions && (
+                <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 animate-fade-in" onClick={() => setShowIosInstructions(false)}>
+                    <div className="bg-gray-800 text-white p-6 rounded-xl shadow-2xl text-center max-w-sm mx-4 animate-scale-in relative" onClick={(e) => e.stopPropagation()}>
+                        <button onClick={() => setShowIosInstructions(false)} className="absolute top-2 right-2 text-gray-400 hover:text-white" aria-label="Close instructions">
+                           <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                        </button>
+                        <h3 className="text-xl font-bold mb-3">Add to Home Screen</h3>
+                        <p className="mb-4 text-gray-300">To install the app, please follow these steps:</p>
+                        <div className="text-left space-y-3">
+                           <p>1. Tap the <span className="font-bold">Share</span> icon in your browser's toolbar.</p>
+                           <p>2. Scroll down and tap on <span className="font-bold">'Add to Home Screen'</span>.</p>
+                        </div>
+                    </div>
+                </div>
+            )}
+
             <div className="absolute bottom-4 right-4 z-40">
               <elevenlabs-convai agent-id="agent_01jzk1yswsenmr9h8h60ybk8xf"></elevenlabs-convai>
             </div>
@@ -629,6 +755,20 @@
         }
         .logo-spinning {
             animation: spin 8s linear infinite;
+        }
+        
+        @keyframes slide-up {
+            from {
+                transform: translateY(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        .animate-slide-up {
+            animation: slide-up 0.5s ease-out forwards;
         }
     </style>
   </body>
