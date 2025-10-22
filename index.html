@@ -511,7 +511,7 @@
         return (
           <React.Fragment>
             <div 
-              className={`relative w-screen h-screen bg-black overflow-hidden transition-transform duration-500 ease-in-out ${showInstallPrompt ? '-translate-y-[80px]' : ''}`}
+              className={`relative w-screen h-screen bg-black overflow-hidden transition-transform duration-500 ease-in-out ${showInstallPrompt ? '-translate-y-[80px]' : 'translate-y-0'}`}
               onClick={() => {
               if (isMenuOpen) {
                 if (autoCloseTimerRef.current) clearTimeout(autoCloseTimerRef.current);
@@ -679,7 +679,7 @@
 
               {showIosInstructions && (
                   <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 animate-fade-in" onClick={() => setShowIosInstructions(false)}>
-                      <div className="bg-gray-800 text-white p-6 rounded-xl shadow-2xl text-center max-w-sm mx-4 animate-scale-in relative" onClick={(e) => e.stopPropagation()}>
+                      <div className="bg-black/80 backdrop-blur-sm text-white p-6 rounded-xl shadow-2xl text-center max-w-sm mx-4 animate-scale-in relative" onClick={(e) => e.stopPropagation()}>
                           <button onClick={() => setShowIosInstructions(false)} className="absolute top-2 right-2 text-gray-400 hover:text-white" aria-label="Close instructions">
                              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
                           </button>
@@ -698,25 +698,23 @@
               </div>
             </div>
 
-            {showInstallPrompt && (
-                <div className="fixed bottom-0 left-0 right-0 bg-black/80 backdrop-blur-sm text-white z-50 animate-slide-up shadow-lg h-[80px] flex items-center">
-                    <div className="container mx-auto flex items-center justify-between gap-3 px-4">
-                        <img src={logoUrl} alt="App Logo" className="w-12 h-12 rounded-lg hidden sm:block flex-shrink-0" />
-                        <div className="flex-grow">
-                            <p className="font-bold text-sm sm:text-base">Get the Full App Experience</p>
-                            <p className="text-xs sm:text-sm text-gray-300">Add radiomore.love to your home screen.</p>
-                        </div>
-                        <div className="flex items-center gap-2 flex-shrink-0">
-                            <button onClick={handleInstallClick} className="bg-white hover:bg-gray-200 text-black font-bold py-2 px-4 rounded-lg transition-colors text-sm">
-                                Install
-                            </button>
-                            <button onClick={handleDismissInstall} className="text-gray-400 hover:text-white p-2 rounded-full" aria-label="Dismiss">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
-                            </button>
-                        </div>
+            <div className={`fixed bottom-0 left-0 right-0 bg-black/80 backdrop-blur-sm text-white z-50 shadow-lg h-[80px] flex items-center transition-transform duration-500 ease-in-out ${showInstallPrompt ? 'translate-y-0' : 'translate-y-full'}`}>
+                <div className="container mx-auto flex items-center justify-between gap-3 px-4">
+                    <img src={logoUrl} alt="App Logo" className="w-12 h-12 rounded-lg hidden sm:block flex-shrink-0" />
+                    <div className="flex-grow">
+                        <p className="font-bold text-sm sm:text-base">Get the Full App Experience</p>
+                        <p className="text-xs sm:text-sm text-gray-300">Add radiomore.love to your home screen.</p>
+                    </div>
+                    <div className="flex items-center gap-2 flex-shrink-0">
+                        <button onClick={handleInstallClick} className="bg-white hover:bg-gray-200 text-black font-bold py-2 px-4 rounded-lg transition-colors text-sm">
+                            Install
+                        </button>
+                        <button onClick={handleDismissInstall} className="text-gray-400 hover:text-white p-2 rounded-full" aria-label="Dismiss">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                        </button>
                     </div>
                 </div>
-            )}
+            </div>
           </React.Fragment>
         );
       };
@@ -807,19 +805,6 @@
             animation: spin 8s linear infinite;
         }
         
-        @keyframes slide-up {
-            from {
-                transform: translateY(100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-        .animate-slide-up {
-            animation: slide-up 0.5s ease-out forwards;
-        }
         .ticker-mask {
             -webkit-mask-image: linear-gradient(to right, black 90%, transparent 100%);
             mask-image: linear-gradient(to right, black 90%, transparent 100%);
