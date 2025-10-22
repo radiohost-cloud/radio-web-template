@@ -519,7 +519,7 @@
                     </button>
                 </div>
 
-                <div className="flex-grow h-full relative overflow-hidden pr-4">
+                <div className="flex-grow h-full relative overflow-hidden ticker-mask">
                     <div ref={tickerContainerRef} className="absolute top-0 left-0 h-full flex items-center animate-marquee">
                         <p ref={textRef} className="text-gray-200 text-lg whitespace-nowrap px-8">{tickerText}</p>
                         <p className="text-gray-200 text-lg whitespace-nowrap px-8" aria-hidden="true">{tickerText}</p>
@@ -769,6 +769,10 @@
         }
         .animate-slide-up {
             animation: slide-up 0.5s ease-out forwards;
+        }
+        .ticker-mask {
+            -webkit-mask-image: linear-gradient(to right, black 90%, transparent 100%);
+            mask-image: linear-gradient(to right, black 90%, transparent 100%);
         }
     </style>
   </body>
