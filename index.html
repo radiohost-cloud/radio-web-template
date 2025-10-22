@@ -116,6 +116,19 @@
                 name: 'About Us', 
                 icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>',
                 contentUrl: 'https://raw.githubusercontent.com/radiohost-cloud/radiomorelove/main/aboutus.txt'
+            },
+            { 
+                name: 'Ko-fi', 
+                icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd" /></svg>',
+                content: `
+                    <div class="text-center space-y-4 py-4">
+                        <p class="text-xl font-semibold">Enjoying the vibes?</p>
+                        <p class="text-gray-300">Your support helps us keep the music flowing. Consider buying us a coffee! ❤️</p>
+                        <a href="https://ko-fi.com/radiomorelove" target="_blank" rel="noopener noreferrer" class="inline-block bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                            Support us on Ko-fi
+                        </a>
+                    </div>
+                `
             }
         ];
         
@@ -396,6 +409,12 @@
         };
 
         const handleMenuItemClick = async (item) => {
+            if (item.url) {
+                window.open(item.url, '_blank', 'noopener,noreferrer');
+                setIsMenuOpen(false);
+                return;
+            }
+
             if (autoCloseTimerRef.current) {
               clearTimeout(autoCloseTimerRef.current);
               autoCloseTimerRef.current = null;
@@ -472,7 +491,7 @@
         };
 
         const menuItemsToRender = menuItems.sort((a, b) => {
-          const order = ['Home', 'X', 'Facebook', 'YouTube', 'Photos', 'App', 'About Us'];
+          const order = ['Home', 'X', 'Facebook', 'YouTube', 'Photos', 'App', 'About Us', 'Ko-fi'];
           return order.indexOf(a.name) - order.indexOf(b.name);
         });
 
