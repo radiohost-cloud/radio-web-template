@@ -509,174 +509,198 @@
         const prevSlide = () => photos.length > 0 && setCurrentSlide(prev => (prev - 1 + photos.length) % photos.length);
 
         return (
-          <div className="relative w-screen h-screen bg-black overflow-hidden" onClick={() => {
-            if (isMenuOpen) {
-              if (autoCloseTimerRef.current) clearTimeout(autoCloseTimerRef.current);
-              autoCloseTimerRef.current = null;
-              menuClickIntentRef.current = false;
-              setIsMenuOpen(false);
-            }
-          }}>
-            <video 
-              ref={videoRef}
-              autoPlay 
-              loop 
-              muted 
-              playsInline
-              className="absolute top-0 left-0 w-full h-full object-cover"
-              src={backgroundVideoUrl}
-            ></video>
-            
-            <div className="absolute inset-0 bg-black/50"></div>
+          <React.Fragment>
+            <div 
+              className={`relative w-screen h-screen bg-black overflow-hidden transition-transform duration-500 ease-in-out ${showInstallPrompt ? '-translate-y-[80px]' : ''}`}
+              onClick={() => {
+              if (isMenuOpen) {
+                if (autoCloseTimerRef.current) clearTimeout(autoCloseTimerRef.current);
+                autoCloseTimerRef.current = null;
+                menuClickIntentRef.current = false;
+                setIsMenuOpen(false);
+              }
+            }}>
+              <video 
+                ref={videoRef}
+                autoPlay 
+                loop 
+                muted 
+                playsInline
+                className="absolute top-0 left-0 w-full h-full object-cover"
+                src={backgroundVideoUrl}
+              ></video>
+              
+              <div className="absolute inset-0 bg-black/50"></div>
 
-            <header 
-                className="absolute top-4 left-4 right-4 h-16 bg-black/80 backdrop-blur-sm rounded-full flex items-center z-40 shadow-lg"
-                onMouseEnter={() => {
-                    if (window.innerWidth >= 768) {
-                        if (autoCloseTimerRef.current) clearTimeout(autoCloseTimerRef.current);
-                        autoCloseTimerRef.current = null;
-                        setIsMenuOpen(true);
-                    }
-                }}
-                onMouseLeave={() => {
-                    if (window.innerWidth >= 768 && !menuClickIntentRef.current) setIsMenuOpen(false);
-                }}
-            >
-                <div className="flex-shrink-0 w-16 h-16 z-20">
-                    <button onClick={toggleMenu} className="relative w-16 h-16 rounded-full p-0 border-0 bg-transparent cursor-pointer" aria-label="Toggle navigation menu" aria-haspopup="true" aria-expanded={isMenuOpen}>
-                        <img src={logoUrl} alt="RadioHost Logo" className={`w-full h-full rounded-full object-cover transition-transform duration-300 hover:scale-110 ${isPlaying ? 'logo-spinning' : ''}`} />
-                    </button>
-                </div>
-
-                <div className="flex-grow h-full relative overflow-hidden ticker-mask">
-                    <div ref={tickerContainerRef} className="absolute top-0 left-0 h-full flex items-center animate-marquee">
-                        <p ref={textRef} className="text-gray-200 text-lg whitespace-nowrap px-8">{tickerText}</p>
-                        <p className="text-gray-200 text-lg whitespace-nowrap px-8" aria-hidden="true">{tickerText}</p>
-                    </div>
-                </div>
-
-                <nav onClick={(e) => e.stopPropagation()} aria-label="Main navigation" className={`absolute ${isMenuOpen ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'} ${isMounted ? 'transition-opacity duration-[1100ms]' : ''} md:opacity-100 md:pointer-events-auto top-0 left-0 w-full h-full rounded-full bg-black/90 backdrop-blur-sm z-10 md:top-full md:left-0 md:w-16 md:h-auto md:bg-transparent md:backdrop-blur-none md:z-auto md:mt-2 md:rounded-lg`}>
-                    <ul className="list-none m-0 p-0 h-full flex flex-row items-center justify-around pl-20 pr-16 md:justify-start md:pl-0 md:pr-0 md:flex-col md:items-center md:gap-2 md:h-auto">
-                        {menuItemsToRender.map((item, index) => (
-                            <li key={item.name}>
-                                <button
-                                    onClick={() => handleMenuItemClick(item)}
-                                    className={`w-9 h-9 md:w-16 md:h-16 bg-black text-white rounded-full flex items-center justify-center md:shadow-lg hover:bg-white hover:text-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-gray-400 ${isMounted ? 'transition-all duration-500 ease-out' : ''} ${isMenuOpen ? 'opacity-100 translate-x-0 md:translate-y-0' : 'opacity-0 -translate-x-4 md:-translate-y-4'}`}
-                                    style={{ transitionDelay: isMenuOpen ? `${index * 80}ms` : `${(menuItemsToRender.length - 1 - index) * 80}ms` }}
-                                    tabIndex={isMenuOpen ? 0 : -1}
-                                    aria-label={item.name}
-                                    dangerouslySetInnerHTML={{ __html: item.icon }}
-                                ></button>
-                            </li>
-                        ))}
-                    </ul>
-                </nav>
-            </header>
-            
-            <audio ref={audioRef} preload="auto" onPlay={() => setIsPlaying(true)} onPause={() => setIsPlaying(false)}></audio>
-            
-            {nowPlaying && (
-              <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-xs z-30 animate-fade-in-up [perspective:1000px]">
-                <div
-                  className={`relative transition-transform duration-1000 [transform-style:preserve-3d] ${isPlayerFlipped ? 'rotate-y-180' : ''}`}
-                >
-                  {/* Front Face */}
-                  <div className="bg-black/70 backdrop-blur-lg rounded-3xl shadow-2xl p-6 flex flex-col items-center gap-4 text-center [backface-visibility:hidden]">
-                    <img 
-                      src={nowPlaying.now_playing.song.art} 
-                      alt={nowPlaying.now_playing.song.album} 
-                      className="w-56 h-56 rounded-2xl object-cover shadow-lg"
-                    />
-                    <div className="w-full overflow-hidden mt-2">
-                      <p className="text-white text-xl font-bold truncate">{nowPlaying.now_playing.song.title}</p>
-                      <p className="text-gray-300 text-base mt-1 truncate">{nowPlaying.now_playing.song.artist}</p>
-                    </div>
-                    <button 
-                      onClick={togglePlayPause} 
-                      className="w-16 h-16 mt-2 bg-white/20 text-white rounded-full flex items-center justify-center hover:bg-white/30 transition-all duration-300 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-white/50"
-                      aria-label={isPlaying ? "Pause" : "Play"}
-                    >
-                      {isPlaying ? (
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
-                      ) : (
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                      )}
-                    </button>
-                  </div>
-                  {/* Back Face */}
-                  <div className="absolute top-0 left-0 w-full h-full bg-black/70 backdrop-blur-lg rounded-3xl shadow-2xl p-6 flex flex-col items-center justify-center text-center [backface-visibility:hidden] [transform:rotateY(180deg)]">
-                    <p className="text-gray-200 text-base leading-relaxed">
-                      Music on radiomore.love is royalty-free and may be played publicly without licensing fees.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            )}
-
-
-            {isPopupOpen && (
-              <div 
-                  className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 animate-fade-in"
-                  onClick={() => setIsPopupOpen(false)}
-                  role="dialog"
-                  aria-modal="true"
-                  aria-labelledby="popup-title"
+              <header 
+                  className="absolute top-4 left-4 right-4 h-16 bg-black/80 backdrop-blur-sm rounded-full flex items-center z-40 shadow-lg"
+                  onMouseEnter={() => {
+                      if (window.innerWidth >= 768) {
+                          if (autoCloseTimerRef.current) clearTimeout(autoCloseTimerRef.current);
+                          autoCloseTimerRef.current = null;
+                          setIsMenuOpen(true);
+                      }
+                  }}
+                  onMouseLeave={() => {
+                      if (window.innerWidth >= 768 && !menuClickIntentRef.current) setIsMenuOpen(false);
+                  }}
               >
-                  <div 
-                      className={`bg-black/80 rounded-2xl shadow-2xl p-6 w-full m-4 text-white relative animate-scale-in flex flex-col ${popupTitle === 'Photos' ? 'max-w-5xl' : (popupTitle === 'Facebook' || popupTitle === 'X' || popupTitle === 'YouTube' ? 'max-w-lg' : 'max-w-md')}`}
-                      onClick={(e) => e.stopPropagation()}
-                  >
-                      <button onClick={() => setIsPopupOpen(false)} className="absolute top-3 right-3 text-gray-400 hover:text-white transition-colors z-10" aria-label="Close popup">
-                          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                  <div className="flex-shrink-0 w-16 h-16 z-20">
+                      <button onClick={toggleMenu} className="relative w-16 h-16 rounded-full p-0 border-0 bg-transparent cursor-pointer" aria-label="Toggle navigation menu" aria-haspopup="true" aria-expanded={isMenuOpen}>
+                          <img src={logoUrl} alt="RadioHost Logo" className={`w-full h-full rounded-full object-cover transition-transform duration-300 hover:scale-110 ${isPlaying ? 'logo-spinning' : ''}`} />
                       </button>
-                      <h2 id="popup-title" className="font-bold mb-4" dangerouslySetInnerHTML={{ __html: popupIcon }}></h2>
-                      
-                        {popupTitle === 'Photos' ? (
-                            <div className="relative aspect-video overflow-hidden rounded-lg bg-black">
-                                {photos.length > 0 ? photos.map((photo, index) => (
-                                    <img
-                                        key={index}
-                                        src={photo}
-                                        alt={`Slide ${index + 1}`}
-                                        className={`absolute inset-0 w-full h-full object-contain transition-opacity duration-1000 ease-in-out ${index === currentSlide ? 'opacity-100' : 'opacity-0'}`}
-                                    />
-                                )) : (
-                                    <div className="w-full h-full flex items-center justify-center bg-gray-800">
-                                        <p>Loading photos...</p>
-                                    </div>
-                                )}
-                                <div className="absolute bottom-0 left-0 right-0 p-2 bg-gradient-to-t from-black/70 to-transparent flex items-center justify-between">
-                                    <div className="text-xs text-gray-300">
-                                        <span>Photos from: </span>
-                                        <a href="https://www.facebook.com/ksztaltzmyslow" target="_blank" rel="noopener noreferrer" className="underline hover:text-white">facebook.com/ksztaltzmyslow</a>
-                                    </div>
-                                    <div className="flex items-center gap-2 text-white">
-                                        <button onClick={prevSlide} aria-label="Previous slide" className="p-2 rounded-full hover:bg-white/20 transition-colors">
-                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
-                                        </button>
-                                        <button onClick={() => setIsSlideshowPlaying(!isSlideshowPlaying)} aria-label={isSlideshowPlaying ? 'Pause slideshow' : 'Play slideshow'} className="p-2 rounded-full hover:bg-white/20 transition-colors">
-                                            {isSlideshowPlaying ? (
-                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
-                                            ) : (
-                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                                            )}
-                                        </button>
-                                        <button onClick={nextSlide} aria-label="Next slide" className="p-2 rounded-full hover:bg-white/20 transition-colors">
-                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        ) : (
-                            <div ref={popupContentRef} className="text-gray-300 space-y-3 max-h-[60vh] overflow-y-auto pr-2" dangerouslySetInnerHTML={{ __html: popupContent }}></div>
-                        )}
                   </div>
+
+                  <div className="flex-grow h-full relative overflow-hidden ticker-mask">
+                      <div ref={tickerContainerRef} className="absolute top-0 left-0 h-full flex items-center animate-marquee">
+                          <p ref={textRef} className="text-gray-200 text-lg whitespace-nowrap px-8">{tickerText}</p>
+                          <p className="text-gray-200 text-lg whitespace-nowrap px-8" aria-hidden="true">{tickerText}</p>
+                      </div>
+                  </div>
+
+                  <nav onClick={(e) => e.stopPropagation()} aria-label="Main navigation" className={`absolute ${isMenuOpen ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'} ${isMounted ? 'transition-opacity duration-[1100ms]' : ''} md:opacity-100 md:pointer-events-auto top-0 left-0 w-full h-full rounded-full bg-black/90 backdrop-blur-sm z-10 md:top-full md:left-0 md:w-16 md:h-auto md:bg-transparent md:backdrop-blur-none md:z-auto md:mt-2 md:rounded-lg`}>
+                      <ul className="list-none m-0 p-0 h-full flex flex-row items-center justify-around pl-20 pr-16 md:justify-start md:pl-0 md:pr-0 md:flex-col md:items-center md:gap-2 md:h-auto">
+                          {menuItemsToRender.map((item, index) => (
+                              <li key={item.name}>
+                                  <button
+                                      onClick={() => handleMenuItemClick(item)}
+                                      className={`w-9 h-9 md:w-16 md:h-16 bg-black text-white rounded-full flex items-center justify-center md:shadow-lg hover:bg-white hover:text-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-gray-400 ${isMounted ? 'transition-all duration-500 ease-out' : ''} ${isMenuOpen ? 'opacity-100 translate-x-0 md:translate-y-0' : 'opacity-0 -translate-x-4 md:-translate-y-4'}`}
+                                      style={{ transitionDelay: isMenuOpen ? `${index * 80}ms` : `${(menuItemsToRender.length - 1 - index) * 80}ms` }}
+                                      tabIndex={isMenuOpen ? 0 : -1}
+                                      aria-label={item.name}
+                                      dangerouslySetInnerHTML={{ __html: item.icon }}
+                                  ></button>
+                              </li>
+                          ))}
+                      </ul>
+                  </nav>
+              </header>
+              
+              <audio ref={audioRef} preload="auto" onPlay={() => setIsPlaying(true)} onPause={() => setIsPlaying(false)}></audio>
+              
+              {nowPlaying && (
+                <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-xs z-30 animate-fade-in-up [perspective:1000px]">
+                  <div
+                    className={`relative transition-transform duration-1000 [transform-style:preserve-3d] ${isPlayerFlipped ? 'rotate-y-180' : ''}`}
+                  >
+                    {/* Front Face */}
+                    <div className="bg-black/70 backdrop-blur-lg rounded-3xl shadow-2xl p-6 flex flex-col items-center gap-4 text-center [backface-visibility:hidden]">
+                      <img 
+                        src={nowPlaying.now_playing.song.art} 
+                        alt={nowPlaying.now_playing.song.album} 
+                        className="w-56 h-56 rounded-2xl object-cover shadow-lg"
+                      />
+                      <div className="w-full overflow-hidden mt-2">
+                        <p className="text-white text-xl font-bold truncate">{nowPlaying.now_playing.song.title}</p>
+                        <p className="text-gray-300 text-base mt-1 truncate">{nowPlaying.now_playing.song.artist}</p>
+                      </div>
+                      <button 
+                        onClick={togglePlayPause} 
+                        className="w-16 h-16 mt-2 bg-white/20 text-white rounded-full flex items-center justify-center hover:bg-white/30 transition-all duration-300 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-white/50"
+                        aria-label={isPlaying ? "Pause" : "Play"}
+                      >
+                        {isPlaying ? (
+                          <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                        ) : (
+                          <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                        )}
+                      </button>
+                    </div>
+                    {/* Back Face */}
+                    <div className="absolute top-0 left-0 w-full h-full bg-black/70 backdrop-blur-lg rounded-3xl shadow-2xl p-6 flex flex-col items-center justify-center text-center [backface-visibility:hidden] [transform:rotateY(180deg)]">
+                      <p className="text-gray-200 text-base leading-relaxed">
+                        Music on radiomore.love is royalty-free and may be played publicly without licensing fees.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+
+              {isPopupOpen && (
+                <div 
+                    className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 animate-fade-in"
+                    onClick={() => setIsPopupOpen(false)}
+                    role="dialog"
+                    aria-modal="true"
+                    aria-labelledby="popup-title"
+                >
+                    <div 
+                        className={`bg-black/80 rounded-2xl shadow-2xl p-6 w-full m-4 text-white relative animate-scale-in flex flex-col ${popupTitle === 'Photos' ? 'max-w-5xl' : (popupTitle === 'Facebook' || popupTitle === 'X' || popupTitle === 'YouTube' ? 'max-w-lg' : 'max-w-md')}`}
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <button onClick={() => setIsPopupOpen(false)} className="absolute top-3 right-3 text-gray-400 hover:text-white transition-colors z-10" aria-label="Close popup">
+                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                        </button>
+                        <h2 id="popup-title" className="font-bold mb-4" dangerouslySetInnerHTML={{ __html: popupIcon }}></h2>
+                        
+                          {popupTitle === 'Photos' ? (
+                              <div className="relative aspect-video overflow-hidden rounded-lg bg-black">
+                                  {photos.length > 0 ? photos.map((photo, index) => (
+                                      <img
+                                          key={index}
+                                          src={photo}
+                                          alt={`Slide ${index + 1}`}
+                                          className={`absolute inset-0 w-full h-full object-contain transition-opacity duration-1000 ease-in-out ${index === currentSlide ? 'opacity-100' : 'opacity-0'}`}
+                                      />
+                                  )) : (
+                                      <div className="w-full h-full flex items-center justify-center bg-gray-800">
+                                          <p>Loading photos...</p>
+                                      </div>
+                                  )}
+                                  <div className="absolute bottom-0 left-0 right-0 p-2 bg-gradient-to-t from-black/70 to-transparent flex items-center justify-between">
+                                      <div className="text-xs text-gray-300">
+                                          <span>Photos from: </span>
+                                          <a href="https://www.facebook.com/ksztaltzmyslow" target="_blank" rel="noopener noreferrer" className="underline hover:text-white">facebook.com/ksztaltzmyslow</a>
+                                      </div>
+                                      <div className="flex items-center gap-2 text-white">
+                                          <button onClick={prevSlide} aria-label="Previous slide" className="p-2 rounded-full hover:bg-white/20 transition-colors">
+                                              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+                                          </button>
+                                          <button onClick={() => setIsSlideshowPlaying(!isSlideshowPlaying)} aria-label={isSlideshowPlaying ? 'Pause slideshow' : 'Play slideshow'} className="p-2 rounded-full hover:bg-white/20 transition-colors">
+                                              {isSlideshowPlaying ? (
+                                                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                                              ) : (
+                                                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                                              )}
+                                          </button>
+                                          <button onClick={nextSlide} aria-label="Next slide" className="p-2 rounded-full hover:bg-white/20 transition-colors">
+                                              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+                                          </button>
+                                      </div>
+                                  </div>
+                              </div>
+                          ) : (
+                              <div ref={popupContentRef} className="text-gray-300 space-y-3 max-h-[60vh] overflow-y-auto pr-2" dangerouslySetInnerHTML={{ __html: popupContent }}></div>
+                          )}
+                    </div>
+                </div>
+              )}
+
+              {showIosInstructions && (
+                  <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 animate-fade-in" onClick={() => setShowIosInstructions(false)}>
+                      <div className="bg-gray-800 text-white p-6 rounded-xl shadow-2xl text-center max-w-sm mx-4 animate-scale-in relative" onClick={(e) => e.stopPropagation()}>
+                          <button onClick={() => setShowIosInstructions(false)} className="absolute top-2 right-2 text-gray-400 hover:text-white" aria-label="Close instructions">
+                             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                          </button>
+                          <h3 className="text-xl font-bold mb-3">Add to Home Screen</h3>
+                          <p className="mb-4 text-gray-300">To install the app, please follow these steps:</p>
+                          <div className="text-left space-y-3">
+                             <p>1. Tap the <span className="font-bold">Share</span> icon in your browser's toolbar.</p>
+                             <p>2. Scroll down and tap on <span className="font-bold">'Add to Home Screen'</span>.</p>
+                          </div>
+                      </div>
+                  </div>
+              )}
+
+              <div className="absolute bottom-4 right-4 z-40">
+                <elevenlabs-convai agent-id="agent_01jzk1yswsenmr9h8h60ybk8xf"></elevenlabs-convai>
               </div>
-            )}
-            
+            </div>
+
             {showInstallPrompt && (
-                <div className="fixed bottom-0 left-0 right-0 bg-black/80 backdrop-blur-sm p-3 text-white z-50 animate-slide-up shadow-lg">
-                    <div className="container mx-auto flex items-center justify-between gap-3">
+                <div className="fixed bottom-0 left-0 right-0 bg-black/80 backdrop-blur-sm text-white z-50 animate-slide-up shadow-lg h-[80px] flex items-center">
+                    <div className="container mx-auto flex items-center justify-between gap-3 px-4">
                         <img src={logoUrl} alt="App Logo" className="w-12 h-12 rounded-lg hidden sm:block flex-shrink-0" />
                         <div className="flex-grow">
                             <p className="font-bold text-sm sm:text-base">Get the Full App Experience</p>
@@ -693,27 +717,7 @@
                     </div>
                 </div>
             )}
-
-            {showIosInstructions && (
-                <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 animate-fade-in" onClick={() => setShowIosInstructions(false)}>
-                    <div className="bg-gray-800 text-white p-6 rounded-xl shadow-2xl text-center max-w-sm mx-4 animate-scale-in relative" onClick={(e) => e.stopPropagation()}>
-                        <button onClick={() => setShowIosInstructions(false)} className="absolute top-2 right-2 text-gray-400 hover:text-white" aria-label="Close instructions">
-                           <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
-                        </button>
-                        <h3 className="text-xl font-bold mb-3">Add to Home Screen</h3>
-                        <p className="mb-4 text-gray-300">To install the app, please follow these steps:</p>
-                        <div className="text-left space-y-3">
-                           <p>1. Tap the <span className="font-bold">Share</span> icon in your browser's toolbar.</p>
-                           <p>2. Scroll down and tap on <span className="font-bold">'Add to Home Screen'</span>.</p>
-                        </div>
-                    </div>
-                </div>
-            )}
-
-            <div className="absolute bottom-4 right-4 z-40">
-              <elevenlabs-convai agent-id="agent_01jzk1yswsenmr9h8h60ybk8xf"></elevenlabs-convai>
-            </div>
-          </div>
+          </React.Fragment>
         );
       };
 
