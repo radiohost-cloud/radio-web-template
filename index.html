@@ -65,8 +65,8 @@
         const [isPlayerFlipped, setIsPlayerFlipped] = useState(false);
         const [showOnboarding, setShowOnboarding] = useState(false);
         const [onboardingStep, setOnboardingStep] = useState(0);
-        const [displayedOnboardingStep, setDisplayedOnboardingStep] = useState(0);
-        const [isOnboardingContentFading, setIsOnboardingContentFading] = useState(false);
+        const [isInitialOnboarding, setIsInitialOnboarding] = useState(true);
+        const [isOnboardingStepFading, setIsOnboardingStepFading] = useState(false);
         
         const tickerContainerRef = useRef(null);
         const textRef = useRef(null);
@@ -148,7 +148,7 @@
             },
             { // Step 3: Player
                 highlightStyle: { top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 'min(90%, 20rem)', height: '26rem' },
-                tooltipStyle: { top: 'calc(50% + 12.5rem)', left: '50%', transform: 'translate(-50%, -100%)', width: 'min(90%, 19rem)' },
+                tooltipStyle: { top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 'min(90%, 19rem)' },
                 title: 'The Main Stage',
                 text: 'This is the heart of the station. See what\'s currently playing and control your listening experience right here. Enjoy the vibes!'
             }
@@ -182,7 +182,6 @@
                 setTimeout(() => {
                     setShowOnboarding(true);
                     setOnboardingStep(1);
-                    setDisplayedOnboardingStep(1);
                 }, 1500);
             }
         }, []);
@@ -421,14 +420,14 @@
         
         const handleNextOnboardingStep = () => {
             if (onboardingStep < 3) {
+                if (isInitialOnboarding) setIsInitialOnboarding(false);
                 const nextStep = onboardingStep + 1;
-                setIsOnboardingContentFading(true);
-                setOnboardingStep(nextStep);
+                setIsOnboardingStepFading(true); // Fade out
 
                 setTimeout(() => {
-                    setDisplayedOnboardingStep(nextStep);
-                    setIsOnboardingContentFading(false);
-                }, 350);
+                    setOnboardingStep(nextStep);
+                    setIsOnboardingStepFading(false); // Fade back in
+                }, 500);
             } else {
                 handleSkipOnboarding();
             }
@@ -545,6 +544,10 @@
           const order = ['Home', 'X', 'Instagram', 'YouTube', 'App', 'About Us', 'Ko-fi'];
           return order.indexOf(a.name) - order.indexOf(b.name);
         });
+
+        const onboardingTransitionClass = isInitialOnboarding
+          ? 'transition-all duration-700 ease-in-out'
+          : 'transition-opacity duration-500 ease-in-out';
 
         return (
           <React.Fragment>
@@ -717,24 +720,22 @@
             {showOnboarding && onboardingStep > 0 && (
                 <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[60] animate-fade-in" onClick={(e) => { e.stopPropagation(); handleNextOnboardingStep(); }}>
                     <div
-                        className="absolute border-4 border-dashed border-white transition-all duration-700 ease-in-out pointer-events-none"
+                        className={`absolute border-4 border-dashed border-white pointer-events-none ${onboardingTransitionClass} ${isOnboardingStepFading ? 'opacity-0' : 'opacity-100'}`}
                         style={onboardingSteps[onboardingStep].highlightStyle}
                     ></div>
                     <div
-                        className="absolute bg-black/80 text-white p-5 rounded-lg shadow-2xl w-[calc(100%-2rem)] max-w-xs transition-all duration-700 ease-in-out"
+                        className={`absolute bg-black/80 text-white p-5 rounded-lg shadow-2xl w-[calc(100%-2rem)] max-w-xs ${onboardingTransitionClass} ${isOnboardingStepFading ? 'opacity-0' : 'opacity-100'}`}
                         style={onboardingSteps[onboardingStep].tooltipStyle}
                         onClick={(e) => e.stopPropagation()}
                     >
-                        <div className={`transition-opacity duration-300 ease-in-out ${isOnboardingContentFading ? 'opacity-0' : 'opacity-100'}`}>
-                            <p className="text-lg font-bold mb-2">{onboardingSteps[displayedOnboardingStep].title}</p>
-                            <p className="text-sm text-gray-300 mb-4">{onboardingSteps[displayedOnboardingStep].text}</p>
-                            <div className="flex justify-between items-center">
-                                <button onClick={handleSkipOnboarding} className="text-gray-400 hover:text-white text-sm transition-colors">Skip</button>
-                                <div className="text-sm text-gray-500">{displayedOnboardingStep}/3</div>
-                                <button onClick={handleNextOnboardingStep} className="bg-white hover:bg-gray-200 text-black font-bold py-2 px-4 rounded-lg text-sm transition-colors">
-                                    {onboardingStep === 3 ? 'Finish' : 'Next'}
-                                </button>
-                            </div>
+                        <p className="text-lg font-bold mb-2">{onboardingSteps[onboardingStep].title}</p>
+                        <p className="text-sm text-gray-300 mb-4">{onboardingSteps[onboardingStep].text}</p>
+                        <div className="flex justify-between items-center">
+                            <button onClick={handleSkipOnboarding} className="text-gray-400 hover:text-white text-sm transition-colors">Skip</button>
+                            <div className="text-sm text-gray-500">{onboardingStep}/3</div>
+                            <button onClick={handleNextOnboardingStep} className="bg-white hover:bg-gray-200 text-black font-bold py-2 px-4 rounded-lg text-sm transition-colors">
+                                {onboardingStep === 3 ? 'Finish' : 'Next'}
+                            </button>
                         </div>
                     </div>
                 </div>
