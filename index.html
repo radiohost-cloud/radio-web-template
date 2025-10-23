@@ -63,6 +63,8 @@
         const [showIosInstructions, setShowIosInstructions] = useState(false);
         const [showGenericInstructions, setShowGenericInstructions] = useState(false);
         const [isPlayerFlipped, setIsPlayerFlipped] = useState(false);
+        const [showOnboarding, setShowOnboarding] = useState(false);
+        const [onboardingStep, setOnboardingStep] = useState(0);
         
         const tickerContainerRef = useRef(null);
         const textRef = useRef(null);
@@ -126,6 +128,30 @@
             }
         ];
         
+        const onboardingSteps = [
+            { // Dummy step 0
+                highlightStyle: {}, tooltipStyle: {}, title: '', text: ''
+            },
+            { // Step 1: Menu
+                highlightStyle: { top: '1rem', left: '1rem', width: '4rem', height: '4rem' },
+                tooltipStyle: { top: '6rem', left: '1rem' },
+                title: 'Welcome to radiomore.love!',
+                text: 'This is the menu button. Click it to navigate through different sections like our social feeds, info about the app, and more.'
+            },
+            { // Step 2: Chat
+                highlightStyle: { bottom: '1rem', right: '1rem', width: '4rem', height: '4rem' },
+                tooltipStyle: { bottom: '6rem', right: '1rem', maxWidth: '300px' },
+                title: 'Talk to Our AI Assistant',
+                text: 'Have a question or just want to chat? Our AI assistant is here to help you 24/7. Give it a try!'
+            },
+            { // Step 3: Player
+                highlightStyle: { top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 'min(90%, 20rem)', height: '26rem' },
+                tooltipStyle: { top: 'calc(50% + 14rem)', left: '50%', transform: 'translateX(-50%)', width: 'min(90%, 20rem)' },
+                title: 'The Main Stage',
+                text: 'This is the heart of the station. See what\'s currently playing and control your listening experience right here. Enjoy the vibes!'
+            }
+        ];
+
         const fetchNowPlaying = async () => {
             try {
                 const response = await fetch(apiUrl);
@@ -147,6 +173,16 @@
                 nowPlayingTimeoutRef.current = setTimeout(fetchNowPlaying, 30000);
             }
         };
+
+        useEffect(() => {
+            const hasOnboarded = localStorage.getItem('hasCompletedOnboarding');
+            if (!hasOnboarded) {
+                setTimeout(() => {
+                    setShowOnboarding(true);
+                    setOnboardingStep(1);
+                }, 1500);
+            }
+        }, []);
 
         useEffect(() => {
           setIsMounted(true);
@@ -379,6 +415,20 @@
             window.addEventListener('resize', setVh);
             return () => window.removeEventListener('resize', setVh);
         }, []);
+        
+        const handleNextOnboardingStep = () => {
+            if (onboardingStep < 3) {
+                setOnboardingStep(prev => prev + 1);
+            } else {
+                handleSkipOnboarding();
+            }
+        };
+
+        const handleSkipOnboarding = () => {
+            setShowOnboarding(false);
+            setOnboardingStep(0);
+            localStorage.setItem('hasCompletedOnboarding', 'true');
+        };
 
         const toggleMenu = (e) => {
             e.stopPropagation();
@@ -653,6 +703,30 @@
                 <elevenlabs-convai agent-id="agent_01jzk1yswsenmr9h8h60ybk8xf"></elevenlabs-convai>
               </div>
             </div>
+            
+            {showOnboarding && onboardingStep > 0 && (
+                <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[60] animate-fade-in" onClick={(e) => { e.stopPropagation(); handleNextOnboardingStep(); }}>
+                    <div
+                        className="absolute border-4 border-dashed border-white rounded-2xl transition-all duration-500 ease-in-out pointer-events-none"
+                        style={onboardingSteps[onboardingStep].highlightStyle}
+                    ></div>
+                    <div
+                        className="absolute bg-black/80 text-white p-5 rounded-lg shadow-2xl w-[calc(100%-2rem)] max-w-xs transition-all duration-500 ease-in-out animate-fade-in"
+                        style={onboardingSteps[onboardingStep].tooltipStyle}
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <p className="text-lg font-bold mb-2">{onboardingSteps[onboardingStep].title}</p>
+                        <p className="text-sm text-gray-300 mb-4">{onboardingSteps[onboardingStep].text}</p>
+                        <div className="flex justify-between items-center">
+                            <button onClick={handleSkipOnboarding} className="text-gray-400 hover:text-white text-sm transition-colors">Skip</button>
+                            <div className="text-sm text-gray-500">{onboardingStep}/3</div>
+                            <button onClick={handleNextOnboardingStep} className="bg-white hover:bg-gray-200 text-black font-bold py-2 px-4 rounded-lg text-sm transition-colors">
+                                {onboardingStep === 3 ? 'Finish' : 'Next'}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
 
             {isMounted && (
               <div className={`fixed bottom-0 left-0 right-0 bg-black/80 backdrop-blur-sm text-white z-50 shadow-lg h-[80px] flex items-center transition-transform duration-500 ease-in-out ${showInstallPrompt ? 'translate-y-0' : 'translate-y-full'}`}>
