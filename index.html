@@ -71,6 +71,7 @@
         const [showIosInstructions, setShowIosInstructions] = useState(false);
         const [showGenericInstructions, setShowGenericInstructions] = useState(false);
         const [isPlayerFlipped, setIsPlayerFlipped] = useState(false);
+        const [backsideContent, setBacksideContent] = useState(null);
         const [showOnboarding, setShowOnboarding] = useState(false);
         const [onboardingStep, setOnboardingStep] = useState(0);
         const [isInitialOnboarding, setIsInitialOnboarding] = useState(true);
@@ -85,6 +86,8 @@
         const nowPlayingTimeoutRef = useRef(null);
         const videoRef = useRef(null);
         const installPromptTimers = useRef({ show: null, hide: null });
+        const flipTimeoutRef = useRef(null);
+        const isInitialSongLoad = useRef(true);
 
         const logoUrl = 'https://raw.githubusercontent.com/radiohost-cloud/radiomorelove/main/logo.png';
         const feedUrl = 'https://raw.githubusercontent.com/radiohost-cloud/radiomorelove/main/feed.txt';
@@ -218,14 +221,31 @@
         }, []);
 
         useEffect(() => {
-          setIsMounted(true);
+            const initialContent = (
+                <div className="text-gray-200 text-center space-y-3 px-2">
+                    <p className="text-xl font-bold">AI-Generated Music</p>
+                    <p className="text-base">All music is copyright-free.</p>
+                    <p className="text-sm pt-2">Play publicly without fees or restrictions. Perfect for your business!</p>
+                </div>
+            );
+            setBacksideContent(initialContent);
 
-          const flipToBackTimer = setTimeout(() => {
-            setIsPlayerFlipped(true);
-          }, 2000);
-          const flipToFrontTimer = setTimeout(() => {
-            setIsPlayerFlipped(false);
-          }, 7000);
+            const flipTimer = setTimeout(() => {
+                setIsPlayerFlipped(true);
+            }, 2000);
+
+            const flipBackTimer = setTimeout(() => {
+                setIsPlayerFlipped(false);
+            }, 8000);
+
+            return () => {
+                clearTimeout(flipTimer);
+                clearTimeout(flipBackTimer);
+            };
+        }, []);
+
+        useEffect(() => {
+          setIsMounted(true);
           
           fetchNowPlaying();
 
@@ -241,11 +261,44 @@
             clearTimeout(openTimer);
             if (autoCloseTimerRef.current) clearTimeout(autoCloseTimerRef.current);
             if (nowPlayingTimeoutRef.current) clearTimeout(nowPlayingTimeoutRef.current);
-            clearTimeout(flipToBackTimer);
-            clearTimeout(flipToFrontTimer);
           };
         }, []);
         
+        useEffect(() => {
+            if (!nowPlaying || isInitialSongLoad.current) {
+                if (nowPlaying) isInitialSongLoad.current = false;
+                return;
+            }
+
+            if (flipTimeoutRef.current) {
+                clearTimeout(flipTimeoutRef.current);
+            }
+
+            const adContent = (
+                <div className="text-gray-200 text-center space-y-3">
+                    <p className="text-xl font-bold">Your Ad Here?</p>
+                    <p className="text-base">It's completely free!</p>
+                    <p className="text-sm pt-2">Your advertisement will appear right in this spot. Contact us to learn more:</p>
+                    <a href="mailto:hi@radiomore.love" className="text-blue-400 hover:underline font-semibold break-all">hi@radiomore.love</a>
+                </div>
+            );
+            
+            flipTimeoutRef.current = setTimeout(() => {
+                setBacksideContent(adContent);
+                setIsPlayerFlipped(true);
+
+                flipTimeoutRef.current = setTimeout(() => {
+                    setIsPlayerFlipped(false);
+                }, 5000);
+            }, 3000);
+
+            return () => {
+                if (flipTimeoutRef.current) {
+                    clearTimeout(flipTimeoutRef.current);
+                }
+            };
+        }, [nowPlaying?.now_playing?.song?.title]);
+
         useEffect(() => {
             const beforeInstallHandler = (e) => {
                 e.preventDefault();
@@ -685,9 +738,7 @@
                       </div>
                       {/* Back Face */}
                       <div className="absolute top-0 left-0 w-full h-full bg-black/70 backdrop-blur-lg rounded-3xl shadow-2xl p-6 flex flex-col items-center justify-center text-center backface-hidden [transform:rotateY(180deg)]">
-                        <p className="text-gray-200 text-base leading-relaxed">
-                          Music on radiomore.love is royalty-free and may be played publicly without licensing fees.
-                        </p>
+                        {backsideContent}
                       </div>
                     </div>
                   </div>
