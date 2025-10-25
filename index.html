@@ -2,96 +2,80 @@
 <html lang="en">
   <head>
     <!--
-      HEAD SECTION
-      This section contains metadata about the HTML document, which is not displayed on the page itself.
-      It includes character set, viewport settings for responsiveness, SEO tags, social media sharing tags,
-      the page title, icons, and links to external resources like stylesheets and pre-connections for performance.
+      HEAD SECTION - YOUR WEBSITE'S METADATA
+      This section is crucial for search engines (like Google) and social media sharing.
+      It's not visible on the page, but it tells browsers and services about your content.
+      **ACTION REQUIRED**: Fill in all the placeholders marked with [Your...].
     -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!-- 
       SEO (Search Engine Optimization) Meta Tags
-      These tags help search engines like Google understand the content and purpose of the page, improving its ranking in search results.
+      **IMPORTANT**: Fill these out to help people find your station on search engines.
     -->
-    <title>radiomore.love - Music, Fashion & Chill | #LLL Online Radio</title>
-    <meta name="description" content="Tune in to our online radio for the best mix of chill music and fashion-forward vibes. All music is royalty-free, making it ideal for public playback in shops, restaurants, cafes, and other commercial spaces without licensing fees. Your perfect soundtrack for a relaxed lifestyle. #LLL Radio." />
-    <meta name="keywords" content="online radio, music, fashion, chill, LLL, radio stream, lifestyle music, chillout, internet radio, streaming, royalty-free music, copyright-free, public performance, no license fees, background music, shop music, restaurant music, in-store music, cafe music, commercial background music, business music" />
-    <meta name="author" content="RadioHost" />
-    <link rel="canonical" href="https://radiomore.love" />
+    <title>[Your Station Name] - [Your Station Tagline]</title>
+    <meta name="description" content="[Your detailed description for SEO. Describe your radio station, the music you play, and your target audience.]" />
+    <meta name="keywords" content="[your, keywords, for, seo, separated, by, commas, e.g., online radio, chill music, indie pop, streaming]" />
+    <meta name="author" content="[Your Name or Company Name]" />
+    <link rel="canonical" href="[Your Official Website URL]" />
 
     <!-- 
       Open Graph / Facebook Meta Tags
-      These tags control how the page content is displayed when shared on social media platforms like Facebook and LinkedIn.
-      They define the title, description, and preview image.
+      These control how your website looks when shared on social media like Facebook.
     -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://radiomore.love" />
-    <meta property="og:title" content="radiomore.love - Music, Fashion & Chill | #LLL Online Radio" />
-    <meta property="og:description" content="Tune in to our online radio for the best mix of chill music and fashion-forward vibes. All music is royalty-free, making it ideal for public playback in shops, restaurants, cafes, and other commercial spaces without licensing fees. Your perfect soundtrack for a relaxed lifestyle. #LLL Radio." />
-    <meta property="og:image" content="https://raw.githubusercontent.com/radiohost-cloud/radiomorelove/main/logo.png" />
+    <meta property="og:url" content="[Your Official Website URL]" />
+    <meta property="og:title" content="[Your Station Name] - [Your Station Tagline]" />
+    <meta property="og:description" content="[A short, catchy description for social media sharing.]" />
+    <meta property="og:image" content="[A direct URL to a high-quality logo or promotional image for your station. E.g., https://your-site.com/social-image.png]" />
 
     <!-- 
       Twitter Card Meta Tags
-      Similar to Open Graph, these tags are specific to Twitter and customize how the page appears in a tweet.
+      Similar to Open Graph, these are specific to Twitter.
     -->
     <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://radiomore.love" />
-    <meta property="twitter:title" content="radiomore.love - Music, Fashion & Chill | #LLL Online Radio" />
-    <meta property="twitter:description" content="Tune in to our online radio for the best mix of chill music and fashion-forward vibes. All music is royalty-free, making it ideal for public playback in shops, restaurants, cafes, and other commercial spaces without licensing fees. Your perfect soundtrack for a relaxed lifestyle. #LLL Radio." />
-    <meta property="twitter:image" content="https://raw.githubusercontent.com/radiohost-cloud/radiomorelove/main/logo.png" />
+    <meta property="twitter:url" content="[Your Official Website URL]" />
+    <meta property="twitter:title" content="[Your Station Name] - [Your Station Tagline]" />
+    <meta property="twitter:description" content="[A short, catchy description for social media sharing.]" />
+    <meta property="twitter:image" content="[A direct URL to a high-quality logo or promotional image for your station. E.g., https://your-site.com/social-image.png]" />
 
     <!-- 
-      General Icons and Manifest
-      - The `favicon` is the small icon displayed in the browser tab.
-      - The `manifest.json` link enables Progressive Web App (PWA) features, allowing users to "install" the site on their home screen.
-      - `theme-color` sets the color of the browser toolbar.
+      Icons and Manifest
+      **ACTION REQUIRED**: Replace the placeholder URL with a link to your station's logo.
     -->
-    <link rel="icon" href="https://raw.githubusercontent.com/radiohost-cloud/radiomorelove/main/logo.png" />
+    <link rel="icon" href="[REPLACE_WITH_YOUR_LOGO_URL.png]" />
     <link rel="manifest" href="/manifest.json" />
     <meta name="theme-color" content="#000000" />
 
     <!-- 
       iOS Specific Meta Tags
-      These tags enhance the user experience for users who add the web app to their home screen on an Apple device.
-      - `apple-mobile-web-app-capable`: Allows the app to run in full-screen mode without browser UI.
-      - `apple-mobile-web-app-status-bar-style`: Sets the status bar style.
-      - `apple-touch-icon`: Specifies the icon for the home screen.
+      **ACTION REQUIRED**: Replace the placeholder URL with a link to your station's logo for Apple devices.
     -->
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="apple-mobile-web-app-title" content="radiomore.love" />
-    <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/radiohost-cloud/radiomorelove/main/logo.png" />
+    <meta name="apple-mobile-web-app-title" content="[Your Station Name]" />
+    <link rel="apple-touch-icon" href="[REPLACE_WITH_YOUR_LOGO_URL.png]" />
 
     <!-- 
       Preconnect Links for Performance
-      This tells the browser to start establishing an early connection to these essential domains,
-      which can speed up resource loading (like scripts, images, and streams) later on.
+      This tells the browser to connect to essential domains early. Add domains for your streams, APIs, and content here.
     -->
     <link rel="preconnect" href="https://cdn.tailwindcss.com" />
     <link rel="preconnect" href="https://unpkg.com" />
-    <link rel="preconnect" href="https://raw.githubusercontent.com" />
-    <link rel="preconnect" href="https://stream.radiohost.cloud" />
     <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+    <!-- Example: <link rel="preconnect" href="https://your-stream-provider.com" /> -->
   </head>
   <body class="overflow-hidden" style="background-color: #000;">
     <!--
       BODY SECTION
-      This section contains all the visible content of the webpage.
-      - `overflow-hidden`: Prevents scrolling on the body, as the UI is contained within the viewport.
-      - `background-color: #000`: Sets a default black background.
-      - `div#root`: This is the main container where the React application will be mounted and rendered.
+      This contains the visible content. The React app is mounted into the <div id="root"></div>.
     -->
     <div id="root"></div>
     
     <!--
       EXTERNAL SCRIPT IMPORTS
-      These scripts load the necessary libraries for the application to function.
-      - `tailwindcss.com`: A utility-first CSS framework for rapid UI development.
-      - `react` & `react-dom`: The core libraries for building the user interface with React.
-      - `@babel/standalone`: Transpiles JSX (HTML-like syntax in JavaScript) into regular JavaScript that browsers can understand, directly in the browser.
-      - `hls.js`: A JavaScript library that implements an HTTP Live Streaming (HLS) client for playing video streams.
-      The `defer` attribute ensures these scripts are executed after the HTML document has been fully parsed.
+      These load the necessary libraries (React, Tailwind, etc.).
     -->
     <script src="https://cdn.tailwindcss.com" defer></script>
     <script src="https://unpkg.com/react@18/umd/react.production.min.js" defer></script>
@@ -101,66 +85,82 @@
     
     <!--
       INLINE REACT APPLICATION SCRIPT
-      This script contains the entire React application logic, written in JSX.
-      Babel (loaded above) will process this script block because of `type="text/babel"`.
+      This script contains the entire React application logic.
     -->
     <script type="text/babel">
+      // =================================================================================================
+      // WELCOME TO YOUR RADIO WEB APP TEMPLATE!
+      //
+      // This is a customizable template. To personalize your radio station, you'll need to
+      // replace the placeholder values below. Look for values enclosed in brackets like "[REPLACE...]".
+      //
+      // QUICK START CHECKLIST:
+      // 1.  Update the CONFIGURATION CONSTANTS section with your own URLs (logo, stream, API, etc.).
+      // 2.  Customize the `menuItems` array to link to your social media, blog, and other pages.
+      // 3.  Update the Curator.io and ElevenLabs IDs if you use those services.
+      // 4.  Update the 'About Us' section content with your own information.
+      // 5.  Don't forget to update the <head> section of this HTML file with your station's SEO details!
+      // =================================================================================================
+
       // The main React component for the entire application.
       const App = () => {
         // React Hooks for state and refs.
         const { useState, useEffect, useRef, useLayoutEffect } = React;
 
-        // STATE MANAGEMENT: `useState` hooks are used to manage the component's state.
-        // When a state variable changes, React re-renders the component to reflect the new state.
-        const [isMenuOpen, setIsMenuOpen] = useState(false); // Controls the visibility of the main navigation menu.
-        const [tickerText, setTickerText] = useState('Loading latest updates...'); // Stores the text for the scrolling ticker in the header.
-        const [isPopupOpen, setIsPopupOpen] = useState(false); // Controls the visibility of the modal popups (e.g., "About Us").
-        const [popupTitle, setPopupTitle] = useState(''); // Stores the title for the currently open popup.
-        const [popupContent, setPopupContent] = useState(''); // Stores the HTML content for the currently open popup.
-        const [popupIcon, setPopupIcon] = useState(''); // Stores the SVG icon for the currently open popup.
-        const [nowPlaying, setNowPlaying] = useState(null); // Stores the current song information fetched from the API.
-        const [isPlaying, setIsPlaying] = useState(false); // Tracks the audio playback state (playing or paused).
-        const [showInstallPrompt, setShowInstallPrompt] = useState(false); // Controls the visibility of the "Add to Home Screen" banner.
-        const [deferredInstallPrompt, setDeferredInstallPrompt] = useState(null); // Stores the PWA install prompt event.
-        const [showIosInstructions, setShowIosInstructions] = useState(false); // Controls visibility of iOS install instructions.
-        const [showGenericInstructions, setShowGenericInstructions] = useState(false); // Controls visibility of generic install instructions.
-        const [isPlayerFlipped, setIsPlayerFlipped] = useState(false); // Manages the flip animation of the music player card.
-        const [backsideContent, setBacksideContent] = useState(null); // Content to display on the back of the player card.
-        const [showOnboarding, setShowOnboarding] = useState(false); // Toggles the visibility of the initial user onboarding tour.
-        const [onboardingStep, setOnboardingStep] = useState(0); // Tracks the current step in the onboarding tour.
-        const [isInitialOnboarding, setIsInitialOnboarding] = useState(true); // Differentiates the first animation from subsequent ones.
-        const [isOnboardingStepFading, setIsOnboardingStepFading] = useState(false); // Manages the fade transition between onboarding steps.
-        const [isFullScreen, setIsFullScreen] = useState(false); // Tracks if the player is in full-screen mode.
-        const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false); // Controls the enlarged avatar view from the "About Us" popup.
-        const [promoState, setPromoState] = useState('hidden'); // 'hidden', 'showing', 'hiding'
+        // STATE MANAGEMENT
+        const [isMenuOpen, setIsMenuOpen] = useState(false);
+        const [tickerText, setTickerText] = useState('Loading latest updates...');
+        const [isPopupOpen, setIsPopupOpen] = useState(false);
+        const [popupTitle, setPopupTitle] = useState('');
+        const [popupContent, setPopupContent] = useState('');
+        const [popupIcon, setPopupIcon] = useState('');
+        const [nowPlaying, setNowPlaying] = useState(null);
+        const [isPlaying, setIsPlaying] = useState(false);
+        const [showInstallPrompt, setShowInstallPrompt] = useState(false);
+        const [deferredInstallPrompt, setDeferredInstallPrompt] = useState(null);
+        const [showIosInstructions, setShowIosInstructions] = useState(false);
+        const [showGenericInstructions, setShowGenericInstructions] = useState(false);
+        const [isPlayerFlipped, setIsPlayerFlipped] = useState(false);
+        const [backsideContent, setBacksideContent] = useState(null);
+        const [showOnboarding, setShowOnboarding] = useState(false);
+        const [onboardingStep, setOnboardingStep] = useState(0);
+        const [isInitialOnboarding, setIsInitialOnboarding] = useState(true);
+        const [isOnboardingStepFading, setIsOnboardingStepFading] = useState(false);
+        const [isFullScreen, setIsFullScreen] = useState(false);
+        const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false);
+        const [promoState, setPromoState] = useState('hidden');
         
-        // REFS: `useRef` hooks provide a way to access DOM elements directly or persist values across renders without causing a re-render.
-        const tickerContainerRef = useRef(null); // Ref for the ticker container to calculate animation duration.
-        const textRef = useRef(null); // Ref for the ticker text to measure its width.
-        const popupContentRef = useRef(null); // Ref for the popup content area (not currently used for manipulation, but good practice).
-        const autoCloseTimerRef = useRef(null); // Ref to hold the timer ID for auto-closing the menu on mobile.
-        const menuClickIntentRef = useRef(false); // Ref to track if the menu was opened by a click (for desktop hover behavior).
-        const audioRef = useRef(null); // Ref to the HTML <audio> element for playback control.
-        const nowPlayingTimeoutRef = useRef(null); // Ref to hold the timer ID for fetching now playing data, to allow clearing it.
-        const videoRef = useRef(null); // Ref to the HTML <video> element for the background.
-        const installPromptTimers = useRef({ show: null, hide: null }); // Refs for timers related to the install prompt banner.
-        const flipTimeoutRef = useRef(null); // Ref for the timer that controls the player card flip animation.
-        const isInitialSongLoad = useRef(true); // Tracks if it's the very first song load to prevent flipping on startup.
+        // REFS
+        const tickerContainerRef = useRef(null);
+        const textRef = useRef(null);
+        const popupContentRef = useRef(null);
+        const autoCloseTimerRef = useRef(null);
+        const menuClickIntentRef = useRef(false);
+        const audioRef = useRef(null);
+        const nowPlayingTimeoutRef = useRef(null);
+        const videoRef = useRef(null);
+        const installPromptTimers = useRef({ show: null, hide: null });
+        const flipTimeoutRef = useRef(null);
+        const isInitialSongLoad = useRef(true);
 
-        // CONSTANTS: Centralized configuration for URLs and other static data.
-        const logoUrl = 'https://raw.githubusercontent.com/radiohost-cloud/radiomorelove/main/logo.png';
-        const feedUrl = 'https://raw.githubusercontent.com/radiohost-cloud/radiomorelove/main/feed.txt';
-        const apiUrl = 'https://stream.radiohost.cloud/api/nowplaying/live';
-        const streamAudioUrl = 'https://stream.radiohost.cloud/hls/live/live.m3u8';
-        const backgroundVideoUrl = 'https://raw.githubusercontent.com/radiohost-cloud/radiomorelove/main/background.mp4';
+        // =================================================================================================
+        // CONFIGURATION CONSTANTS
+        // **ACTION REQUIRED**: Replace all placeholder URLs below with your actual URLs.
+        // =================================================================================================
+        const logoUrl = '[REPLACE_WITH_YOUR_LOGO_URL.png]';
+        const feedUrl = '[REPLACE_WITH_YOUR_TICKER_FEED_TXT_URL]'; // A simple .txt file with your ticker text
+        const apiUrl = '[REPLACE_WITH_YOUR_NOWPLAYING_API_URL]'; // e.g., AzuraCast, RadioHost, etc.
+        const streamAudioUrl = '[REPLACE_WITH_YOUR_HLS_AUDIO_STREAM_URL.m3u8]';
+        const backgroundVideoUrl = '[REPLACE_WITH_YOUR_BACKGROUND_VIDEO_URL.mp4]';
+        // =================================================================================================
 
         // DATA STRUCTURES: Defines the content and structure for dynamic UI elements.
-        // `menuItems`: An array of objects defining the navigation menu. Each object has a name, icon, and content (either direct HTML or a URL to fetch).
+        // **ACTION REQUIRED**: Customize the menu items to link to your own social feeds and content.
         const menuItems = [
             { 
                 name: 'Spotify', 
                 icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 496 512"><path d="M248 8C111.1 8 0 119.1 0 256s111.1 248 248 248 248-111.1 248-248S384.9 8 248 8zm100.7 364.9c-2.1 3.9-6.3 5.1-10.2 2.9-33.3-19.3-74.5-23.7-124.5-12.9-4.3 .9-8.4-1.1-9.3-5.4s1.1-8.4 5.4-9.3c53.9-11.6 98.7-6.8 135.8 14.1 4.1 2.3 5.4 6.9 3.1 10.6zm13.5-44.5c-2.7 4.9-8.3 6.3-13.2 3.6-40.3-23.1-104.3-29.6-146.8-16.3-5.1 1.6-10.4-1.5-12-6.6s1.5-10.4 6.6-12c48.1-14.6 117.8-7.5 163.4 18.4 4.9 2.8 6.3 8.8 3.5 13.5zm.1-49.7c-3.2 5.9-9.8 7.8-15.7 4.6-45.4-26.4-121.2-32.2-169.4-17.8-6.1 1.8-12.2-1.8-14-7.9s1.8-12.2 7.9-14c53.6-15.8 135.8-9.5 187.1 19.8 5.9 3.2 7.8 9.9 4.6 15.8z"/></svg>',
-                content: `<iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/album/1VKRV9yzzHHK7lil77gNm8?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>`
+                content: `<iframe data-testid="embed-iframe" style="border-radius:12px" src="[REPLACE_WITH_YOUR_SPOTIFY_EMBED_URL]" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>`
             },
             { 
                 name: 'X', 
@@ -180,7 +180,7 @@
             { 
                 name: 'Blog', 
                 icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 12h6m-1 8h.01" /></svg>',
-                contentUrl: 'https://raw.githubusercontent.com/radiohost-cloud/radiomorelove/main/blog.txt'
+                contentUrl: '[REPLACE_WITH_YOUR_BLOG_CONTENT_TXT_URL]'
             },
             { 
                 name: 'App', 
@@ -191,21 +191,11 @@
                         <ul class="list-none space-y-3">
                             <li class="flex items-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 text-gray-400 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
-                                <a href="https://mytuner-radio.com/radio/radiomorelove-515889/" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-white underline">
+                                <a href="[REPLACE_WITH_YOUR_MYTUNER_URL_OR_SIMILAR]" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-white underline">
                                     Available on mytuner-radio.com
                                 </a>
                             </li>
-                            <li class="flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 text-gray-400 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
-                                <a href="https://www.theradioapp.com/" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-white underline">
-                                    The Radio App on 99.9FM
-                                </a>
-                            </li>
-                            <li>
-                                <span>
-                                    To listen on the go, find 'mytuner radio' or 'The Radio App' on the Google Play and Apple App Stores!
-                                </span>
-                            </li>
+                            <!-- Add more links to other platforms here if you wish -->
                         </ul>
                     </div>
                 `
@@ -213,24 +203,24 @@
             { 
                 name: 'About Us', 
                 icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>',
-                contentUrl: 'https://raw.githubusercontent.com/radiohost-cloud/radiomorelove/main/aboutus.txt'
+                contentUrl: '[REPLACE_WITH_YOUR_ABOUT_US_CONTENT_TXT_URL]'
             },
             { 
-                name: 'Ko-fi', 
+                name: 'Support', 
                 icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd" /></svg>',
                 content: `
                     <div class="text-center space-y-4 py-4">
                         <p class="text-xl font-semibold">Enjoying the vibes?</p>
-                        <p class="text-gray-300">Your support helps us keep the music flowing. Consider buying us a coffee! ❤️</p>
-                        <a href="https://ko-fi.com/radiomorelove" target="_blank" rel="noopener noreferrer" class="inline-block bg-gray-800 hover:bg-gray-700 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
-                            Support us on Ko-fi
+                        <p class="text-gray-300">Your support helps us keep the music flowing. ❤️</p>
+                        <a href="[REPLACE_WITH_YOUR_DONATION_PAGE_URL]" target="_blank" rel="noopener noreferrer" class="inline-block bg-gray-800 hover:bg-gray-700 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                            Support the Station
                         </a>
                     </div>
                 `
             }
         ];
         
-        // `onboardingSteps`: An array of objects defining the steps for the user tour. Each object includes styles for the highlight and tooltip, and the text content.
+        // Onboarding tour steps.
         const onboardingSteps = [
             { // Dummy step 0
                 highlightStyle: {}, tooltipStyle: {}, title: '', text: ''
@@ -238,7 +228,7 @@
             { // Step 1: Menu
                 highlightStyle: { top: '1rem', left: '1rem', width: '4rem', height: '4rem', borderRadius: '50%' },
                 tooltipStyle: { top: '6rem', left: '1rem' },
-                title: 'Welcome to radiomore.love!',
+                title: 'Welcome!',
                 text: 'This is the menu button. Click it to navigate through different sections like our social feeds, info about the app, and more.'
             },
             { // Step 2: Chat
@@ -255,10 +245,15 @@
             }
         ];
 
-        // ASYNCHRONOUS FUNCTIONS: Handles interactions with external APIs.
-        // Fetches the current playing song data from the API. It uses a timeout to schedule the next fetch based on the remaining time of the current song, creating a polling mechanism.
+        // ASYNCHRONOUS FUNCTIONS
         const fetchNowPlaying = async () => {
             try {
+                // If the API URL is still a placeholder, don't fetch.
+                if (apiUrl.startsWith('[REPLACE')) {
+                    console.warn("Now Playing API URL is not configured.");
+                    setNowPlaying({ now_playing: { song: { title: 'Station Offline', artist: 'Please configure API URL', art: logoUrl } } });
+                    return;
+                }
                 const response = await fetch(apiUrl);
                 if (!response.ok) {
                     throw new Error(`NowPlaying API error! status: ${response.status}`);
@@ -279,32 +274,25 @@
             }
         };
 
-        // SIDE EFFECTS: `useEffect` hooks run code in response to component lifecycle events (mount, update, unmount) or state changes.
-
-        // Effect for the radiohost.cloud promo banner.
+        // SIDE EFFECTS: `useEffect` hooks
+        
+        // Promo banner effect.
         useEffect(() => {
             const showPromo = () => {
-                setPromoState('showing'); // Trigger fade-in
+                setPromoState('showing');
                 setTimeout(() => {
-                    setPromoState('hiding'); // Trigger fade-out
-                }, 7000); // Stay visible for 7 seconds
+                    setPromoState('hiding');
+                }, 7000);
             };
-
-            // Initial display after 10 seconds to let the app load
             const initialTimeout = setTimeout(showPromo, 10000);
-
-            // Set up the interval for every 1 minute
             const promoInterval = setInterval(showPromo, 60000);
-
-            // Cleanup function to prevent memory leaks
             return () => {
                 clearTimeout(initialTimeout);
                 clearInterval(promoInterval);
             };
         }, []);
         
-        // Effect to check if the user has completed onboarding before. If not, it shows the onboarding tour after a delay.
-        // Runs only once when the component mounts, due to the empty dependency array `[]`.
+        // Onboarding effect.
         useEffect(() => {
             const hasOnboarded = localStorage.getItem('hasCompletedOnboarding');
             if (!hasOnboarded) {
@@ -315,47 +303,33 @@
             }
         }, []);
 
-        // Effect for the initial player card flip animation on component mount.
-        // It flips the card to show "AI-Generated Music" info, then flips it back.
+        // Initial player card flip animation.
         useEffect(() => {
             const initialContent = (
                 <div className="text-gray-200 text-center space-y-3 px-2">
-                    <p className="text-xl font-bold">AI-Generated Music</p>
-                    <p className="text-base">All music is copyright-free.</p>
-                    <p className="text-sm pt-2">Play publicly without fees or restrictions. Perfect for your business!</p>
+                    <p className="text-xl font-bold">Welcome!</p>
+                    <p className="text-base">Thanks for tuning in.</p>
+                    <p className="text-sm pt-2">Your 24/7 soundtrack starts now. Enjoy the music!</p>
                 </div>
             );
             setBacksideContent(initialContent);
-
-            const flipTimer = setTimeout(() => {
-                setIsPlayerFlipped(true);
-            }, 2000);
-
-            const flipBackTimer = setTimeout(() => {
-                setIsPlayerFlipped(false);
-            }, 8000);
-
-            // Cleanup function: clears timeouts if the component unmounts.
+            const flipTimer = setTimeout(() => setIsPlayerFlipped(true), 2000);
+            const flipBackTimer = setTimeout(() => setIsPlayerFlipped(false), 8000);
             return () => {
                 clearTimeout(flipTimer);
                 clearTimeout(flipBackTimer);
             };
         }, []);
 
-        // Effect to fetch initial data and manage the initial state of the menu.
-        // It calls `fetchNowPlaying` and sets a timer to auto-open the menu for discovery.
+        // Initial data fetch and menu auto-open.
         useEffect(() => {
           fetchNowPlaying();
-
           const openTimer = setTimeout(() => {
             setIsMenuOpen(true);
-             // On mobile devices, set a timer to automatically close the menu after 5 seconds of inactivity.
             if (window.innerWidth < 768) {
                 autoCloseTimerRef.current = setTimeout(() => setIsMenuOpen(false), 5000);
             }
           }, 8000);
-
-          // Cleanup function: clears all timers when the component unmounts to prevent memory leaks.
           return () => {
             clearTimeout(openTimer);
             if (autoCloseTimerRef.current) clearTimeout(autoCloseTimerRef.current);
@@ -363,66 +337,45 @@
           };
         }, []);
         
-        // Effect to trigger a player card flip animation whenever the song title changes.
-        // This is used to display an "advertisement" on the back of the card between songs.
-        // It depends on `nowPlaying?.now_playing?.song?.title`, so it re-runs when the song changes.
+        // Flip player card on song change to show an "advertisement".
         useEffect(() => {
             if (!nowPlaying || isInitialSongLoad.current) {
                 if (nowPlaying) isInitialSongLoad.current = false;
                 return;
             }
-
-            if (flipTimeoutRef.current) {
-                clearTimeout(flipTimeoutRef.current);
-            }
+            if (flipTimeoutRef.current) clearTimeout(flipTimeoutRef.current);
 
             const adContent = (
                 <div className="text-gray-200 text-center space-y-3">
-                    <p className="text-xl font-bold">Your Ad Here?</p>
-                    <p className="text-base">It's completely free!</p>
-                    <p className="text-sm pt-2">Your advertisement will appear right in this spot. Contact us to learn more:</p>
-                    <a href="mailto:hi@radiomore.love" className="text-gray-300 hover:text-white hover:underline font-semibold break-all">hi@radiomore.love</a>
+                    <p className="text-xl font-bold">Want to advertise here?</p>
+                    <p className="text-base">It can be free!</p>
+                    <p className="text-sm pt-2">Contact us to learn more about our promotional opportunities:</p>
+                    <a href="mailto:[REPLACE_WITH_YOUR_CONTACT_EMAIL]" className="text-gray-300 hover:text-white hover:underline font-semibold break-all">[REPLACE_WITH_YOUR_CONTACT_EMAIL]</a>
                 </div>
             );
             
             flipTimeoutRef.current = setTimeout(() => {
                 setBacksideContent(adContent);
                 setIsPlayerFlipped(true);
-
-                flipTimeoutRef.current = setTimeout(() => {
-                    setIsPlayerFlipped(false);
-                }, 5000);
+                flipTimeoutRef.current = setTimeout(() => setIsPlayerFlipped(false), 5000);
             }, 3000);
 
-            return () => {
-                if (flipTimeoutRef.current) {
-                    clearTimeout(flipTimeoutRef.current);
-                }
-            };
+            return () => { if (flipTimeoutRef.current) clearTimeout(flipTimeoutRef.current); };
         }, [nowPlaying?.now_playing?.song?.title]);
 
-        // Effect to handle the Progressive Web App (PWA) installation prompt.
-        // It listens for the 'beforeinstallprompt' event and shows a custom install banner.
+        // PWA install prompt handler.
         useEffect(() => {
-            const beforeInstallHandler = (e) => {
-                e.preventDefault();
-                setDeferredInstallPrompt(e);
-            };
+            const beforeInstallHandler = (e) => { e.preventDefault(); setDeferredInstallPrompt(e); };
             window.addEventListener('beforeinstallprompt', beforeInstallHandler);
-
             const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
             const isInStandaloneMode = window.matchMedia('(display-mode: standalone)').matches;
             const hasDismissed = localStorage.getItem('installPromptDismissed') === 'true';
-
             if (isMobile && !isInStandaloneMode && !hasDismissed) {
                 installPromptTimers.current.show = setTimeout(() => {
                     setShowInstallPrompt(true);
-                    installPromptTimers.current.hide = setTimeout(() => {
-                        setShowInstallPrompt(false);
-                    }, 5000);
+                    installPromptTimers.current.hide = setTimeout(() => setShowInstallPrompt(false), 5000);
                 }, 2000);
             }
-
             return () => {
                 window.removeEventListener('beforeinstallprompt', beforeInstallHandler);
                 clearTimeout(installPromptTimers.current.show);
@@ -430,109 +383,76 @@
             };
         }, []);
 
-        // Effect to disable the right-click context menu and common developer tools keyboard shortcuts.
-        // This is a simple measure to discourage inspection of the page source.
+        // Disable right-click and dev tools shortcuts.
         useEffect(() => {
             const handleContextMenu = (e) => e.preventDefault();
             const handleKeyDown = (e) => {
-                if (
-                    e.key === 'F12' ||
-                    (e.ctrlKey && e.shiftKey && ['I', 'J', 'C'].includes(e.key.toUpperCase())) ||
-                    (e.metaKey && e.altKey && ['I', 'J', 'C'].includes(e.key.toUpperCase())) ||
-                    (e.ctrlKey && e.key.toUpperCase() === 'U') ||
-                    (e.metaKey && e.key.toUpperCase() === 'U')
-                ) {
+                if ( e.key === 'F12' || (e.ctrlKey && e.shiftKey && ['I', 'J', 'C'].includes(e.key.toUpperCase())) || (e.metaKey && e.altKey && ['I', 'J', 'C'].includes(e.key.toUpperCase())) || (e.ctrlKey && e.key.toUpperCase() === 'U') || (e.metaKey && e.key.toUpperCase() === 'U') ) {
                     e.preventDefault();
                 }
             };
-
             document.addEventListener('contextmenu', handleContextMenu);
             document.addEventListener('keydown', handleKeyDown);
-
             return () => {
                 document.removeEventListener('contextmenu', handleContextMenu);
                 document.removeEventListener('keydown', handleKeyDown);
             };
         }, []);
 
-        // Effect to ensure the background video is always playing.
-        // Some browsers pause videos for power-saving reasons, so this checks periodically and restarts it.
+        // Ensure background video is always playing.
         useEffect(() => {
             const videoElement = videoRef.current;
             if (!videoElement) return;
-
-            const intervalId = setInterval(() => {
-                if (videoElement.paused) {
-                    videoElement.play().catch(() => {});
-                }
-            }, 1000);
-
+            const intervalId = setInterval(() => { if (videoElement.paused) videoElement.play().catch(() => {}); }, 1000);
             videoElement.play().catch(() => {});
-
             return () => clearInterval(intervalId);
         }, []);
         
-        // Effect to set up the HLS.js player for the audio stream.
-        // It checks if HLS is supported and initializes the player, attaching it to the <audio> element.
-        // It includes basic error handling to recover from network or media errors.
+        // HLS.js player setup.
         useEffect(() => {
             const audio = audioRef.current;
-            if (!audio) return;
-            
+            if (!audio || streamAudioUrl.startsWith('[REPLACE')) return;
             let hls;
-
             if (Hls.isSupported()) {
                 hls = new Hls();
                 hls.loadSource(streamAudioUrl);
                 hls.attachMedia(audio);
                 hls.on(Hls.Events.ERROR, function (event, data) {
                     if (data.fatal) {
-                        console.error('HLS.js fatal error:', data);
                         switch(data.type) {
-                            case Hls.ErrorTypes.NETWORK_ERROR:
-                                hls.startLoad();
-                                break;
-                            case Hls.ErrorTypes.MEDIA_ERROR:
-                                hls.recoverMediaError();
-                                break;
-                            default:
-                                hls.destroy();
-                                break;
+                            case Hls.ErrorTypes.NETWORK_ERROR: hls.startLoad(); break;
+                            case Hls.ErrorTypes.MEDIA_ERROR: hls.recoverMediaError(); break;
+                            default: hls.destroy(); break;
                         }
                     }
                 });
             } else if (audio.canPlayType('application/vnd.apple.mpegurl')) {
-                audio.src = streamAudioUrl; // Fallback for native HLS support (like Safari).
+                audio.src = streamAudioUrl;
             }
-
-            return () => {
-                if (hls) {
-                    hls.destroy(); // Clean up the HLS instance on unmount.
-                }
-            };
+            return () => { if (hls) hls.destroy(); };
         }, []);
 
-        // Effect to fetch the text for the scrolling ticker from an external file.
-        // It includes a fallback text in case the fetch fails.
+        // Fetch ticker text.
         useEffect(() => {
           const fetchTickerText = async () => {
             try {
+              if (feedUrl.startsWith('[REPLACE')) {
+                  throw new Error("Ticker feed URL not configured.");
+              }
               const response = await fetch(feedUrl);
               if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
               const text = await response.text();
-              setTickerText((text.trim() + '  •  ').repeat(10)); // Repeat for a seamless loop.
+              setTickerText((text.trim() + '  •  ').repeat(10));
             } catch (error)              {
               console.error("Could not fetch ticker text:", error);
-              const fallbackText = 'Welcome to #LLL Radio 🎧  •  Your daily dose of chill beats 🎵, fashion 🕶️, and good vibes ✨  •  Tune in and relax 😌  •  ';
+              const fallbackText = 'Welcome to the Radio 🎧  •  Your daily dose of chill beats 🎵, and good vibes ✨  •  Tune in and relax 😌  •  ';
               setTickerText(fallbackText.repeat(10));
             }
           };
           fetchTickerText();
         }, []);
 
-        // Effect to handle keyboard events (like 'Escape' to close popups) and dynamically load scripts for social feeds.
-        // It adds/removes the 'Escape' key listener based on whether a modal is open.
-        // It also injects Curator.io scripts when their respective popups are opened and removes them on close to keep the DOM clean.
+        // Handle popup scripts and keyboard events.
         useEffect(() => {
             const handleKeyDown = (event) => {
                 if (event.key === 'Escape') {
@@ -543,45 +463,41 @@
             };
 
             const SCRIPT_ID_IG = 'curator-io-script-ig', SCRIPT_ID_X = 'curator-io-script-x', SCRIPT_ID_YT = 'curator-io-script-yt';
-
-            if (isPopupOpen || isFullScreen || isAvatarModalOpen) {
-                window.addEventListener('keydown', handleKeyDown);
-            }
+            if (isPopupOpen || isFullScreen || isAvatarModalOpen) window.addEventListener('keydown', handleKeyDown);
 
             if (isPopupOpen) {
-                const createScript = (id, src) => {
-                    if (document.getElementById(id)) return;
-                    const script = document.createElement('script');
-                    script.id = id; script.src = src; script.async = true; script.charset = "UTF-8";
-                    document.body.appendChild(script);
+                // **ACTION REQUIRED**: If you use Curator.io, replace the placeholders below with your feed IDs.
+                const curatorFeedIds = {
+                    Instagram: "[REPLACE_WITH_YOUR_CURATOR_IO_INSTAGRAM_FEED_ID]",
+                    X: "[REPLACE_WITH_YOUR_CURATOR_IO_X_FEED_ID]",
+                    YouTube: "[REPLACE_WITH_YOUR_CURATOR_IO_YOUTUBE_FEED_ID]",
                 };
 
-                if (popupTitle === 'Instagram') createScript(SCRIPT_ID_IG, "https://cdn.curator.io/published/42c1c4cc-219e-4927-a74b-9f7c6993aa71.js");
-                if (popupTitle === 'X') createScript(SCRIPT_ID_X, "https://cdn.curator.io/published/6e7130f2-a1be-47ef-98a0-766a31718031.js");
-                if (popupTitle === 'YouTube') createScript(SCRIPT_ID_YT, "https://cdn.curator.io/published/e6d7c0c6-7137-40cf-8645-5d989129622c.js");
+                const createScript = (id, feedId) => {
+                    if (document.getElementById(id) || feedId.startsWith('[REPLACE')) return;
+                    const script = document.createElement('script');
+                    script.id = id; script.src = `https://cdn.curator.io/published/${feedId}.js`; script.async = true; script.charset = "UTF-8";
+                    document.body.appendChild(script);
+                };
+                
+                if (popupTitle === 'Instagram') createScript(SCRIPT_ID_IG, curatorFeedIds.Instagram);
+                if (popupTitle === 'X') createScript(SCRIPT_ID_X, curatorFeedIds.X);
+                if (popupTitle === 'YouTube') createScript(SCRIPT_ID_YT, curatorFeedIds.YouTube);
             }
-
             return () => {
                 window.removeEventListener('keydown', handleKeyDown);
-                if (!isPopupOpen) {
-                    [SCRIPT_ID_IG, SCRIPT_ID_X, SCRIPT_ID_YT].forEach(id => document.getElementById(id)?.remove());
-                }
+                if (!isPopupOpen) [SCRIPT_ID_IG, SCRIPT_ID_X, SCRIPT_ID_YT].forEach(id => document.getElementById(id)?.remove());
             };
         }, [isPopupOpen, popupTitle, isFullScreen, isAvatarModalOpen]);
 
-        // Effect to add a click listener to the avatar in the "About Us" popup.
-        // This is necessary because the popup content is rendered via `dangerouslySetInnerHTML`, so React event handlers can't be used directly.
+        // Add click listener to avatar in "About Us" popup.
         useEffect(() => {
             if (!isPopupOpen || popupTitle !== 'About Us') return;
-            
             const handleAvatarClick = () => { setIsAvatarModalOpen(true); };
-            
-            // A short timeout ensures the content has been rendered to the DOM before trying to find the element.
             const timer = setTimeout(() => {
                 const avatar = document.getElementById('about-us-avatar');
                 if (avatar) avatar.addEventListener('click', handleAvatarClick);
             }, 100);
-
             return () => {
                 clearTimeout(timer);
                 const avatar = document.getElementById('about-us-avatar');
@@ -589,7 +505,7 @@
             };
         }, [isPopupOpen, popupTitle, popupContent]);
         
-        // EVENT HANDLER: Toggles audio play/pause state. Wrapped in `React.useCallback` for optimization, preventing re-creation on every render.
+        // Toggle audio play/pause.
         const togglePlayPause = React.useCallback(() => {
             if (!audioRef.current) return;
             if (audioRef.current.paused) {
@@ -599,36 +515,23 @@
             }
         }, []);
 
-        // Effect for the Media Session API.
-        // This allows the browser/OS to show media controls (e.g., on the lock screen) with the current song info and artwork.
+        // Media Session API for OS-level media controls.
         useEffect(() => {
-            if (!('mediaSession' in navigator)) {
-                return;
-            }
-
-            if (nowPlaying) {
-                const { song } = nowPlaying.now_playing;
-                navigator.mediaSession.metadata = new MediaMetadata({
-                    title: song.title,
-                    artist: song.artist,
-                    album: 'radiomore.love',
-                    artwork: [{ src: song.art }],
-                });
-            }
-            
+            if (!('mediaSession' in navigator) || !nowPlaying) return;
+            const { song } = nowPlaying.now_playing;
+            navigator.mediaSession.metadata = new MediaMetadata({
+                title: song.title,
+                artist: song.artist,
+                album: '[Your Station Name]', // **ACTION REQUIRED**: Update with your station name
+                artwork: [{ src: song.art }],
+            });
             navigator.mediaSession.setActionHandler('play', togglePlayPause);
             navigator.mediaSession.setActionHandler('pause', togglePlayPause);
-            
-            try {
-                navigator.mediaSession.playbackState = isPlaying ? 'playing' : 'paused';
-            } catch (error) {
-                console.warn('Could not set media session playback state.', error);
-            }
-
+            try { navigator.mediaSession.playbackState = isPlaying ? 'playing' : 'paused'; } 
+            catch (error) { console.warn('Could not set media session playback state.', error); }
         }, [nowPlaying, isPlaying, togglePlayPause]);
 
-        // `useLayoutEffect` runs synchronously after all DOM mutations. It's used here to measure the ticker text width
-        // and set the CSS animation duration precisely, ensuring a smooth, consistent scroll speed regardless of text length.
+        // `useLayoutEffect` to calculate ticker animation speed.
         useLayoutEffect(() => {
             if (tickerContainerRef.current && textRef.current) {
                 const textWidth = textRef.current.offsetWidth;
@@ -640,75 +543,42 @@
             }
         }, [tickerText]);
 
-        // Effect to fix the '100vh' issue on mobile browsers where the address bar affects the viewport height.
-        // It calculates the actual inner height and sets it as a CSS custom property (`--vh`).
+        // Fix for '100vh' on mobile browsers.
         useEffect(() => {
-            const setVh = () => {
-                document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
-            };
+            const setVh = () => document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
             setVh();
             window.addEventListener('resize', setVh);
             return () => window.removeEventListener('resize', setVh);
         }, []);
         
-        // EVENT HANDLERS for the onboarding tour.
+        // EVENT HANDLERS for onboarding.
         const handleNextOnboardingStep = () => {
             if (onboardingStep < 3) {
                 if (isInitialOnboarding) setIsInitialOnboarding(false);
                 const nextStep = onboardingStep + 1;
-                setIsOnboardingStepFading(true); // Trigger fade out
-
-                setTimeout(() => {
-                    setOnboardingStep(nextStep);
-                    setIsOnboardingStepFading(false); // Trigger fade in
-                }, 500);
+                setIsOnboardingStepFading(true);
+                setTimeout(() => { setOnboardingStep(nextStep); setIsOnboardingStepFading(false); }, 500);
             } else {
-                handleSkipOnboarding(); // Last step becomes "Finish"
+                handleSkipOnboarding();
             }
         };
+        const handleSkipOnboarding = () => { setShowOnboarding(false); setOnboardingStep(0); localStorage.setItem('hasCompletedOnboarding', 'true'); };
 
-        const handleSkipOnboarding = () => {
-            setShowOnboarding(false);
-            setOnboardingStep(0);
-            localStorage.setItem('hasCompletedOnboarding', 'true'); // Persist completion state.
-        };
-
-        // EVENT HANDLER: Toggles the main navigation menu.
-        // It manages timers for auto-closing on mobile and handles the click-to-pin logic on desktop.
+        // EVENT HANDLER: Toggle menu.
         const toggleMenu = (e) => {
-            e.stopPropagation(); // Prevent the click from bubbling up to the main container's onClick.
-            if (autoCloseTimerRef.current) {
-              clearTimeout(autoCloseTimerRef.current);
-              autoCloseTimerRef.current = null;
-            }
-            
+            e.stopPropagation();
+            if (autoCloseTimerRef.current) { clearTimeout(autoCloseTimerRef.current); autoCloseTimerRef.current = null; }
             const nextIsOpen = !isMenuOpen;
             setIsMenuOpen(nextIsOpen);
-
-            if (nextIsOpen && window.innerWidth < 768) {
-                autoCloseTimerRef.current = setTimeout(() => {
-                    setIsMenuOpen(false);
-                }, 5000);
-            }
-            
+            if (nextIsOpen && window.innerWidth < 768) autoCloseTimerRef.current = setTimeout(() => setIsMenuOpen(false), 5000);
             menuClickIntentRef.current = nextIsOpen;
         };
 
-        // EVENT HANDLER: Manages clicks on menu items.
-        // It opens external links in a new tab or fetches content and displays it in a popup.
+        // EVENT HANDLER: Click menu item.
         const handleMenuItemClick = async (item) => {
-            if (item.url) {
-                window.open(item.url, '_blank', 'noopener,noreferrer');
-                setIsMenuOpen(false);
-                return;
-            }
-
-            if (autoCloseTimerRef.current) {
-              clearTimeout(autoCloseTimerRef.current);
-              autoCloseTimerRef.current = null;
-            }
+            if (item.url) { window.open(item.url, '_blank', 'noopener,noreferrer'); setIsMenuOpen(false); return; }
+            if (autoCloseTimerRef.current) { clearTimeout(autoCloseTimerRef.current); autoCloseTimerRef.current = null; }
             menuClickIntentRef.current = false;
-        
             setPopupTitle(item.name);
             setPopupIcon(item.icon);
             setIsPopupOpen(true);
@@ -717,33 +587,23 @@
             if (item.contentUrl) {
               setPopupContent('<p class="text-center text-gray-400">Loading...</p>');
               try {
+                if (item.contentUrl.startsWith('[REPLACE')) throw new Error("Content URL is not configured.");
                 const response = await fetch(item.contentUrl);
                 if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
                 const text = await response.text();
                 
-                // Helper function to convert URLs in text to clickable links.
-                const linkify = (line) => {
-                    const urlPattern = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])|(\bwww\.[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
-                    return line.replace(urlPattern, (url) => {
-                        const fullUrl = url.startsWith('www.') ? `http://${url}` : url;
-                        return `<a href="${fullUrl}" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-white underline break-all">${url}</a>`;
-                    });
-                };
+                const linkify = (line) => line.replace(/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])|(\bwww\.[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig, (url) => `<a href="${url.startsWith('www.') ? `http://${url}` : url}" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-white underline break-all">${url}</a>`);
+                let htmlContent = text.split('\n').filter(line => line.trim() !== '').map(line => `<p class="mb-2">${linkify(line)}</p>`).join('');
 
-                let htmlContent = text.split('\n')
-                                        .filter(line => line.trim() !== '')
-                                        .map(line => `<p class="mb-2">${linkify(line)}</p>`)
-                                        .join('');
-
-                // Special handling for the "About Us" section to add an avatar and extra info.
+                // **ACTION REQUIRED**: Customize the "About Us" section here.
                 if (item.name === 'About Us') {
-                    const avatarHtml = `<div class="text-center"><img id="about-us-avatar" src="https://cdn.jsdelivr.net/gh/radiohost-cloud/radiomorelove@main/me.JPG" class="w-24 h-24 rounded-full mx-auto mb-4 cursor-pointer hover:scale-105 transition-transform duration-300" alt="About Us Avatar" /></div>`;
+                    const avatarHtml = `<div class="text-center"><img id="about-us-avatar" src="[REPLACE_WITH_YOUR_AVATAR_IMAGE_URL.jpg]" class="w-24 h-24 rounded-full mx-auto mb-4 cursor-pointer hover:scale-105 transition-transform duration-300" alt="About Us Avatar" /></div>`;
                     htmlContent = avatarHtml + htmlContent;
 
                     htmlContent += `<div class="border-t border-gray-700 pt-4 mt-4 text-center">
                         <p class="text-white/80 text-sm flex items-center justify-center">
-                            <span>Music on air is AI-generated</span>
-                            <a href="https://open.spotify.com/artist/41E9IlYbyBT0GaOwEYkGVM" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-white transition-colors ml-2 flex items-center justify-center" aria-label="Listen on Spotify">
+                            <span>Music from [Your Music Source]</span>
+                            <a href="[REPLACE_WITH_YOUR_MUSIC_SOURCE_LINK]" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-white transition-colors ml-2 flex items-center justify-center" aria-label="Listen on Spotify">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 496 512"><path d="M248 8C111.1 8 0 119.1 0 256s111.1 248 248 248 248-111.1 248-248S384.9 8 248 8zm100.7 364.9c-2.1 3.9-6.3 5.1-10.2 2.9-33.3-19.3-74.5-23.7-124.5-12.9-4.3 .9-8.4-1.1-9.3-5.4s1.1-8.4 5.4-9.3c53.9-11.6 98.7-6.8 135.8 14.1 4.1 2.3 5.4 6.9 3.1 10.6zm13.5-44.5c-2.7 4.9-8.3 6.3-13.2 3.6-40.3-23.1-104.3-29.6-146.8-16.3-5.1 1.6-10.4-1.5-12-6.6s1.5-10.4 6.6-12c48.1-14.6 117.8-7.5 163.4 18.4 4.9 2.8 6.3 8.8 3.5 13.5zm.1-49.7c-3.2 5.9-9.8 7.8-15.7 4.6-45.4-26.4-121.2-32.2-169.4-17.8-6.1 1.8-12.2-1.8-14-7.9s1.8-12.2 7.9-14c53.6-15.8 135.8-9.5 187.1 19.8 5.9 3.2 7.8 9.9 4.6 15.8z"/></svg>
                             </a>
                         </p>
@@ -755,12 +615,11 @@
                 setPopupContent('<p class="text-center text-gray-400 font-semibold">Could not load content. Please try again later.</p>');
               }
             } else {
-              setPopupContent(item.content); // Use direct HTML content if no URL is provided.
+              setPopupContent(item.content);
             }
         };
 
-        // EVENT HANDLER: Handles the "Install" button click.
-        // It triggers the saved PWA prompt or shows manual instructions for iOS/other browsers.
+        // EVENT HANDLER: PWA install prompt.
         const handleInstallClick = async () => {
             setShowInstallPrompt(false);
             if (deferredInstallPrompt) {
@@ -769,92 +628,45 @@
                 setDeferredInstallPrompt(null);
             } else {
                 const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-                if (isIOS) {
-                    setShowIosInstructions(true);
-                } else {
-                    setShowGenericInstructions(true);
-                }
+                if (isIOS) setShowIosInstructions(true);
+                else setShowGenericInstructions(true);
             }
         };
+        const handleDismissInstall = () => { setShowInstallPrompt(false); localStorage.setItem('installPromptDismissed', 'true'); };
 
-        // EVENT HANDLER: Dismisses the install prompt and saves the preference to avoid showing it again.
-        const handleDismissInstall = () => {
-            setShowInstallPrompt(false);
-            localStorage.setItem('installPromptDismissed', 'true');
-        };
-
-        // RENDER LOGIC: Sorts menu items into a predefined order for consistent display.
+        // RENDER LOGIC
         const menuItemsToRender = menuItems.sort((a, b) => {
-          const order = ['Spotify', 'X', 'Instagram', 'YouTube', 'Blog', 'App', 'About Us', 'Ko-fi'];
+          const order = ['Spotify', 'X', 'Instagram', 'YouTube', 'Blog', 'App', 'About Us', 'Support'];
           return order.indexOf(a.name) - order.indexOf(b.name);
         });
-        
-        // RENDER LOGIC: Dynamically applies transition classes for the onboarding tour.
-        const onboardingTransitionClass = isInitialOnboarding
-          ? 'transition-all duration-700 ease-in-out' // Initial slide-in animation.
-          : 'transition-opacity duration-500 ease-in-out'; // Subsequent fade animations.
+        const onboardingTransitionClass = isInitialOnboarding ? 'transition-all duration-700 ease-in-out' : 'transition-opacity duration-500 ease-in-out';
 
-        // JSX RENDER METHOD: This is the declarative UI structure of the component.
-        // It describes what the UI should look like based on the current state.
+        // JSX RENDER METHOD
         return (
           <React.Fragment>
-            {/* Main application container */}
             <div 
               className={`relative w-screen h-screen-dynamic bg-black overflow-hidden transition-transform duration-500 ease-in-out ${showInstallPrompt ? '-translate-y-[80px]' : 'translate-y-0'}`}
-              onClick={() => {
-              // This onClick handler closes the menu if the user clicks outside of it.
-              if (isMenuOpen) {
-                if (autoCloseTimerRef.current) clearTimeout(autoCloseTimerRef.current);
-                autoCloseTimerRef.current = null;
-                menuClickIntentRef.current = false;
-                setIsMenuOpen(false);
-              }
-            }}>
-              {/* Background video element */}
-              <video 
-                ref={videoRef}
-                autoPlay 
-                loop 
-                muted 
-                playsInline
-                className="absolute top-0 left-0 w-full h-full object-cover"
-                src={backgroundVideoUrl}
-              ></video>
+              onClick={() => { if (isMenuOpen) { if (autoCloseTimerRef.current) clearTimeout(autoCloseTimerRef.current); autoCloseTimerRef.current = null; menuClickIntentRef.current = false; setIsMenuOpen(false); } }}>
               
-              {/* Semi-transparent overlay on top of the video to improve text readability */}
+              <video ref={videoRef} autoPlay loop muted playsInline className="absolute top-0 left-0 w-full h-full object-cover" src={backgroundVideoUrl}></video>
               <div className="absolute inset-0 bg-black/50"></div>
 
-              {/* Header section containing logo, ticker, and navigation */}
               <header 
                   className={`absolute top-4 left-4 right-4 h-16 bg-black/80 backdrop-blur-sm rounded-full flex items-center z-40 shadow-lg transition-opacity duration-500 ${isFullScreen ? 'opacity-0 pointer-events-none' : ''}`}
-                  // Desktop hover events to open/close the menu
-                  onMouseEnter={() => {
-                      if (window.innerWidth >= 768) {
-                          if (autoCloseTimerRef.current) clearTimeout(autoCloseTimerRef.current);
-                          autoCloseTimerRef.current = null;
-                          setIsMenuOpen(true);
-                      }
-                  }}
-                  onMouseLeave={() => {
-                      if (window.innerWidth >= 768 && !menuClickIntentRef.current) setIsMenuOpen(false);
-                  }}
+                  onMouseEnter={() => { if (window.innerWidth >= 768) { if (autoCloseTimerRef.current) clearTimeout(autoCloseTimerRef.current); autoCloseTimerRef.current = null; setIsMenuOpen(true); } }}
+                  onMouseLeave={() => { if (window.innerWidth >= 768 && !menuClickIntentRef.current) setIsMenuOpen(false); }}
               >
-                  {/* Logo and Menu Toggle Button */}
                   <div className="flex-shrink-0 w-16 h-16 z-20">
                       <button onClick={toggleMenu} className="relative w-16 h-16 rounded-full p-0 border-0 bg-transparent cursor-pointer" aria-label="Toggle navigation menu" aria-haspopup="true" aria-expanded={isMenuOpen}>
-                          <img src={logoUrl} alt="RadioHost Logo" className={`w-full h-full rounded-full object-cover transition-transform duration-300 hover:scale-110 ${isPlaying ? 'logo-spinning' : ''}`} width="64" height="64" />
+                          <img src={logoUrl} alt="Station Logo" className={`w-full h-full rounded-full object-cover transition-transform duration-300 hover:scale-110 ${isPlaying ? 'logo-spinning' : ''}`} width="64" height="64" />
                       </button>
                   </div>
-
-                  {/* Scrolling Text Ticker */}
                   <div className="flex-grow h-full relative overflow-hidden ticker-mask">
                       <div ref={tickerContainerRef} className="absolute top-0 left-0 h-full flex items-center animate-marquee">
                           <p ref={textRef} className="text-gray-200 text-lg whitespace-nowrap px-8">{tickerText}</p>
-                          <p className="text-gray-200 text-lg whitespace-nowrap px-8" aria-hidden="true">{tickerText}</p> {/* Duplicate for seamless loop */}
+                          <p className="text-gray-200 text-lg whitespace-nowrap px-8" aria-hidden="true">{tickerText}</p>
                       </div>
                   </div>
-
-                  {/* Navigation Menu */}
                   <nav onClick={(e) => e.stopPropagation()} aria-label="Main navigation" className={`absolute ${isMenuOpen ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'} transition-opacity duration-[1100ms] md:opacity-100 md:pointer-events-auto top-0 left-0 w-full h-full rounded-full bg-black/90 backdrop-blur-sm z-10 md:top-full md:left-0 md:w-16 md:h-auto md:bg-transparent md:backdrop-blur-none md:z-auto md:mt-2 md:rounded-lg`}>
                       <ul className="list-none m-0 p-0 h-full flex flex-row items-center justify-around pl-20 pr-16 md:justify-start md:pl-0 md:pr-0 md:flex-col md:items-center md:gap-2 md:h-auto">
                           {menuItemsToRender.map((item, index) => (
@@ -862,10 +674,10 @@
                                   <button
                                       onClick={() => handleMenuItemClick(item)}
                                       className={`w-9 h-9 md:w-16 md:h-16 bg-black text-white rounded-full flex items-center justify-center md:shadow-lg hover:bg-white hover:text-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-gray-400 transition-all duration-500 ease-out ${isMenuOpen ? 'opacity-100 translate-x-0 md:translate-y-0' : 'opacity-0 -translate-x-4 md:-translate-y-4'}`}
-                                      style={{ transitionDelay: isMenuOpen ? `${index * 80}ms` : `${(menuItemsToRender.length - 1 - index) * 80}ms` }} // Staggered animation
+                                      style={{ transitionDelay: isMenuOpen ? `${index * 80}ms` : `${(menuItemsToRender.length - 1 - index) * 80}ms` }}
                                       tabIndex={isMenuOpen ? 0 : -1}
                                       aria-label={item.name}
-                                      dangerouslySetInnerHTML={{ __html: item.icon }} // Renders the SVG string as HTML
+                                      dangerouslySetInnerHTML={{ __html: item.icon }}
                                   ></button>
                               </li>
                           ))}
@@ -873,70 +685,38 @@
                   </nav>
               </header>
               
-              {/* The hidden HTML audio element that plays the radio stream */}
               <audio ref={audioRef} preload="auto" onPlay={() => setIsPlaying(true)} onPause={() => setIsPlaying(false)}></audio>
               
-              {/* Main Music Player Component */}
               <div className={`fixed z-30 [perspective:1000px] ${isFullScreen ? 'inset-0 flex items-center justify-center p-4' : 'top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-xs'}`}>
                 {nowPlaying ? (
-                  // The container for the 3D flip animation
-                  <div
-                    className={`relative transition-transform duration-1000 transform-style-3d ${isPlayerFlipped ? 'rotate-y-180' : ''}`}
-                  >
-                    {/* Front Face of the Player Card: Shows song info and controls */}
+                  <div className={`relative transition-transform duration-1000 transform-style-3d ${isPlayerFlipped ? 'rotate-y-180' : ''}`}>
                     <div className={`relative bg-black/70 backdrop-blur-lg shadow-2xl p-6 flex flex-col items-center gap-4 text-center backface-hidden ${isFullScreen ? 'h-auto justify-center rounded-3xl pt-16 md:px-12 md:pb-12 md:pt-20' : 'rounded-3xl'}`}>
                       {isFullScreen && (
-                          <button 
-                            onClick={() => setIsFullScreen(false)}
-                            className="absolute top-4 right-4 text-white bg-white/10 rounded-full p-2 hover:bg-white/20 transition-colors z-50"
-                            aria-label="Exit Full Screen"
-                          >
+                          <button onClick={() => setIsFullScreen(false)} className="absolute top-4 right-4 text-white bg-white/10 rounded-full p-2 hover:bg-white/20 transition-colors z-50" aria-label="Exit Full Screen">
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
                           </button>
                       )}
-                      <img 
-                        src={nowPlaying.now_playing.song.art} 
-                        alt={nowPlaying.now_playing.song.album} 
-                        className={`object-cover shadow-lg ${isFullScreen ? 'w-[70vmin] h-[70vmin] md:w-96 md:h-96 rounded-3xl' : 'w-56 h-56 rounded-2xl'}`}
-                        width="224"
-                        height="224"
-                        fetchpriority="high"
-                        decoding="async"
-                      />
+                      <img src={nowPlaying.now_playing.song.art} alt={nowPlaying.now_playing.song.album} className={`object-cover shadow-lg ${isFullScreen ? 'w-[70vmin] h-[70vmin] md:w-96 md:h-96 rounded-3xl' : 'w-56 h-56 rounded-2xl'}`} width="224" height="224" fetchpriority="high" decoding="async" />
                       <div className={`w-full overflow-hidden ${isFullScreen ? 'mt-6' : 'mt-2'}`}>
                         <p className={`text-white font-bold truncate ${isFullScreen ? 'text-3xl' : 'text-xl'}`}>{nowPlaying.now_playing.song.title}</p>
                         <p className={`text-gray-300 mt-1 truncate ${isFullScreen ? 'text-lg mt-2' : 'text-base mt-1'}`}>{nowPlaying.now_playing.song.artist}</p>
                       </div>
                       <div className={`flex items-center justify-center gap-6 ${isFullScreen ? 'mt-8' : 'mt-2'}`}>
-                          <button 
-                            onClick={togglePlayPause} 
-                            className="w-16 h-16 bg-white/20 text-white rounded-full flex items-center justify-center hover:bg-white/30 transition-all duration-300 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-white/50"
-                            aria-label={isPlaying ? "Pause" : "Play"}
-                          >
-                            {isPlaying ? (
-                              <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
-                            ) : (
-                              <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                            )}
+                          <button onClick={togglePlayPause} className="w-16 h-16 bg-white/20 text-white rounded-full flex items-center justify-center hover:bg-white/30 transition-all duration-300 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-white/50" aria-label={isPlaying ? "Pause" : "Play"}>
+                            {isPlaying ? ( <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg> ) : ( <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> )}
                           </button>
                           {!isFullScreen && (
-                              <button
-                                  onClick={() => setIsFullScreen(true)}
-                                  className="w-16 h-16 bg-white/20 text-white rounded-full flex items-center justify-center hover:bg-white/30 transition-all duration-300 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-white/50"
-                                  aria-label="Full Screen"
-                              >
+                              <button onClick={() => setIsFullScreen(true)} className="w-16 h-16 bg-white/20 text-white rounded-full flex items-center justify-center hover:bg-white/30 transition-all duration-300 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-white/50" aria-label="Full Screen">
                                   <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4 8V4h4m12 4V4h-4M4 16v4h4m12-4v4h-4" /></svg>
                               </button>
                           )}
                       </div>
                     </div>
-                    {/* Back Face of the Player Card: Shows informational or ad content */}
                     <div className={`absolute top-0 left-0 w-full h-full bg-black/70 backdrop-blur-lg shadow-2xl p-6 flex flex-col items-center justify-center text-center backface-hidden [transform:rotateY(180deg)] ${isFullScreen ? 'rounded-3xl md:px-12 md:pb-12 md:pt-20' : 'rounded-3xl'}`}>
                       {backsideContent}
                     </div>
                   </div>
                 ) : (
-                  // Loading Skeleton: A placeholder UI shown while `nowPlaying` data is being fetched.
                   <div className="bg-black/70 backdrop-blur-lg rounded-3xl shadow-2xl p-6 flex flex-col items-center gap-4 text-center h-[416px] justify-center">
                       <div className="w-56 h-56 rounded-2xl bg-gray-800 animate-pulse"></div>
                       <div className="w-4/5 h-6 bg-gray-800 rounded-md animate-pulse mt-2"></div>
@@ -944,157 +724,86 @@
                       <div className="w-16 h-16 mt-2 bg-white/20 rounded-full animate-pulse"></div>
                   </div>
                 )}
-
-                {/* RadioHost.cloud Promo Banner */}
                 {promoState !== 'hidden' && !isFullScreen && (
-                    <div 
-                        className={`absolute top-full left-1/2 -translate-x-1/2 w-max text-center mt-4 pointer-events-none ${promoState === 'showing' ? 'animate-fade-in' : 'animate-fade-out'}`}
-                        onAnimationEnd={() => {
-                            if (promoState === 'hiding') {
-                                setPromoState('hidden');
-                            }
-                        }}
-                    >
-                        <a 
-                            href="https://github.com/radiohost-cloud/radiomorelove" 
-                            target="_blank" 
-                            rel="noopener noreferrer" 
-                            className="text-xs text-white/70 bg-black/40 rounded-full px-3 py-1.5 inline-flex items-center justify-center gap-2 backdrop-blur-sm hover:text-white hover:bg-black/60 transition-colors pointer-events-auto"
-                        >
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="currentColor" viewBox="0 0 16 16">
-                                <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8"/>
-                            </svg>
-                            <span>
-                                View on GitHub
-                            </span>
+                    <div className={`absolute top-full left-1/2 -translate-x-1/2 w-max text-center mt-4 pointer-events-none ${promoState === 'showing' ? 'animate-fade-in' : 'animate-fade-out'}`} onAnimationEnd={() => { if (promoState === 'hiding') setPromoState('hidden'); }}>
+                        <a href="[REPLACE_WITH_YOUR_PROJECT_GITHUB_OR_WEBSITE_URL]" target="_blank" rel="noopener noreferrer" className="text-xs text-white/70 bg-black/40 rounded-full px-3 py-1.5 inline-flex items-center justify-center gap-2 backdrop-blur-sm hover:text-white hover:bg-black/60 transition-colors pointer-events-auto">
+                            <span>Visit our Website</span>
                         </a>
                     </div>
                 )}
               </div>
 
-              {/* Popup/Modal container */}
               {isPopupOpen && (
-                <div 
-                    className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 animate-fade-in"
-                    onClick={() => setIsPopupOpen(false)} // Close when clicking the background overlay
-                    role="dialog"
-                    aria-modal="true"
-                    aria-labelledby="popup-title"
-                >
-                    <div 
-                        className={`bg-black/80 rounded-2xl shadow-2xl p-6 w-full m-4 text-white relative animate-scale-in flex flex-col ${popupTitle === 'Spotify' || popupTitle === 'Instagram' || popupTitle === 'X' || popupTitle === 'YouTube' ? 'max-w-lg' : 'max-w-md'}`}
-                        onClick={(e) => e.stopPropagation()} // Prevent clicks inside the popup from closing it
-                    >
+                <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 animate-fade-in" onClick={() => setIsPopupOpen(false)} role="dialog" aria-modal="true" aria-labelledby="popup-title">
+                    <div className={`bg-black/80 rounded-2xl shadow-2xl p-6 w-full m-4 text-white relative animate-scale-in flex flex-col ${popupTitle === 'Spotify' || popupTitle === 'Instagram' || popupTitle === 'X' || popupTitle === 'YouTube' ? 'max-w-lg' : 'max-w-md'}`} onClick={(e) => e.stopPropagation()}>
                         <button onClick={() => setIsPopupOpen(false)} className="absolute top-3 right-3 text-gray-400 hover:text-white transition-colors z-10" aria-label="Close popup">
                             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                         </button>
                         <h2 id="popup-title" className="font-bold mb-4" dangerouslySetInnerHTML={{ __html: popupIcon }}></h2>
-                        
                         <div ref={popupContentRef} className="text-gray-300 space-y-3 max-h-[60vh] overflow-y-auto pr-2 overscroll-contain" dangerouslySetInnerHTML={{ __html: popupContent }}></div>
                     </div>
                 </div>
               )}
               
-              {/* Enlarged Avatar Modal */}
               {isAvatarModalOpen && (
-                <div 
-                    className="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center z-[60]"
-                    onClick={() => setIsAvatarModalOpen(false)}
-                    role="dialog"
-                    aria-modal="true"
-                    aria-label="Enlarged avatar view"
-                >
-                    <img 
-                      src="https://cdn.jsdelivr.net/gh/radiohost-cloud/radiomorelove@main/me.JPG" 
-                      alt="About Us Avatar - Enlarged" 
-                      className="max-w-[90vw] max-h-[90vh] rounded-lg shadow-2xl object-contain animate-scale-in"
-                      onClick={(e) => e.stopPropagation()}
-                    />
+                <div className="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center z-[60]" onClick={() => setIsAvatarModalOpen(false)} role="dialog" aria-modal="true" aria-label="Enlarged avatar view">
+                    <img src="[REPLACE_WITH_YOUR_AVATAR_IMAGE_URL.jpg]" alt="About Us Avatar - Enlarged" className="max-w-[90vw] max-h-[90vh] rounded-lg shadow-2xl object-contain animate-scale-in" onClick={(e) => e.stopPropagation()}/>
                 </div>
               )}
 
-              {/* iOS "Add to Home Screen" instructions popup */}
               {showIosInstructions && (
                   <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 animate-fade-in" onClick={() => setShowIosInstructions(false)}>
                       <div className="bg-black/80 backdrop-blur-sm text-white p-6 rounded-xl shadow-2xl text-center max-w-sm mx-4 animate-scale-in relative" onClick={(e) => e.stopPropagation()}>
-                          <button onClick={() => setShowIosInstructions(false)} className="absolute top-2 right-2 text-gray-400 hover:text-white" aria-label="Close instructions">
-                             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
-                          </button>
+                          <button onClick={() => setShowIosInstructions(false)} className="absolute top-2 right-2 text-gray-400 hover:text-white" aria-label="Close instructions"><svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg></button>
                           <h3 className="text-xl font-bold mb-3">Add to Home Screen</h3>
                           <p className="mb-4 text-gray-300">To install the app, please follow these steps:</p>
-                          <div className="text-left space-y-3">
-                             <p>1. Tap the <span className="font-bold">Share</span> icon in your browser's toolbar.</p>
-                             <p>2. Scroll down and tap on <span className="font-bold">'Add to Home Screen'</span>.</p>
-                          </div>
+                          <div className="text-left space-y-3"><p>1. Tap the <span className="font-bold">Share</span> icon in your browser's toolbar.</p><p>2. Scroll down and tap on <span className="font-bold">'Add to Home Screen'</span>.</p></div>
                       </div>
                   </div>
               )}
 
-              {/* Generic "Install App" instructions popup */}
               {showGenericInstructions && (
                   <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 animate-fade-in" onClick={() => setShowGenericInstructions(false)}>
                       <div className="bg-black/80 backdrop-blur-sm text-white p-6 rounded-xl shadow-2xl text-center max-w-sm mx-4 animate-scale-in relative" onClick={(e) => e.stopPropagation()}>
-                          <button onClick={() => setShowGenericInstructions(false)} className="absolute top-2 right-2 text-gray-400 hover:text-white" aria-label="Close instructions">
-                             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
-                          </button>
+                          <button onClick={() => setShowGenericInstructions(false)} className="absolute top-2 right-2 text-gray-400 hover:text-white" aria-label="Close instructions"><svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg></button>
                           <h3 className="text-xl font-bold mb-3">Install App</h3>
                           <p className="mb-4 text-gray-300">To add this app to your home screen:</p>
-                          <div className="text-left space-y-3">
-                             <p>1. Open your browser's menu (usually <span className="font-bold">⋮</span> or <span className="font-bold">☰</span>).</p>
-                             <p>2. Look for and tap on the <span className="font-bold">'Install app'</span> or <span className="font-bold">'Add to Home Screen'</span> option.</p>
-                          </div>
+                          <div className="text-left space-y-3"><p>1. Open your browser's menu (usually <span className="font-bold">⋮</span> or <span className="font-bold">☰</span>).</p><p>2. Look for and tap on the <span className="font-bold">'Install app'</span> or <span className="font-bold">'Add to Home Screen'</span> option.</p></div>
                       </div>
                   </div>
               )}
 
-              {/* Container for the ElevenLabs AI chat widget */}
               <div className={`absolute bottom-4 right-4 z-40 transition-opacity duration-500 ${isFullScreen ? 'opacity-0 pointer-events-none' : ''}`}>
-                <elevenlabs-convai agent-id="agent_01jzk1yswsenmr9h8h60ybk8xf"></elevenlabs-convai>
+                {/* **ACTION REQUIRED**: Replace with your ElevenLabs agent ID, or remove this div if not used. */}
+                <elevenlabs-convai agent-id="[REPLACE_WITH_YOUR_ELEVENLABS_AGENT_ID]"></elevenlabs-convai>
               </div>
             </div>
             
-            {/* Onboarding tour overlay */}
             {showOnboarding && onboardingStep > 0 && (
                 <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[60] animate-fade-in" onClick={(e) => { e.stopPropagation(); handleNextOnboardingStep(); }}>
-                    {/* Highlighted area */}
-                    <div
-                        className={`absolute border-4 border-dashed border-white pointer-events-none ${onboardingTransitionClass} ${isOnboardingStepFading ? 'opacity-0' : 'opacity-100'}`}
-                        style={onboardingSteps[onboardingStep].highlightStyle}
-                    ></div>
-                    {/* Tooltip with information and controls */}
-                    <div
-                        className={`absolute bg-black/80 text-white p-5 rounded-lg shadow-2xl w-[calc(100%-2rem)] max-w-xs ${onboardingTransitionClass} ${isOnboardingStepFading ? 'opacity-0' : 'opacity-100'}`}
-                        style={onboardingSteps[onboardingStep].tooltipStyle}
-                        onClick={(e) => e.stopPropagation()}
-                    >
+                    <div className={`absolute border-4 border-dashed border-white pointer-events-none ${onboardingTransitionClass} ${isOnboardingStepFading ? 'opacity-0' : 'opacity-100'}`} style={onboardingSteps[onboardingStep].highlightStyle}></div>
+                    <div className={`absolute bg-black/80 text-white p-5 rounded-lg shadow-2xl w-[calc(100%-2rem)] max-w-xs ${onboardingTransitionClass} ${isOnboardingStepFading ? 'opacity-0' : 'opacity-100'}`} style={onboardingSteps[onboardingStep].tooltipStyle} onClick={(e) => e.stopPropagation()}>
                         <p className="text-lg font-bold mb-2">{onboardingSteps[onboardingStep].title}</p>
                         <p className="text-sm text-gray-300 mb-4">{onboardingSteps[onboardingStep].text}</p>
                         <div className="flex justify-between items-center">
                             <button onClick={handleSkipOnboarding} className="text-gray-400 hover:text-white text-sm transition-colors">Skip</button>
                             <div className="text-sm text-gray-500">{onboardingStep}/3</div>
-                            <button onClick={handleNextOnboardingStep} className="bg-white hover:bg-gray-200 text-black font-bold py-2 px-4 rounded-lg text-sm transition-colors">
-                                {onboardingStep === 3 ? 'Finish' : 'Next'}
-                            </button>
+                            <button onClick={handleNextOnboardingStep} className="bg-white hover:bg-gray-200 text-black font-bold py-2 px-4 rounded-lg text-sm transition-colors">{onboardingStep === 3 ? 'Finish' : 'Next'}</button>
                         </div>
                     </div>
                 </div>
             )}
 
-            {/* "Add to Home Screen" / Install prompt banner */}
             <div className={`fixed bottom-0 left-0 right-0 bg-black/80 backdrop-blur-sm text-white z-50 shadow-lg h-[80px] flex items-center transition-transform duration-500 ease-in-out ${showInstallPrompt ? 'translate-y-0' : 'translate-y-full'}`}>
                 <div className="container mx-auto flex items-center justify-between gap-3 px-4">
                     <img src={logoUrl} alt="App Logo" className="w-12 h-12 rounded-lg hidden sm:block flex-shrink-0" width="48" height="48" />
                     <div className="flex-grow">
                         <p className="font-bold text-sm sm:text-base">Get the Full App Experience</p>
-                        <p className="text-xs sm:text-sm text-gray-300">Add radiomore.love to your home screen.</p>
+                        <p className="text-xs sm:text-sm text-gray-300">Add our station to your home screen.</p>
                     </div>
                     <div className="flex items-center gap-2 flex-shrink-0">
-                        <button onClick={handleInstallClick} className="bg-white hover:bg-gray-200 text-black font-bold py-2 px-4 rounded-lg transition-colors text-sm">
-                            Install
-                        </button>
-                        <button onClick={handleDismissInstall} className="text-gray-400 hover:text-white p-2 rounded-full" aria-label="Dismiss">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
-                        </button>
+                        <button onClick={handleInstallClick} className="bg-white hover:bg-gray-200 text-black font-bold py-2 px-4 rounded-lg transition-colors text-sm">Install</button>
+                        <button onClick={handleDismissInstall} className="text-gray-400 hover:text-white p-2 rounded-full" aria-label="Dismiss"><svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg></button>
                     </div>
                 </div>
             </div>
@@ -1102,110 +811,33 @@
         );
       };
 
-      // RENDER INITIALIZATION: This section finds the root DOM element and tells React to render the <App> component into it.
+      // RENDER INITIALIZATION
       const rootElement = document.getElementById('root');
-      if (!rootElement) {
-        throw new Error("Could not find root element to mount to");
-      }
-
+      if (!rootElement) throw new Error("Could not find root element to mount to");
       const root = ReactDOM.createRoot(rootElement);
-      root.render(
-        <React.StrictMode>
-          <App />
-        </React.StrictMode>
-      );
+      root.render( <React.StrictMode> <App /> </React.StrictMode> );
     </script>
     
-    <!-- External script for the ElevenLabs AI Conversation widget. Loaded last to not block rendering. -->
     <script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async defer type="text/javascript"></script>
     
-    <!--
-      INLINE STYLES (CSS)
-      This section contains custom CSS rules and animations that are not covered by the Tailwind CSS framework.
-    -->
     <style>
-        /* CSS for the 3D flip card animation */
-        .rotate-y-180 {
-            transform: rotateY(180deg);
-        }
-        
-        /* Custom Keyframe Animations */
-        @keyframes fade-in-up {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-fade-in-up {
-            animation: fade-in-up 0.5s ease-out forwards;
-        }
-
-        /* The marquee (scrolling text) animation */
-        @keyframes marquee {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
-        .animate-marquee {
-            animation: marquee 60s linear infinite;
-        }
-
-        /* Simple fade-in animation */
-        @keyframes fade-in {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        .animate-fade-in {
-            animation: fade-in 0.3s ease-out forwards;
-        }
-
-        /* Simple fade-out animation */
-        @keyframes fade-out {
-            from { opacity: 1; }
-            to { opacity: 0; }
-        }
-        .animate-fade-out {
-            animation: fade-out 0.5s ease-out forwards;
-        }
-
-        /* Fade-in with a subtle scale-up effect, used for modals */
-        @keyframes scale-in {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
-        }
-        .animate-scale-in {
-            animation: scale-in 0.3s ease-out forwards;
-        }
-        
-        /* Longer fade animations */
-        @keyframes fade-in-long {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        .animate-fade-in-long {
-            animation: fade-in-long 1.5s ease-in-out forwards;
-        }
-
-        @keyframes fade-out-long {
-            from { opacity: 1; }
-            to { opacity: 0; }
-        }
-        .animate-fade-out-long {
-            animation: fade-out-long 1.5s ease-in-out forwards;
-        }
-        
-        /* Spinning animation for the logo when music is playing */
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-        .logo-spinning {
-            animation: spin 8s linear infinite;
-        }
-        
-        /* 
-          Cross-browser compatibility styles.
-          - `backdrop-filter` with `-webkit-` prefix for Safari.
-          - `transform-style` and `backface-visibility` for 3D animations.
-          - `mask-image` for the ticker gradient fade-out effect.
-        */
+        .rotate-y-180 { transform: rotateY(180deg); }
+        @keyframes fade-in-up { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-fade-in-up { animation: fade-in-up 0.5s ease-out forwards; }
+        @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        .animate-marquee { animation: marquee 60s linear infinite; }
+        @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+        .animate-fade-in { animation: fade-in 0.3s ease-out forwards; }
+        @keyframes fade-out { from { opacity: 1; } to { opacity: 0; } }
+        .animate-fade-out { animation: fade-out 0.5s ease-out forwards; }
+        @keyframes scale-in { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+        .animate-scale-in { animation: scale-in 0.3s ease-out forwards; }
+        @keyframes fade-in-long { from { opacity: 0; } to { opacity: 1; } }
+        .animate-fade-in-long { animation: fade-in-long 1.5s ease-in-out forwards; }
+        @keyframes fade-out-long { from { opacity: 1; } to { opacity: 0; } }
+        .animate-fade-out-long { animation: fade-out-long 1.5s ease-in-out forwards; }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .logo-spinning { animation: spin 8s linear infinite; }
         .backdrop-blur-sm { -webkit-backdrop-filter: blur(4px); }
         .backdrop-blur-lg { -webkit-backdrop-filter: blur(16px); }
         .backdrop-blur-md { -webkit-backdrop-filter: blur(12px); }
@@ -1215,22 +847,8 @@
             -webkit-mask-image: linear-gradient(to right, black 90%, transparent 100%);
             mask-image: linear-gradient(to right, black 90%, transparent 100%);
         }
-
-        /* 
-          Fix for 100vh on mobile browsers.
-          Uses a CSS custom property `--vh` which is set by JavaScript to the actual window inner height.
-        */
-        .h-screen-dynamic {
-            height: 100vh; /* Fallback */
-            height: calc(var(--vh, 1vh) * 100);
-        }
-
-        /* 
-          Improve touch responsiveness on interactive elements by disabling touch delay (e.g., for double-tap to zoom).
-        */
-        button, a, [role="button"] {
-            touch-action: manipulation;
-        }
+        .h-screen-dynamic { height: 100vh; height: calc(var(--vh, 1vh) * 100); }
+        button, a, [role="button"] { touch-action: manipulation; }
     </style>
   </body>
 </html>
