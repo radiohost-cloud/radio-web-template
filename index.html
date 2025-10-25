@@ -76,6 +76,7 @@
         const [isInitialOnboarding, setIsInitialOnboarding] = useState(true);
         const [isOnboardingStepFading, setIsOnboardingStepFading] = useState(false);
         const [isFullScreen, setIsFullScreen] = useState(false);
+        const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false);
         
         const tickerContainerRef = useRef(null);
         const textRef = useRef(null);
@@ -423,14 +424,15 @@
         useEffect(() => {
             const handleKeyDown = (event) => {
                 if (event.key === 'Escape') {
-                    if (isPopupOpen) setIsPopupOpen(false);
-                    if (isFullScreen) setIsFullScreen(false);
+                    if (isAvatarModalOpen) setIsAvatarModalOpen(false);
+                    else if (isPopupOpen) setIsPopupOpen(false);
+                    else if (isFullScreen) setIsFullScreen(false);
                 }
             };
 
             const SCRIPT_ID_IG = 'curator-io-script-ig', SCRIPT_ID_X = 'curator-io-script-x', SCRIPT_ID_YT = 'curator-io-script-yt';
 
-            if (isPopupOpen || isFullScreen) {
+            if (isPopupOpen || isFullScreen || isAvatarModalOpen) {
                 window.addEventListener('keydown', handleKeyDown);
             }
 
@@ -453,7 +455,24 @@
                     [SCRIPT_ID_IG, SCRIPT_ID_X, SCRIPT_ID_YT].forEach(id => document.getElementById(id)?.remove());
                 }
             };
-        }, [isPopupOpen, popupTitle, isFullScreen]);
+        }, [isPopupOpen, popupTitle, isFullScreen, isAvatarModalOpen]);
+
+        useEffect(() => {
+            if (!isPopupOpen || popupTitle !== 'About Us') return;
+            
+            const handleAvatarClick = () => { setIsAvatarModalOpen(true); };
+            
+            const timer = setTimeout(() => {
+                const avatar = document.getElementById('about-us-avatar');
+                if (avatar) avatar.addEventListener('click', handleAvatarClick);
+            }, 100);
+
+            return () => {
+                clearTimeout(timer);
+                const avatar = document.getElementById('about-us-avatar');
+                if (avatar) avatar.removeEventListener('click', handleAvatarClick);
+            };
+        }, [isPopupOpen, popupTitle, popupContent]);
         
         const togglePlayPause = React.useCallback(() => {
             if (!audioRef.current) return;
@@ -594,6 +613,9 @@
                                         .join('');
 
                 if (item.name === 'About Us') {
+                    const avatarHtml = `<div class="text-center"><img id="about-us-avatar" src="https://cdn.jsdelivr.net/gh/radiohost-cloud/radiomorelove@main/me.JPG" class="w-24 h-24 rounded-full mx-auto mb-4 cursor-pointer hover:scale-105 transition-transform duration-300" alt="About Us Avatar" /></div>`;
+                    htmlContent = avatarHtml + htmlContent;
+
                     htmlContent += `<div class="border-t border-gray-700 pt-4 mt-4 text-center">
                         <p class="text-white/80 text-sm flex items-center justify-center">
                             <span>Music on air is AI-generated</span>
@@ -802,6 +824,23 @@
                     </div>
                 </div>
               )}
+              
+              {isAvatarModalOpen && (
+                <div 
+                    className="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center z-[60]"
+                    onClick={() => setIsAvatarModalOpen(false)}
+                    role="dialog"
+                    aria-modal="true"
+                    aria-label="Enlarged avatar view"
+                >
+                    <img 
+                      src="https://cdn.jsdelivr.net/gh/radiohost-cloud/radiomorelove@main/me.JPG" 
+                      alt="About Us Avatar - Enlarged" 
+                      className="max-w-[90vw] max-h-[90vh] rounded-lg shadow-2xl object-contain animate-scale-in"
+                      onClick={(e) => e.stopPropagation()}
+                    />
+                </div>
+              )}
 
               {showIosInstructions && (
                   <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 animate-fade-in" onClick={() => setShowIosInstructions(false)}>
@@ -977,6 +1016,9 @@
         }
         .backdrop-blur-lg {
             -webkit-backdrop-filter: blur(16px);
+        }
+        .backdrop-blur-md {
+            -webkit-backdrop-filter: blur(12px);
         }
         .transform-style-3d {
             transform-style: preserve-3d;
