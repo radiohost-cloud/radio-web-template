@@ -132,6 +132,7 @@
         const [isOnboardingStepFading, setIsOnboardingStepFading] = useState(false); // Manages the fade transition between onboarding steps.
         const [isFullScreen, setIsFullScreen] = useState(false); // Tracks if the player is in full-screen mode.
         const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false); // Controls the enlarged avatar view from the "About Us" popup.
+        const [promoState, setPromoState] = useState('hidden'); // 'hidden', 'showing', 'hiding'
         
         // REFS: `useRef` hooks provide a way to access DOM elements directly or persist values across renders without causing a re-render.
         const tickerContainerRef = useRef(null); // Ref for the ticker container to calculate animation duration.
@@ -280,6 +281,28 @@
 
         // SIDE EFFECTS: `useEffect` hooks run code in response to component lifecycle events (mount, update, unmount) or state changes.
 
+        // Effect for the radiohost.cloud promo banner.
+        useEffect(() => {
+            const showPromo = () => {
+                setPromoState('showing'); // Trigger fade-in
+                setTimeout(() => {
+                    setPromoState('hiding'); // Trigger fade-out
+                }, 7000); // Stay visible for 7 seconds
+            };
+
+            // Initial display after 10 seconds to let the app load
+            const initialTimeout = setTimeout(showPromo, 10000);
+
+            // Set up the interval for every 1 minute
+            const promoInterval = setInterval(showPromo, 60000);
+
+            // Cleanup function to prevent memory leaks
+            return () => {
+                clearTimeout(initialTimeout);
+                clearInterval(promoInterval);
+            };
+        }, []);
+        
         // Effect to check if the user has completed onboarding before. If not, it shows the onboarding tour after a delay.
         // Runs only once when the component mounts, due to the empty dependency array `[]`.
         useEffect(() => {
@@ -921,6 +944,32 @@
                       <div className="w-16 h-16 mt-2 bg-white/20 rounded-full animate-pulse"></div>
                   </div>
                 )}
+
+                {/* RadioHost.cloud Promo Banner */}
+                {promoState !== 'hidden' && !isFullScreen && (
+                    <div 
+                        className={`absolute top-full left-1/2 -translate-x-1/2 w-max text-center mt-4 pointer-events-none ${promoState === 'showing' ? 'animate-fade-in' : 'animate-fade-out'}`}
+                        onAnimationEnd={() => {
+                            if (promoState === 'hiding') {
+                                setPromoState('hidden');
+                            }
+                        }}
+                    >
+                        <a 
+                            href="https://github.com/radiohost-cloud/radiomorelove" 
+                            target="_blank" 
+                            rel="noopener noreferrer" 
+                            className="text-xs text-white/70 bg-black/40 rounded-full px-3 py-1.5 inline-flex items-center justify-center gap-2 backdrop-blur-sm hover:text-white hover:bg-black/60 transition-colors pointer-events-auto"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="currentColor" viewBox="0 0 16 16">
+                                <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8"/>
+                            </svg>
+                            <span>
+                                View on GitHub
+                            </span>
+                        </a>
+                    </div>
+                )}
               </div>
 
               {/* Popup/Modal container */}
@@ -1105,6 +1154,15 @@
         }
         .animate-fade-in {
             animation: fade-in 0.3s ease-out forwards;
+        }
+
+        /* Simple fade-out animation */
+        @keyframes fade-out {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+        .animate-fade-out {
+            animation: fade-out 0.5s ease-out forwards;
         }
 
         /* Fade-in with a subtle scale-up effect, used for modals */
