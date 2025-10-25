@@ -2,106 +2,93 @@
 <html lang="en">
   <head>
     <!--
-      HEAD SECTION - YOUR WEBSITE'S METADATA
-      This section is crucial for search engines (like Google) and social media sharing.
-      It's not visible on the page, but it tells browsers and services about your content.
-      **ACTION REQUIRED**: Fill in all the placeholders marked with [Your...].
+      HEAD SECTION
+      This section contains metadata about the HTML document, which is not displayed on the page itself.
+      It includes character set, viewport settings for responsiveness, SEO tags, social media sharing tags,
+      the page title, icons, and links to external resources like stylesheets and pre-connections for performance.
     -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!-- 
-      SEO (Search Engine Optimization) Meta Tags
-      **IMPORTANT**: Fill these out to help people find your station on search engines.
-    -->
-    <title>[Your Station Name] - [Your Station Tagline]</title>
-    <meta name="description" content="[Your detailed description for SEO. Describe your radio station, the music you play, and your target audience.]" />
-    <meta name="keywords" content="[your, keywords, for, seo, separated, by, commas, e.g., online radio, chill music, indie pop, streaming]" />
-    <meta name="author" content="[Your Name or Company Name]" />
-    <link rel="canonical" href="[Your Official Website URL]" />
+      ================================================================================
+      === CUSTOMIZATION GUIDE (SEO & SOCIAL MEDIA) ===================================
+      ================================================================================
+      
+      Instructions:
+      Replace the placeholder values in the meta tags below with your own information. 
+      This is crucial for search engine optimization (SEO) and how your site appears 
+      when shared on social media platforms like Facebook, Twitter, etc.
 
-    <!-- 
-      Open Graph / Facebook Meta Tags
-      These control how your website looks when shared on social media like Facebook.
+      - title: The title that appears in the browser tab and search results.
+      - meta[name="description"]: A brief summary of your radio station.
+      - meta[name="keywords"]: Comma-separated keywords related to your station.
+      - meta[name="author"]: Your name or your company's name.
+      - link[rel="canonical"]: The primary URL of your website.
+      - meta[property="og:*"]: Open Graph tags for social sharing (Facebook, etc.).
+      - meta[property="twitter:*"]: Twitter Card tags for sharing on Twitter.
+      - link[rel="icon"], link[rel="apple-touch-icon"]: The icons for your site.
+        You also need to update the paths in `manifest.json` for PWA icons.
+
+      ** Replace all instances of "https://your-website.com" and placeholder text. **
+      ** Replace "path/to/your/logo.png" with a direct link to your own logo. **
     -->
+
+    <!-- SEO (Search Engine Optimization) Meta Tags -->
+    <title>Your Radio Station Name | Your Tagline Here</title>
+    <meta name="description" content="Tune in to our online radio for a unique mix of music and vibes. Ideal for public playback in commercial spaces. Your perfect soundtrack for any occasion." />
+    <meta name="keywords" content="online radio, music, radio stream, lifestyle music, internet radio, streaming, royalty-free music, background music, shop music, restaurant music, commercial background music, business music" />
+    <meta name="author" content="Your Name / Company" />
+    <link rel="canonical" href="https://your-website.com" />
+
+    <!-- Open Graph / Facebook Meta Tags -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="[Your Official Website URL]" />
-    <meta property="og:title" content="[Your Station Name] - [Your Station Tagline]" />
-    <meta property="og:description" content="[A short, catchy description for social media sharing.]" />
-    <meta property="og:image" content="[A direct URL to a high-quality logo or promotional image for your station. E.g., https://your-site.com/social-image.png]" />
+    <meta property="og:url" content="https://your-website.com" />
+    <meta property="og:title" content="Your Radio Station Name | Your Tagline Here" />
+    <meta property="og:description" content="Tune in to our online radio for a unique mix of music and vibes. Ideal for public playback in commercial spaces." />
+    <meta property="og:image" content="path/to/your/logo.png" />
 
-    <!-- 
-      Twitter Card Meta Tags
-      Similar to Open Graph, these are specific to Twitter.
-    -->
+    <!-- Twitter Card Meta Tags -->
     <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="[Your Official Website URL]" />
-    <meta property="twitter:title" content="[Your Station Name] - [Your Station Tagline]" />
-    <meta property="twitter:description" content="[A short, catchy description for social media sharing.]" />
-    <meta property="twitter:image" content="[A direct URL to a high-quality logo or promotional image for your station. E.g., https://your-site.com/social-image.png]" />
-
-    <!-- 
-      Icons and Manifest
-      **ACTION REQUIRED**: Replace the placeholder URL with a link to your station's logo.
-    -->
-    <link rel="icon" href="[REPLACE_WITH_YOUR_LOGO_URL.png]" />
+    <meta property="twitter:url" content="https://your-website.com" />
+    <meta property="twitter:title" content="Your Radio Station Name | Your Tagline Here" />
+    <meta property="twitter:description" content="Tune in to our online radio for a unique mix of music and vibes. Ideal for public playback in commercial spaces." />
+    <meta property="twitter:image" content="path/to/your/logo.png" />
+    
+    <!-- General Icons and Manifest -->
+    <link rel="icon" href="path/to/your/logo.png" />
     <link rel="manifest" href="/manifest.json" />
     <meta name="theme-color" content="#000000" />
 
-    <!-- 
-      iOS Specific Meta Tags
-      **ACTION REQUIRED**: Replace the placeholder URL with a link to your station's logo for Apple devices.
-    -->
+    <!-- iOS Specific Meta Tags -->
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="apple-mobile-web-app-title" content="[Your Station Name]" />
-    <link rel="apple-touch-icon" href="[REPLACE_WITH_YOUR_LOGO_URL.png]" />
+    <meta name="apple-mobile-web-app-title" content="Your Radio" />
+    <link rel="apple-touch-icon" href="path/to/your/logo.png" />
 
-    <!-- 
-      Preconnect Links for Performance
-      This tells the browser to connect to essential domains early. Add domains for your streams, APIs, and content here.
-    -->
+    <!-- Preconnect Links for Performance -->
     <link rel="preconnect" href="https://cdn.tailwindcss.com" />
     <link rel="preconnect" href="https://unpkg.com" />
+    <!-- TODO: Add your stream and API hostnames here for preconnect if they are different -->
     <link rel="preconnect" href="https://cdn.jsdelivr.net" />
-    <!-- Example: <link rel="preconnect" href="https://your-stream-provider.com" /> -->
   </head>
   <body class="overflow-hidden" style="background-color: #000;">
     <!--
       BODY SECTION
-      This contains the visible content. The React app is mounted into the <div id="root"></div>.
+      This section contains all the visible content of the webpage.
+      - `div#root`: This is the main container where the React application will be mounted and rendered.
     -->
     <div id="root"></div>
     
-    <!--
-      EXTERNAL SCRIPT IMPORTS
-      These load the necessary libraries (React, Tailwind, etc.).
-    -->
+    <!-- External Script Imports -->
     <script src="https://cdn.tailwindcss.com" defer></script>
     <script src="https://unpkg.com/react@18/umd/react.production.min.js" defer></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" defer></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest" defer></script>
     
-    <!--
-      INLINE REACT APPLICATION SCRIPT
-      This script contains the entire React application logic.
-    -->
+    <!-- Inline React Application Script -->
     <script type="text/babel">
-      // =================================================================================================
-      // WELCOME TO YOUR RADIO WEB APP TEMPLATE!
-      //
-      // This is a customizable template. To personalize your radio station, you'll need to
-      // replace the placeholder values below. Look for values enclosed in brackets like "[REPLACE...]".
-      //
-      // QUICK START CHECKLIST:
-      // 1.  Update the CONFIGURATION CONSTANTS section with your own URLs (logo, stream, API, etc.).
-      // 2.  Customize the `menuItems` array to link to your social media, blog, and other pages.
-      // 3.  Update the Curator.io and ElevenLabs IDs if you use those services.
-      // 4.  Update the 'About Us' section content with your own information.
-      // 5.  Don't forget to update the <head> section of this HTML file with your station's SEO details!
-      // =================================================================================================
-
       // The main React component for the entire application.
       const App = () => {
         // React Hooks for state and refs.
@@ -143,84 +130,92 @@
         const flipTimeoutRef = useRef(null);
         const isInitialSongLoad = useRef(true);
 
-        // =================================================================================================
-        // CONFIGURATION CONSTANTS
-        // **ACTION REQUIRED**: Replace all placeholder URLs below with your actual URLs.
-        // =================================================================================================
-        const logoUrl = '[REPLACE_WITH_YOUR_LOGO_URL.png]';
-        const feedUrl = '[REPLACE_WITH_YOUR_TICKER_FEED_TXT_URL]'; // A simple .txt file with your ticker text
-        const apiUrl = '[REPLACE_WITH_YOUR_NOWPLAYING_API_URL]'; // e.g., AzuraCast, RadioHost, etc.
-        const streamAudioUrl = '[REPLACE_WITH_YOUR_HLS_AUDIO_STREAM_URL.m3u8]';
-        const backgroundVideoUrl = '[REPLACE_WITH_YOUR_BACKGROUND_VIDEO_URL.mp4]';
-        // =================================================================================================
+        /*
+        ================================================================================
+        === CUSTOMIZATION GUIDE (CORE CONFIGURATION) ===================================
+        ================================================================================
+        
+        Instructions:
+        Update the constants below to point to your own resources.
+        
+        - YOUR_LOGO_URL: Direct URL to your radio station's logo image.
+        - YOUR_TICKER_FEED_URL: URL to a plain text file (.txt) for the scrolling header text.
+        - YOUR_NOW_PLAYING_API_URL: URL to your "Now Playing" API endpoint. 
+          The expected JSON format is: 
+          { "now_playing": { "song": { "title": "Song Title", "artist": "Artist Name", "album": "Album Name", "art": "URL_to_Artwork" }, "remaining": 90 } }
+          'remaining' is the seconds left for the current song (optional).
+        - YOUR_HLS_STREAM_URL: The URL for your audio stream (.m3u8).
+        - YOUR_BACKGROUND_VIDEO_URL: Direct URL to a seamless, looping background video (.mp4).
+        */
+        const YOUR_LOGO_URL = 'path/to/your/logo.png';
+        const YOUR_TICKER_FEED_URL = 'path/to/your/feed.txt';
+        const YOUR_NOW_PLAYING_API_URL = 'https://your-api-endpoint.com/nowplaying';
+        const YOUR_HLS_STREAM_URL = 'https://your-stream-host.com/live.m3u8';
+        const YOUR_BACKGROUND_VIDEO_URL = 'path/to/your/background.mp4';
 
-        // DATA STRUCTURES: Defines the content and structure for dynamic UI elements.
-        // **ACTION REQUIRED**: Customize the menu items to link to your own social feeds and content.
+
+        /*
+        ================================================================================
+        === CUSTOMIZATION GUIDE (MENU & POPUPS) ========================================
+        ================================================================================
+        
+        Instructions:
+        Modify the `menuItems` array to create your navigation menu. Each object in the array represents one menu button.
+        
+        Properties for each menu item:
+        - name: The text label for the item.
+        - icon: An SVG icon as a string. Find icons on sites like heroicons.com.
+        - content: (Optional) Direct HTML content for the popup.
+        - contentUrl: (Optional) URL to a .txt file. The content will be fetched and displayed in the popup.
+        - url: (Optional) If you want the button to open an external link in a new tab.
+
+        For social feeds (like X, Instagram, YouTube):
+        - This template uses Curator.io for embedding social feeds.
+        - To use it, create a free account on Curator.io, set up your feed, and get the embed code.
+        - Replace the content of the relevant menu item with your Curator.io div and add your script to the `useEffect` hook below where it says "TODO: Add your Curator.io script".
+        */
         const menuItems = [
             { 
                 name: 'Spotify', 
                 icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 496 512"><path d="M248 8C111.1 8 0 119.1 0 256s111.1 248 248 248 248-111.1 248-248S384.9 8 248 8zm100.7 364.9c-2.1 3.9-6.3 5.1-10.2 2.9-33.3-19.3-74.5-23.7-124.5-12.9-4.3 .9-8.4-1.1-9.3-5.4s1.1-8.4 5.4-9.3c53.9-11.6 98.7-6.8 135.8 14.1 4.1 2.3 5.4 6.9 3.1 10.6zm13.5-44.5c-2.7 4.9-8.3 6.3-13.2 3.6-40.3-23.1-104.3-29.6-146.8-16.3-5.1 1.6-10.4-1.5-12-6.6s1.5-10.4 6.6-12c48.1-14.6 117.8-7.5 163.4 18.4 4.9 2.8 6.3 8.8 3.5 13.5zm.1-49.7c-3.2 5.9-9.8 7.8-15.7 4.6-45.4-26.4-121.2-32.2-169.4-17.8-6.1 1.8-12.2-1.8-14-7.9s1.8-12.2 7.9-14c53.6-15.8 135.8-9.5 187.1 19.8 5.9 3.2 7.8 9.9 4.6 15.8z"/></svg>',
-                content: `<iframe data-testid="embed-iframe" style="border-radius:12px" src="[REPLACE_WITH_YOUR_SPOTIFY_EMBED_URL]" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>`
+                // TODO: Replace the `src` with your own Spotify embed link.
+                content: `<iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/playlist/YOUR_PLAYLIST_ID_HERE" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>`
             },
             { 
-                name: 'X', 
+                name: 'Social Feed', 
                 icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg>',
+                // TODO: Replace this with your Curator.io feed div.
                 content: `<div id="curator-feed-x-layout"><a href="https://curator.io" target="_blank" class="crt-logo crt-tag">Powered by Curator.io</a></div>`
-            },
-            {
-                name: 'Instagram',
-                icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke-linecap="round"></line></svg>',
-                content: `<div id="curator-feed-instagram-layout"><a href="https://curator.io" target="_blank" class="crt-logo crt-tag">Powered by Curator.io</a></div>`
-            },
-            { 
-                name: 'YouTube', 
-                icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>',
-                content: `<div id="curator-feed-youtube-layout"><a href="https://curator.io" target="_blank" class="crt-logo crt-tag">Powered by Curator.io</a></div>`
             },
             { 
                 name: 'Blog', 
                 icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 12h6m-1 8h.01" /></svg>',
-                contentUrl: '[REPLACE_WITH_YOUR_BLOG_CONTENT_TXT_URL]'
-            },
-            { 
-                name: 'App', 
-                icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" /></svg>',
-                content: `
-                    <div class="space-y-4 text-gray-300">
-                        <p class="font-semibold text-lg text-white">Listen Everywhere</p>
-                        <ul class="list-none space-y-3">
-                            <li class="flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 text-gray-400 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
-                                <a href="[REPLACE_WITH_YOUR_MYTUNER_URL_OR_SIMILAR]" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-white underline">
-                                    Available on mytuner-radio.com
-                                </a>
-                            </li>
-                            <!-- Add more links to other platforms here if you wish -->
-                        </ul>
-                    </div>
-                `
+                // TODO: Replace with a URL to your own blog content file.
+                contentUrl: 'path/to/your/blog.txt'
             },
             { 
                 name: 'About Us', 
                 icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>',
-                contentUrl: '[REPLACE_WITH_YOUR_ABOUT_US_CONTENT_TXT_URL]'
+                // TODO: Replace with a URL to your own about us content file.
+                contentUrl: 'path/to/your/aboutus.txt'
             },
             { 
-                name: 'Support', 
+                name: 'Support Us', 
                 icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd" /></svg>',
                 content: `
                     <div class="text-center space-y-4 py-4">
                         <p class="text-xl font-semibold">Enjoying the vibes?</p>
-                        <p class="text-gray-300">Your support helps us keep the music flowing. ❤️</p>
-                        <a href="[REPLACE_WITH_YOUR_DONATION_PAGE_URL]" target="_blank" rel="noopener noreferrer" class="inline-block bg-gray-800 hover:bg-gray-700 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
-                            Support the Station
+                        <p class="text-gray-300">Your support helps us keep the music flowing.</p>
+                        <!-- TODO: Replace this with your own donation/support link -->
+                        <a href="https://your-support-page.com" target="_blank" rel="noopener noreferrer" class="inline-block bg-gray-800 hover:bg-gray-700 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                            Support Us
                         </a>
                     </div>
                 `
             }
         ];
         
-        // Onboarding tour steps.
+        // Onboarding tour steps
         const onboardingSteps = [
             { // Dummy step 0
                 highlightStyle: {}, tooltipStyle: {}, title: '', text: ''
@@ -229,7 +224,7 @@
                 highlightStyle: { top: '1rem', left: '1rem', width: '4rem', height: '4rem', borderRadius: '50%' },
                 tooltipStyle: { top: '6rem', left: '1rem' },
                 title: 'Welcome!',
-                text: 'This is the menu button. Click it to navigate through different sections like our social feeds, info about the app, and more.'
+                text: 'This is the menu button. Click it to navigate through different sections like social feeds, info, and more.'
             },
             { // Step 2: Chat
                 highlightStyle: { bottom: '1rem', right: '1rem', width: '4rem', height: '4rem', borderRadius: '50%' },
@@ -245,16 +240,10 @@
             }
         ];
 
-        // ASYNCHRONOUS FUNCTIONS
+        // Fetches the current playing song data from the API.
         const fetchNowPlaying = async () => {
             try {
-                // If the API URL is still a placeholder, don't fetch.
-                if (apiUrl.startsWith('[REPLACE')) {
-                    console.warn("Now Playing API URL is not configured.");
-                    setNowPlaying({ now_playing: { song: { title: 'Station Offline', artist: 'Please configure API URL', art: logoUrl } } });
-                    return;
-                }
-                const response = await fetch(apiUrl);
+                const response = await fetch(YOUR_NOW_PLAYING_API_URL);
                 if (!response.ok) {
                     throw new Error(`NowPlaying API error! status: ${response.status}`);
                 }
@@ -270,13 +259,14 @@
             } catch (error) {
                 console.error("Could not fetch Now Playing data:", error);
                 if (nowPlayingTimeoutRef.current) clearTimeout(nowPlayingTimeoutRef.current);
-                nowPlayingTimeoutRef.current = setTimeout(fetchNowPlaying, 30000); // Retry after 30 seconds on error.
+                nowPlayingTimeoutRef.current = setTimeout(fetchNowPlaying, 30000);
             }
         };
 
         // SIDE EFFECTS: `useEffect` hooks
         
-        // Promo banner effect.
+        // IMPORTANT: DO NOT REMOVE THIS PROMO BANNER.
+        // This banner provides attribution to the original open-source template.
         useEffect(() => {
             const showPromo = () => {
                 setPromoState('showing');
@@ -284,15 +274,16 @@
                     setPromoState('hiding');
                 }, 7000);
             };
+
             const initialTimeout = setTimeout(showPromo, 10000);
             const promoInterval = setInterval(showPromo, 60000);
+
             return () => {
                 clearTimeout(initialTimeout);
                 clearInterval(promoInterval);
             };
         }, []);
         
-        // Onboarding effect.
         useEffect(() => {
             const hasOnboarded = localStorage.getItem('hasCompletedOnboarding');
             if (!hasOnboarded) {
@@ -303,33 +294,40 @@
             }
         }, []);
 
-        // Initial player card flip animation.
         useEffect(() => {
             const initialContent = (
                 <div className="text-gray-200 text-center space-y-3 px-2">
-                    <p className="text-xl font-bold">Welcome!</p>
-                    <p className="text-base">Thanks for tuning in.</p>
-                    <p className="text-sm pt-2">Your 24/7 soundtrack starts now. Enjoy the music!</p>
+                    <p className="text-xl font-bold">Welcome to the Station</p>
+                    <p className="text-base">Enjoy the music stream.</p>
+                    <p className="text-sm pt-2">Perfect for your home, office, or business!</p>
                 </div>
             );
             setBacksideContent(initialContent);
-            const flipTimer = setTimeout(() => setIsPlayerFlipped(true), 2000);
-            const flipBackTimer = setTimeout(() => setIsPlayerFlipped(false), 8000);
+
+            const flipTimer = setTimeout(() => {
+                setIsPlayerFlipped(true);
+            }, 2000);
+
+            const flipBackTimer = setTimeout(() => {
+                setIsPlayerFlipped(false);
+            }, 8000);
+
             return () => {
                 clearTimeout(flipTimer);
                 clearTimeout(flipBackTimer);
             };
         }, []);
 
-        // Initial data fetch and menu auto-open.
         useEffect(() => {
           fetchNowPlaying();
+
           const openTimer = setTimeout(() => {
             setIsMenuOpen(true);
             if (window.innerWidth < 768) {
                 autoCloseTimerRef.current = setTimeout(() => setIsMenuOpen(false), 5000);
             }
           }, 8000);
+
           return () => {
             clearTimeout(openTimer);
             if (autoCloseTimerRef.current) clearTimeout(autoCloseTimerRef.current);
@@ -337,45 +335,62 @@
           };
         }, []);
         
-        // Flip player card on song change to show an "advertisement".
         useEffect(() => {
             if (!nowPlaying || isInitialSongLoad.current) {
                 if (nowPlaying) isInitialSongLoad.current = false;
                 return;
             }
-            if (flipTimeoutRef.current) clearTimeout(flipTimeoutRef.current);
 
+            if (flipTimeoutRef.current) {
+                clearTimeout(flipTimeoutRef.current);
+            }
+            
+            // TODO: Customize this content for your own promotions or information.
             const adContent = (
                 <div className="text-gray-200 text-center space-y-3">
-                    <p className="text-xl font-bold">Want to advertise here?</p>
-                    <p className="text-base">It can be free!</p>
-                    <p className="text-sm pt-2">Contact us to learn more about our promotional opportunities:</p>
-                    <a href="mailto:[REPLACE_WITH_YOUR_CONTACT_EMAIL]" className="text-gray-300 hover:text-white hover:underline font-semibold break-all">[REPLACE_WITH_YOUR_CONTACT_EMAIL]</a>
+                    <p className="text-xl font-bold">Promotional Spot</p>
+                    <p className="text-base">Your message can appear here!</p>
+                    <p className="text-sm pt-2">Contact us to learn more:</p>
+                    <a href="mailto:contact@your-website.com" className="text-gray-300 hover:text-white hover:underline font-semibold break-all">contact@your-website.com</a>
                 </div>
             );
             
             flipTimeoutRef.current = setTimeout(() => {
                 setBacksideContent(adContent);
                 setIsPlayerFlipped(true);
-                flipTimeoutRef.current = setTimeout(() => setIsPlayerFlipped(false), 5000);
+
+                flipTimeoutRef.current = setTimeout(() => {
+                    setIsPlayerFlipped(false);
+                }, 5000);
             }, 3000);
 
-            return () => { if (flipTimeoutRef.current) clearTimeout(flipTimeoutRef.current); };
+            return () => {
+                if (flipTimeoutRef.current) {
+                    clearTimeout(flipTimeoutRef.current);
+                }
+            };
         }, [nowPlaying?.now_playing?.song?.title]);
 
-        // PWA install prompt handler.
         useEffect(() => {
-            const beforeInstallHandler = (e) => { e.preventDefault(); setDeferredInstallPrompt(e); };
+            const beforeInstallHandler = (e) => {
+                e.preventDefault();
+                setDeferredInstallPrompt(e);
+            };
             window.addEventListener('beforeinstallprompt', beforeInstallHandler);
+
             const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
             const isInStandaloneMode = window.matchMedia('(display-mode: standalone)').matches;
             const hasDismissed = localStorage.getItem('installPromptDismissed') === 'true';
+
             if (isMobile && !isInStandaloneMode && !hasDismissed) {
                 installPromptTimers.current.show = setTimeout(() => {
                     setShowInstallPrompt(true);
-                    installPromptTimers.current.hide = setTimeout(() => setShowInstallPrompt(false), 5000);
+                    installPromptTimers.current.hide = setTimeout(() => {
+                        setShowInstallPrompt(false);
+                    }, 5000);
                 }, 2000);
             }
+
             return () => {
                 window.removeEventListener('beforeinstallprompt', beforeInstallHandler);
                 clearTimeout(installPromptTimers.current.show);
@@ -383,76 +398,97 @@
             };
         }, []);
 
-        // Disable right-click and dev tools shortcuts.
         useEffect(() => {
             const handleContextMenu = (e) => e.preventDefault();
             const handleKeyDown = (e) => {
-                if ( e.key === 'F12' || (e.ctrlKey && e.shiftKey && ['I', 'J', 'C'].includes(e.key.toUpperCase())) || (e.metaKey && e.altKey && ['I', 'J', 'C'].includes(e.key.toUpperCase())) || (e.ctrlKey && e.key.toUpperCase() === 'U') || (e.metaKey && e.key.toUpperCase() === 'U') ) {
+                if (
+                    e.key === 'F12' ||
+                    (e.ctrlKey && e.shiftKey && ['I', 'J', 'C'].includes(e.key.toUpperCase())) ||
+                    (e.metaKey && e.altKey && ['I', 'J', 'C'].includes(e.key.toUpperCase())) ||
+                    (e.ctrlKey && e.key.toUpperCase() === 'U') ||
+                    (e.metaKey && e.key.toUpperCase() === 'U')
+                ) {
                     e.preventDefault();
                 }
             };
+
             document.addEventListener('contextmenu', handleContextMenu);
             document.addEventListener('keydown', handleKeyDown);
+
             return () => {
                 document.removeEventListener('contextmenu', handleContextMenu);
                 document.removeEventListener('keydown', handleKeyDown);
             };
         }, []);
 
-        // Ensure background video is always playing.
         useEffect(() => {
             const videoElement = videoRef.current;
             if (!videoElement) return;
-            const intervalId = setInterval(() => { if (videoElement.paused) videoElement.play().catch(() => {}); }, 1000);
+
+            const intervalId = setInterval(() => {
+                if (videoElement.paused) {
+                    videoElement.play().catch(() => {});
+                }
+            }, 1000);
+
             videoElement.play().catch(() => {});
+
             return () => clearInterval(intervalId);
         }, []);
         
-        // HLS.js player setup.
         useEffect(() => {
             const audio = audioRef.current;
-            if (!audio || streamAudioUrl.startsWith('[REPLACE')) return;
+            if (!audio) return;
+            
             let hls;
+
             if (Hls.isSupported()) {
                 hls = new Hls();
-                hls.loadSource(streamAudioUrl);
+                hls.loadSource(YOUR_HLS_STREAM_URL);
                 hls.attachMedia(audio);
                 hls.on(Hls.Events.ERROR, function (event, data) {
                     if (data.fatal) {
+                        console.error('HLS.js fatal error:', data);
                         switch(data.type) {
-                            case Hls.ErrorTypes.NETWORK_ERROR: hls.startLoad(); break;
-                            case Hls.ErrorTypes.MEDIA_ERROR: hls.recoverMediaError(); break;
-                            default: hls.destroy(); break;
+                            case Hls.ErrorTypes.NETWORK_ERROR:
+                                hls.startLoad();
+                                break;
+                            case Hls.ErrorTypes.MEDIA_ERROR:
+                                hls.recoverMediaError();
+                                break;
+                            default:
+                                hls.destroy();
+                                break;
                         }
                     }
                 });
             } else if (audio.canPlayType('application/vnd.apple.mpegurl')) {
-                audio.src = streamAudioUrl;
+                audio.src = YOUR_HLS_STREAM_URL;
             }
-            return () => { if (hls) hls.destroy(); };
+
+            return () => {
+                if (hls) {
+                    hls.destroy();
+                }
+            };
         }, []);
 
-        // Fetch ticker text.
         useEffect(() => {
           const fetchTickerText = async () => {
             try {
-              if (feedUrl.startsWith('[REPLACE')) {
-                  throw new Error("Ticker feed URL not configured.");
-              }
-              const response = await fetch(feedUrl);
+              const response = await fetch(YOUR_TICKER_FEED_URL);
               if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
               const text = await response.text();
               setTickerText((text.trim() + '  •  ').repeat(10));
             } catch (error)              {
               console.error("Could not fetch ticker text:", error);
-              const fallbackText = 'Welcome to the Radio 🎧  •  Your daily dose of chill beats 🎵, and good vibes ✨  •  Tune in and relax 😌  •  ';
+              const fallbackText = 'Welcome to Your Radio Station 🎧  •  Your daily dose of great music and good vibes ✨  •  Tune in and relax 😌  •  ';
               setTickerText(fallbackText.repeat(10));
             }
           };
           fetchTickerText();
         }, []);
 
-        // Handle popup scripts and keyboard events.
         useEffect(() => {
             const handleKeyDown = (event) => {
                 if (event.key === 'Escape') {
@@ -462,42 +498,42 @@
                 }
             };
 
-            const SCRIPT_ID_IG = 'curator-io-script-ig', SCRIPT_ID_X = 'curator-io-script-x', SCRIPT_ID_YT = 'curator-io-script-yt';
-            if (isPopupOpen || isFullScreen || isAvatarModalOpen) window.addEventListener('keydown', handleKeyDown);
+            const SCRIPT_ID_X = 'curator-io-script-x';
+
+            if (isPopupOpen || isFullScreen || isAvatarModalOpen) {
+                window.addEventListener('keydown', handleKeyDown);
+            }
 
             if (isPopupOpen) {
-                // **ACTION REQUIRED**: If you use Curator.io, replace the placeholders below with your feed IDs.
-                const curatorFeedIds = {
-                    Instagram: "[REPLACE_WITH_YOUR_CURATOR_IO_INSTAGRAM_FEED_ID]",
-                    X: "[REPLACE_WITH_YOUR_CURATOR_IO_X_FEED_ID]",
-                    YouTube: "[REPLACE_WITH_YOUR_CURATOR_IO_YOUTUBE_FEED_ID]",
-                };
-
-                const createScript = (id, feedId) => {
-                    if (document.getElementById(id) || feedId.startsWith('[REPLACE')) return;
+                const createScript = (id, src) => {
+                    if (document.getElementById(id)) return;
                     const script = document.createElement('script');
-                    script.id = id; script.src = `https://cdn.curator.io/published/${feedId}.js`; script.async = true; script.charset = "UTF-8";
+                    script.id = id; script.src = src; script.async = true; script.charset = "UTF-8";
                     document.body.appendChild(script);
                 };
                 
-                if (popupTitle === 'Instagram') createScript(SCRIPT_ID_IG, curatorFeedIds.Instagram);
-                if (popupTitle === 'X') createScript(SCRIPT_ID_X, curatorFeedIds.X);
-                if (popupTitle === 'YouTube') createScript(SCRIPT_ID_YT, curatorFeedIds.YouTube);
+                // TODO: Add your Curator.io script here if you are using it.
+                // Example: if (popupTitle === 'Social Feed') createScript(SCRIPT_ID_X, "https://cdn.curator.io/published/YOUR_FEED_ID.js");
             }
+
             return () => {
                 window.removeEventListener('keydown', handleKeyDown);
-                if (!isPopupOpen) [SCRIPT_ID_IG, SCRIPT_ID_X, SCRIPT_ID_YT].forEach(id => document.getElementById(id)?.remove());
+                if (!isPopupOpen) {
+                    [SCRIPT_ID_X].forEach(id => document.getElementById(id)?.remove());
+                }
             };
         }, [isPopupOpen, popupTitle, isFullScreen, isAvatarModalOpen]);
 
-        // Add click listener to avatar in "About Us" popup.
         useEffect(() => {
             if (!isPopupOpen || popupTitle !== 'About Us') return;
+            
             const handleAvatarClick = () => { setIsAvatarModalOpen(true); };
+            
             const timer = setTimeout(() => {
                 const avatar = document.getElementById('about-us-avatar');
                 if (avatar) avatar.addEventListener('click', handleAvatarClick);
             }, 100);
+
             return () => {
                 clearTimeout(timer);
                 const avatar = document.getElementById('about-us-avatar');
@@ -505,7 +541,6 @@
             };
         }, [isPopupOpen, popupTitle, popupContent]);
         
-        // Toggle audio play/pause.
         const togglePlayPause = React.useCallback(() => {
             if (!audioRef.current) return;
             if (audioRef.current.paused) {
@@ -515,23 +550,32 @@
             }
         }, []);
 
-        // Media Session API for OS-level media controls.
         useEffect(() => {
-            if (!('mediaSession' in navigator) || !nowPlaying) return;
-            const { song } = nowPlaying.now_playing;
-            navigator.mediaSession.metadata = new MediaMetadata({
-                title: song.title,
-                artist: song.artist,
-                album: '[Your Station Name]', // **ACTION REQUIRED**: Update with your station name
-                artwork: [{ src: song.art }],
-            });
+            if (!('mediaSession' in navigator)) {
+                return;
+            }
+
+            if (nowPlaying) {
+                const { song } = nowPlaying.now_playing;
+                navigator.mediaSession.metadata = new MediaMetadata({
+                    title: song.title,
+                    artist: song.artist,
+                    album: 'Your Radio Station Name', // TODO: Customize this
+                    artwork: [{ src: song.art }],
+                });
+            }
+            
             navigator.mediaSession.setActionHandler('play', togglePlayPause);
             navigator.mediaSession.setActionHandler('pause', togglePlayPause);
-            try { navigator.mediaSession.playbackState = isPlaying ? 'playing' : 'paused'; } 
-            catch (error) { console.warn('Could not set media session playback state.', error); }
+            
+            try {
+                navigator.mediaSession.playbackState = isPlaying ? 'playing' : 'paused';
+            } catch (error) {
+                console.warn('Could not set media session playback state.', error);
+            }
+
         }, [nowPlaying, isPlaying, togglePlayPause]);
 
-        // `useLayoutEffect` to calculate ticker animation speed.
         useLayoutEffect(() => {
             if (tickerContainerRef.current && textRef.current) {
                 const textWidth = textRef.current.offsetWidth;
@@ -543,42 +587,69 @@
             }
         }, [tickerText]);
 
-        // Fix for '100vh' on mobile browsers.
         useEffect(() => {
-            const setVh = () => document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
+            const setVh = () => {
+                document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
+            };
             setVh();
             window.addEventListener('resize', setVh);
             return () => window.removeEventListener('resize', setVh);
         }, []);
         
-        // EVENT HANDLERS for onboarding.
+        // EVENT HANDLERS for the onboarding tour.
         const handleNextOnboardingStep = () => {
             if (onboardingStep < 3) {
                 if (isInitialOnboarding) setIsInitialOnboarding(false);
                 const nextStep = onboardingStep + 1;
                 setIsOnboardingStepFading(true);
-                setTimeout(() => { setOnboardingStep(nextStep); setIsOnboardingStepFading(false); }, 500);
+
+                setTimeout(() => {
+                    setOnboardingStep(nextStep);
+                    setIsOnboardingStepFading(false);
+                }, 500);
             } else {
                 handleSkipOnboarding();
             }
         };
-        const handleSkipOnboarding = () => { setShowOnboarding(false); setOnboardingStep(0); localStorage.setItem('hasCompletedOnboarding', 'true'); };
 
-        // EVENT HANDLER: Toggle menu.
+        const handleSkipOnboarding = () => {
+            setShowOnboarding(false);
+            setOnboardingStep(0);
+            localStorage.setItem('hasCompletedOnboarding', 'true');
+        };
+
         const toggleMenu = (e) => {
             e.stopPropagation();
-            if (autoCloseTimerRef.current) { clearTimeout(autoCloseTimerRef.current); autoCloseTimerRef.current = null; }
+            if (autoCloseTimerRef.current) {
+              clearTimeout(autoCloseTimerRef.current);
+              autoCloseTimerRef.current = null;
+            }
+            
             const nextIsOpen = !isMenuOpen;
             setIsMenuOpen(nextIsOpen);
-            if (nextIsOpen && window.innerWidth < 768) autoCloseTimerRef.current = setTimeout(() => setIsMenuOpen(false), 5000);
+
+            if (nextIsOpen && window.innerWidth < 768) {
+                autoCloseTimerRef.current = setTimeout(() => {
+                    setIsMenuOpen(false);
+                }, 5000);
+            }
+            
             menuClickIntentRef.current = nextIsOpen;
         };
 
-        // EVENT HANDLER: Click menu item.
         const handleMenuItemClick = async (item) => {
-            if (item.url) { window.open(item.url, '_blank', 'noopener,noreferrer'); setIsMenuOpen(false); return; }
-            if (autoCloseTimerRef.current) { clearTimeout(autoCloseTimerRef.current); autoCloseTimerRef.current = null; }
+            if (item.url) {
+                window.open(item.url, '_blank', 'noopener,noreferrer');
+                setIsMenuOpen(false);
+                return;
+            }
+
+            if (autoCloseTimerRef.current) {
+              clearTimeout(autoCloseTimerRef.current);
+              autoCloseTimerRef.current = null;
+            }
             menuClickIntentRef.current = false;
+        
             setPopupTitle(item.name);
             setPopupIcon(item.icon);
             setIsPopupOpen(true);
@@ -587,27 +658,38 @@
             if (item.contentUrl) {
               setPopupContent('<p class="text-center text-gray-400">Loading...</p>');
               try {
-                if (item.contentUrl.startsWith('[REPLACE')) throw new Error("Content URL is not configured.");
                 const response = await fetch(item.contentUrl);
                 if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
                 const text = await response.text();
                 
-                const linkify = (line) => line.replace(/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])|(\bwww\.[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig, (url) => `<a href="${url.startsWith('www.') ? `http://${url}` : url}" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-white underline break-all">${url}</a>`);
-                let htmlContent = text.split('\n').filter(line => line.trim() !== '').map(line => `<p class="mb-2">${linkify(line)}</p>`).join('');
+                const linkify = (line) => {
+                    const urlPattern = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])|(\bwww\.[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
+                    return line.replace(urlPattern, (url) => {
+                        const fullUrl = url.startsWith('www.') ? `http://${url}` : url;
+                        return `<a href="${fullUrl}" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-white underline break-all">${url}</a>`;
+                    });
+                };
 
-                // **ACTION REQUIRED**: Customize the "About Us" section here.
+                let htmlContent = text.split('\n')
+                                        .filter(line => line.trim() !== '')
+                                        .map(line => `<p class="mb-2">${linkify(line)}</p>`)
+                                        .join('');
+
+                /*
+                ================================================================================
+                === CUSTOMIZATION GUIDE (ABOUT US POPUP) =======================================
+                ================================================================================
+                
+                Instructions:
+                If you want to add a special element to your "About Us" popup (like an avatar),
+                you can add custom logic here. The example below shows how to prepend an image.
+                Make sure the `item.name` matches the name of your "About Us" menu item.
+                */
                 if (item.name === 'About Us') {
-                    const avatarHtml = `<div class="text-center"><img id="about-us-avatar" src="[REPLACE_WITH_YOUR_AVATAR_IMAGE_URL.jpg]" class="w-24 h-24 rounded-full mx-auto mb-4 cursor-pointer hover:scale-105 transition-transform duration-300" alt="About Us Avatar" /></div>`;
+                    // TODO: Replace the `src` with a URL to your own avatar/image.
+                    const avatarUrl = "path/to/your/avatar.jpg";
+                    const avatarHtml = `<div class="text-center"><img id="about-us-avatar" src="${avatarUrl}" class="w-24 h-24 rounded-full mx-auto mb-4 cursor-pointer hover:scale-105 transition-transform duration-300" alt="About Us Avatar" /></div>`;
                     htmlContent = avatarHtml + htmlContent;
-
-                    htmlContent += `<div class="border-t border-gray-700 pt-4 mt-4 text-center">
-                        <p class="text-white/80 text-sm flex items-center justify-center">
-                            <span>Music from [Your Music Source]</span>
-                            <a href="[REPLACE_WITH_YOUR_MUSIC_SOURCE_LINK]" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-white transition-colors ml-2 flex items-center justify-center" aria-label="Listen on Spotify">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 496 512"><path d="M248 8C111.1 8 0 119.1 0 256s111.1 248 248 248 248-111.1 248-248S384.9 8 248 8zm100.7 364.9c-2.1 3.9-6.3 5.1-10.2 2.9-33.3-19.3-74.5-23.7-124.5-12.9-4.3 .9-8.4-1.1-9.3-5.4s1.1-8.4 5.4-9.3c53.9-11.6 98.7-6.8 135.8 14.1 4.1 2.3 5.4 6.9 3.1 10.6zm13.5-44.5c-2.7 4.9-8.3 6.3-13.2 3.6-40.3-23.1-104.3-29.6-146.8-16.3-5.1 1.6-10.4-1.5-12-6.6s1.5-10.4 6.6-12c48.1-14.6 117.8-7.5 163.4 18.4 4.9 2.8 6.3 8.8 3.5 13.5zm.1-49.7c-3.2 5.9-9.8 7.8-15.7 4.6-45.4-26.4-121.2-32.2-169.4-17.8-6.1 1.8-12.2-1.8-14-7.9s1.8-12.2 7.9-14c53.6-15.8 135.8-9.5 187.1 19.8 5.9 3.2 7.8 9.9 4.6 15.8z"/></svg>
-                            </a>
-                        </p>
-                    </div>`;
                 }
                 setPopupContent(htmlContent || '<p>No content available.</p>');
               } catch (error) {
@@ -619,7 +701,6 @@
             }
         };
 
-        // EVENT HANDLER: PWA install prompt.
         const handleInstallClick = async () => {
             setShowInstallPrompt(false);
             if (deferredInstallPrompt) {
@@ -628,45 +709,80 @@
                 setDeferredInstallPrompt(null);
             } else {
                 const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-                if (isIOS) setShowIosInstructions(true);
-                else setShowGenericInstructions(true);
+                if (isIOS) {
+                    setShowIosInstructions(true);
+                } else {
+                    setShowGenericInstructions(true);
+                }
             }
         };
-        const handleDismissInstall = () => { setShowInstallPrompt(false); localStorage.setItem('installPromptDismissed', 'true'); };
+
+        const handleDismissInstall = () => {
+            setShowInstallPrompt(false);
+            localStorage.setItem('installPromptDismissed', 'true');
+        };
 
         // RENDER LOGIC
         const menuItemsToRender = menuItems.sort((a, b) => {
-          const order = ['Spotify', 'X', 'Instagram', 'YouTube', 'Blog', 'App', 'About Us', 'Support'];
+          const order = ['Spotify', 'Social Feed', 'Blog', 'About Us', 'Support Us']; // TODO: Adjust order to match your menu item names
           return order.indexOf(a.name) - order.indexOf(b.name);
         });
-        const onboardingTransitionClass = isInitialOnboarding ? 'transition-all duration-700 ease-in-out' : 'transition-opacity duration-500 ease-in-out';
+        
+        const onboardingTransitionClass = isInitialOnboarding
+          ? 'transition-all duration-700 ease-in-out'
+          : 'transition-opacity duration-500 ease-in-out';
 
         // JSX RENDER METHOD
         return (
           <React.Fragment>
             <div 
               className={`relative w-screen h-screen-dynamic bg-black overflow-hidden transition-transform duration-500 ease-in-out ${showInstallPrompt ? '-translate-y-[80px]' : 'translate-y-0'}`}
-              onClick={() => { if (isMenuOpen) { if (autoCloseTimerRef.current) clearTimeout(autoCloseTimerRef.current); autoCloseTimerRef.current = null; menuClickIntentRef.current = false; setIsMenuOpen(false); } }}>
+              onClick={() => {
+              if (isMenuOpen) {
+                if (autoCloseTimerRef.current) clearTimeout(autoCloseTimerRef.current);
+                autoCloseTimerRef.current = null;
+                menuClickIntentRef.current = false;
+                setIsMenuOpen(false);
+              }
+            }}>
+              <video 
+                ref={videoRef}
+                autoPlay 
+                loop 
+                muted 
+                playsInline
+                className="absolute top-0 left-0 w-full h-full object-cover"
+                src={YOUR_BACKGROUND_VIDEO_URL}
+              ></video>
               
-              <video ref={videoRef} autoPlay loop muted playsInline className="absolute top-0 left-0 w-full h-full object-cover" src={backgroundVideoUrl}></video>
               <div className="absolute inset-0 bg-black/50"></div>
 
               <header 
                   className={`absolute top-4 left-4 right-4 h-16 bg-black/80 backdrop-blur-sm rounded-full flex items-center z-40 shadow-lg transition-opacity duration-500 ${isFullScreen ? 'opacity-0 pointer-events-none' : ''}`}
-                  onMouseEnter={() => { if (window.innerWidth >= 768) { if (autoCloseTimerRef.current) clearTimeout(autoCloseTimerRef.current); autoCloseTimerRef.current = null; setIsMenuOpen(true); } }}
-                  onMouseLeave={() => { if (window.innerWidth >= 768 && !menuClickIntentRef.current) setIsMenuOpen(false); }}
+                  onMouseEnter={() => {
+                      if (window.innerWidth >= 768) {
+                          if (autoCloseTimerRef.current) clearTimeout(autoCloseTimerRef.current);
+                          autoCloseTimerRef.current = null;
+                          setIsMenuOpen(true);
+                      }
+                  }}
+                  onMouseLeave={() => {
+                      if (window.innerWidth >= 768 && !menuClickIntentRef.current) setIsMenuOpen(false);
+                  }}
               >
                   <div className="flex-shrink-0 w-16 h-16 z-20">
                       <button onClick={toggleMenu} className="relative w-16 h-16 rounded-full p-0 border-0 bg-transparent cursor-pointer" aria-label="Toggle navigation menu" aria-haspopup="true" aria-expanded={isMenuOpen}>
-                          <img src={logoUrl} alt="Station Logo" className={`w-full h-full rounded-full object-cover transition-transform duration-300 hover:scale-110 ${isPlaying ? 'logo-spinning' : ''}`} width="64" height="64" />
+                          <img src={YOUR_LOGO_URL} alt="Radio Logo" className={`w-full h-full rounded-full object-cover transition-transform duration-300 hover:scale-110 ${isPlaying ? 'logo-spinning' : ''}`} width="64" height="64" />
                       </button>
                   </div>
+
                   <div className="flex-grow h-full relative overflow-hidden ticker-mask">
                       <div ref={tickerContainerRef} className="absolute top-0 left-0 h-full flex items-center animate-marquee">
                           <p ref={textRef} className="text-gray-200 text-lg whitespace-nowrap px-8">{tickerText}</p>
                           <p className="text-gray-200 text-lg whitespace-nowrap px-8" aria-hidden="true">{tickerText}</p>
                       </div>
                   </div>
+
                   <nav onClick={(e) => e.stopPropagation()} aria-label="Main navigation" className={`absolute ${isMenuOpen ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'} transition-opacity duration-[1100ms] md:opacity-100 md:pointer-events-auto top-0 left-0 w-full h-full rounded-full bg-black/90 backdrop-blur-sm z-10 md:top-full md:left-0 md:w-16 md:h-auto md:bg-transparent md:backdrop-blur-none md:z-auto md:mt-2 md:rounded-lg`}>
                       <ul className="list-none m-0 p-0 h-full flex flex-row items-center justify-around pl-20 pr-16 md:justify-start md:pl-0 md:pr-0 md:flex-col md:items-center md:gap-2 md:h-auto">
                           {menuItemsToRender.map((item, index) => (
@@ -689,24 +805,50 @@
               
               <div className={`fixed z-30 [perspective:1000px] ${isFullScreen ? 'inset-0 flex items-center justify-center p-4' : 'top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-xs'}`}>
                 {nowPlaying ? (
-                  <div className={`relative transition-transform duration-1000 transform-style-3d ${isPlayerFlipped ? 'rotate-y-180' : ''}`}>
+                  <div
+                    className={`relative transition-transform duration-1000 transform-style-3d ${isPlayerFlipped ? 'rotate-y-180' : ''}`}
+                  >
                     <div className={`relative bg-black/70 backdrop-blur-lg shadow-2xl p-6 flex flex-col items-center gap-4 text-center backface-hidden ${isFullScreen ? 'h-auto justify-center rounded-3xl pt-16 md:px-12 md:pb-12 md:pt-20' : 'rounded-3xl'}`}>
                       {isFullScreen && (
-                          <button onClick={() => setIsFullScreen(false)} className="absolute top-4 right-4 text-white bg-white/10 rounded-full p-2 hover:bg-white/20 transition-colors z-50" aria-label="Exit Full Screen">
+                          <button 
+                            onClick={() => setIsFullScreen(false)}
+                            className="absolute top-4 right-4 text-white bg-white/10 rounded-full p-2 hover:bg-white/20 transition-colors z-50"
+                            aria-label="Exit Full Screen"
+                          >
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
                           </button>
                       )}
-                      <img src={nowPlaying.now_playing.song.art} alt={nowPlaying.now_playing.song.album} className={`object-cover shadow-lg ${isFullScreen ? 'w-[70vmin] h-[70vmin] md:w-96 md:h-96 rounded-3xl' : 'w-56 h-56 rounded-2xl'}`} width="224" height="224" fetchpriority="high" decoding="async" />
+                      <img 
+                        src={nowPlaying.now_playing.song.art} 
+                        alt={nowPlaying.now_playing.song.album} 
+                        className={`object-cover shadow-lg ${isFullScreen ? 'w-[70vmin] h-[70vmin] md:w-96 md:h-96 rounded-3xl' : 'w-56 h-56 rounded-2xl'}`}
+                        width="224"
+                        height="224"
+                        fetchpriority="high"
+                        decoding="async"
+                      />
                       <div className={`w-full overflow-hidden ${isFullScreen ? 'mt-6' : 'mt-2'}`}>
                         <p className={`text-white font-bold truncate ${isFullScreen ? 'text-3xl' : 'text-xl'}`}>{nowPlaying.now_playing.song.title}</p>
                         <p className={`text-gray-300 mt-1 truncate ${isFullScreen ? 'text-lg mt-2' : 'text-base mt-1'}`}>{nowPlaying.now_playing.song.artist}</p>
                       </div>
                       <div className={`flex items-center justify-center gap-6 ${isFullScreen ? 'mt-8' : 'mt-2'}`}>
-                          <button onClick={togglePlayPause} className="w-16 h-16 bg-white/20 text-white rounded-full flex items-center justify-center hover:bg-white/30 transition-all duration-300 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-white/50" aria-label={isPlaying ? "Pause" : "Play"}>
-                            {isPlaying ? ( <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg> ) : ( <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> )}
+                          <button 
+                            onClick={togglePlayPause} 
+                            className="w-16 h-16 bg-white/20 text-white rounded-full flex items-center justify-center hover:bg-white/30 transition-all duration-300 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-white/50"
+                            aria-label={isPlaying ? "Pause" : "Play"}
+                          >
+                            {isPlaying ? (
+                              <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                            ) : (
+                              <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                            )}
                           </button>
                           {!isFullScreen && (
-                              <button onClick={() => setIsFullScreen(true)} className="w-16 h-16 bg-white/20 text-white rounded-full flex items-center justify-center hover:bg-white/30 transition-all duration-300 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-white/50" aria-label="Full Screen">
+                              <button
+                                  onClick={() => setIsFullScreen(true)}
+                                  className="w-16 h-16 bg-white/20 text-white rounded-full flex items-center justify-center hover:bg-white/30 transition-all duration-300 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-white/50"
+                                  aria-label="Full Screen"
+                              >
                                   <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4 8V4h4m12 4V4h-4M4 16v4h4m12-4v4h-4" /></svg>
                               </button>
                           )}
@@ -724,40 +866,89 @@
                       <div className="w-16 h-16 mt-2 bg-white/20 rounded-full animate-pulse"></div>
                   </div>
                 )}
+                
+                {/* 
+                  IMPORTANT: DO NOT REMOVE THIS PROMO BANNER.
+                  This provides attribution to the open-source GitHub template.
+                  It is designed to be subtle and not interfere with your branding.
+                */}
                 {promoState !== 'hidden' && !isFullScreen && (
-                    <div className={`absolute top-full left-1/2 -translate-x-1/2 w-max text-center mt-4 pointer-events-none ${promoState === 'showing' ? 'animate-fade-in' : 'animate-fade-out'}`} onAnimationEnd={() => { if (promoState === 'hiding') setPromoState('hidden'); }}>
-                        <a href="[REPLACE_WITH_YOUR_PROJECT_GITHUB_OR_WEBSITE_URL]" target="_blank" rel="noopener noreferrer" className="text-xs text-white/70 bg-black/40 rounded-full px-3 py-1.5 inline-flex items-center justify-center gap-2 backdrop-blur-sm hover:text-white hover:bg-black/60 transition-colors pointer-events-auto">
-                            <span>Visit our Website</span>
+                    <div 
+                        className={`absolute top-full left-1/2 -translate-x-1/2 w-max text-center mt-4 pointer-events-none ${promoState === 'showing' ? 'animate-fade-in' : 'animate-fade-out'}`}
+                        onAnimationEnd={() => {
+                            if (promoState === 'hiding') {
+                                setPromoState('hidden');
+                            }
+                        }}
+                    >
+                        <a 
+                            href="https://github.com/radiohost-cloud/radiomorelove" 
+                            target="_blank" 
+                            rel="noopener noreferrer" 
+                            className="text-xs text-white/70 bg-black/40 rounded-full px-3 py-1.5 inline-flex items-center justify-center gap-2 backdrop-blur-sm hover:text-white hover:bg-black/60 transition-colors pointer-events-auto"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="currentColor" viewBox="0 0 16 16">
+                                <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8"/>
+                            </svg>
+                            <span>
+                                View on GitHub
+                            </span>
                         </a>
                     </div>
                 )}
               </div>
 
               {isPopupOpen && (
-                <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 animate-fade-in" onClick={() => setIsPopupOpen(false)} role="dialog" aria-modal="true" aria-labelledby="popup-title">
-                    <div className={`bg-black/80 rounded-2xl shadow-2xl p-6 w-full m-4 text-white relative animate-scale-in flex flex-col ${popupTitle === 'Spotify' || popupTitle === 'Instagram' || popupTitle === 'X' || popupTitle === 'YouTube' ? 'max-w-lg' : 'max-w-md'}`} onClick={(e) => e.stopPropagation()}>
+                <div 
+                    className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 animate-fade-in"
+                    onClick={() => setIsPopupOpen(false)}
+                    role="dialog"
+                    aria-modal="true"
+                    aria-labelledby="popup-title"
+                >
+                    <div 
+                        className={`bg-black/80 rounded-2xl shadow-2xl p-6 w-full m-4 text-white relative animate-scale-in flex flex-col ${popupTitle === 'Spotify' || popupTitle === 'Social Feed' ? 'max-w-lg' : 'max-w-md'}`}
+                        onClick={(e) => e.stopPropagation()}
+                    >
                         <button onClick={() => setIsPopupOpen(false)} className="absolute top-3 right-3 text-gray-400 hover:text-white transition-colors z-10" aria-label="Close popup">
                             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                         </button>
                         <h2 id="popup-title" className="font-bold mb-4" dangerouslySetInnerHTML={{ __html: popupIcon }}></h2>
+                        
                         <div ref={popupContentRef} className="text-gray-300 space-y-3 max-h-[60vh] overflow-y-auto pr-2 overscroll-contain" dangerouslySetInnerHTML={{ __html: popupContent }}></div>
                     </div>
                 </div>
               )}
               
               {isAvatarModalOpen && (
-                <div className="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center z-[60]" onClick={() => setIsAvatarModalOpen(false)} role="dialog" aria-modal="true" aria-label="Enlarged avatar view">
-                    <img src="[REPLACE_WITH_YOUR_AVATAR_IMAGE_URL.jpg]" alt="About Us Avatar - Enlarged" className="max-w-[90vw] max-h-[90vh] rounded-lg shadow-2xl object-contain animate-scale-in" onClick={(e) => e.stopPropagation()}/>
+                <div 
+                    className="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center z-[60]"
+                    onClick={() => setIsAvatarModalOpen(false)}
+                    role="dialog"
+                    aria-modal="true"
+                    aria-label="Enlarged avatar view"
+                >
+                    <img 
+                      src="path/to/your/avatar.jpg" // TODO: Update this to your image if using the avatar feature
+                      alt="About Us Avatar - Enlarged" 
+                      className="max-w-[90vw] max-h-[90vh] rounded-lg shadow-2xl object-contain animate-scale-in"
+                      onClick={(e) => e.stopPropagation()}
+                    />
                 </div>
               )}
 
               {showIosInstructions && (
                   <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 animate-fade-in" onClick={() => setShowIosInstructions(false)}>
                       <div className="bg-black/80 backdrop-blur-sm text-white p-6 rounded-xl shadow-2xl text-center max-w-sm mx-4 animate-scale-in relative" onClick={(e) => e.stopPropagation()}>
-                          <button onClick={() => setShowIosInstructions(false)} className="absolute top-2 right-2 text-gray-400 hover:text-white" aria-label="Close instructions"><svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg></button>
+                          <button onClick={() => setShowIosInstructions(false)} className="absolute top-2 right-2 text-gray-400 hover:text-white" aria-label="Close instructions">
+                             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                          </button>
                           <h3 className="text-xl font-bold mb-3">Add to Home Screen</h3>
                           <p className="mb-4 text-gray-300">To install the app, please follow these steps:</p>
-                          <div className="text-left space-y-3"><p>1. Tap the <span className="font-bold">Share</span> icon in your browser's toolbar.</p><p>2. Scroll down and tap on <span className="font-bold">'Add to Home Screen'</span>.</p></div>
+                          <div className="text-left space-y-3">
+                             <p>1. Tap the <span className="font-bold">Share</span> icon in your browser's toolbar.</p>
+                             <p>2. Scroll down and tap on <span className="font-bold">'Add to Home Screen'</span>.</p>
+                          </div>
                       </div>
                   </div>
               )}
@@ -765,30 +956,44 @@
               {showGenericInstructions && (
                   <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 animate-fade-in" onClick={() => setShowGenericInstructions(false)}>
                       <div className="bg-black/80 backdrop-blur-sm text-white p-6 rounded-xl shadow-2xl text-center max-w-sm mx-4 animate-scale-in relative" onClick={(e) => e.stopPropagation()}>
-                          <button onClick={() => setShowGenericInstructions(false)} className="absolute top-2 right-2 text-gray-400 hover:text-white" aria-label="Close instructions"><svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg></button>
+                          <button onClick={() => setShowGenericInstructions(false)} className="absolute top-2 right-2 text-gray-400 hover:text-white" aria-label="Close instructions">
+                             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                          </button>
                           <h3 className="text-xl font-bold mb-3">Install App</h3>
                           <p className="mb-4 text-gray-300">To add this app to your home screen:</p>
-                          <div className="text-left space-y-3"><p>1. Open your browser's menu (usually <span className="font-bold">⋮</span> or <span className="font-bold">☰</span>).</p><p>2. Look for and tap on the <span className="font-bold">'Install app'</span> or <span className="font-bold">'Add to Home Screen'</span> option.</p></div>
+                          <div className="text-left space-y-3">
+                             <p>1. Open your browser's menu (usually <span className="font-bold">⋮</span> or <span className="font-bold">☰</span>).</p>
+                             <p>2. Look for and tap on the <span className="font-bold">'Install app'</span> or <span className="font-bold">'Add to Home Screen'</span> option.</p>
+                          </div>
                       </div>
                   </div>
               )}
 
               <div className={`absolute bottom-4 right-4 z-40 transition-opacity duration-500 ${isFullScreen ? 'opacity-0 pointer-events-none' : ''}`}>
-                {/* **ACTION REQUIRED**: Replace with your ElevenLabs agent ID, or remove this div if not used. */}
-                <elevenlabs-convai agent-id="[REPLACE_WITH_YOUR_ELEVENLABS_AGENT_ID]"></elevenlabs-convai>
+                {/* TODO: Replace `YOUR_AGENT_ID_HERE` with your own from elevenlabs.io to enable the AI assistant */}
+                <elevenlabs-convai agent-id="YOUR_AGENT_ID_HERE"></elevenlabs-convai>
               </div>
             </div>
             
             {showOnboarding && onboardingStep > 0 && (
                 <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[60] animate-fade-in" onClick={(e) => { e.stopPropagation(); handleNextOnboardingStep(); }}>
-                    <div className={`absolute border-4 border-dashed border-white pointer-events-none ${onboardingTransitionClass} ${isOnboardingStepFading ? 'opacity-0' : 'opacity-100'}`} style={onboardingSteps[onboardingStep].highlightStyle}></div>
-                    <div className={`absolute bg-black/80 text-white p-5 rounded-lg shadow-2xl w-[calc(100%-2rem)] max-w-xs ${onboardingTransitionClass} ${isOnboardingStepFading ? 'opacity-0' : 'opacity-100'}`} style={onboardingSteps[onboardingStep].tooltipStyle} onClick={(e) => e.stopPropagation()}>
+                    <div
+                        className={`absolute border-4 border-dashed border-white pointer-events-none ${onboardingTransitionClass} ${isOnboardingStepFading ? 'opacity-0' : 'opacity-100'}`}
+                        style={onboardingSteps[onboardingStep].highlightStyle}
+                    ></div>
+                    <div
+                        className={`absolute bg-black/80 text-white p-5 rounded-lg shadow-2xl w-[calc(100%-2rem)] max-w-xs ${onboardingTransitionClass} ${isOnboardingStepFading ? 'opacity-0' : 'opacity-100'}`}
+                        style={onboardingSteps[onboardingStep].tooltipStyle}
+                        onClick={(e) => e.stopPropagation()}
+                    >
                         <p className="text-lg font-bold mb-2">{onboardingSteps[onboardingStep].title}</p>
                         <p className="text-sm text-gray-300 mb-4">{onboardingSteps[onboardingStep].text}</p>
                         <div className="flex justify-between items-center">
                             <button onClick={handleSkipOnboarding} className="text-gray-400 hover:text-white text-sm transition-colors">Skip</button>
                             <div className="text-sm text-gray-500">{onboardingStep}/3</div>
-                            <button onClick={handleNextOnboardingStep} className="bg-white hover:bg-gray-200 text-black font-bold py-2 px-4 rounded-lg text-sm transition-colors">{onboardingStep === 3 ? 'Finish' : 'Next'}</button>
+                            <button onClick={handleNextOnboardingStep} className="bg-white hover:bg-gray-200 text-black font-bold py-2 px-4 rounded-lg text-sm transition-colors">
+                                {onboardingStep === 3 ? 'Finish' : 'Next'}
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -796,14 +1001,18 @@
 
             <div className={`fixed bottom-0 left-0 right-0 bg-black/80 backdrop-blur-sm text-white z-50 shadow-lg h-[80px] flex items-center transition-transform duration-500 ease-in-out ${showInstallPrompt ? 'translate-y-0' : 'translate-y-full'}`}>
                 <div className="container mx-auto flex items-center justify-between gap-3 px-4">
-                    <img src={logoUrl} alt="App Logo" className="w-12 h-12 rounded-lg hidden sm:block flex-shrink-0" width="48" height="48" />
+                    <img src={YOUR_LOGO_URL} alt="App Logo" className="w-12 h-12 rounded-lg hidden sm:block flex-shrink-0" width="48" height="48" />
                     <div className="flex-grow">
                         <p className="font-bold text-sm sm:text-base">Get the Full App Experience</p>
-                        <p className="text-xs sm:text-sm text-gray-300">Add our station to your home screen.</p>
+                        <p className="text-xs sm:text-sm text-gray-300">Add this web app to your home screen.</p>
                     </div>
                     <div className="flex items-center gap-2 flex-shrink-0">
-                        <button onClick={handleInstallClick} className="bg-white hover:bg-gray-200 text-black font-bold py-2 px-4 rounded-lg transition-colors text-sm">Install</button>
-                        <button onClick={handleDismissInstall} className="text-gray-400 hover:text-white p-2 rounded-full" aria-label="Dismiss"><svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg></button>
+                        <button onClick={handleInstallClick} className="bg-white hover:bg-gray-200 text-black font-bold py-2 px-4 rounded-lg transition-colors text-sm">
+                            Install
+                        </button>
+                        <button onClick={handleDismissInstall} className="text-gray-400 hover:text-white p-2 rounded-full" aria-label="Dismiss">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -811,33 +1020,74 @@
         );
       };
 
-      // RENDER INITIALIZATION
       const rootElement = document.getElementById('root');
-      if (!rootElement) throw new Error("Could not find root element to mount to");
+      if (!rootElement) {
+        throw new Error("Could not find root element to mount to");
+      }
+
       const root = ReactDOM.createRoot(rootElement);
-      root.render( <React.StrictMode> <App /> </React.StrictMode> );
+      root.render(
+        <React.StrictMode>
+          <App />
+        </React.StrictMode>
+      );
     </script>
     
+    <!-- External script for the ElevenLabs AI Conversation widget. Loaded last to not block rendering. -->
     <script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async defer type="text/javascript"></script>
     
+    <!-- INLINE STYLES (CSS) -->
     <style>
         .rotate-y-180 { transform: rotateY(180deg); }
-        @keyframes fade-in-up { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        
+        @keyframes fade-in-up {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
         .animate-fade-in-up { animation: fade-in-up 0.5s ease-out forwards; }
-        @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
         .animate-marquee { animation: marquee 60s linear infinite; }
-        @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+
+        @keyframes fade-in {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
         .animate-fade-in { animation: fade-in 0.3s ease-out forwards; }
-        @keyframes fade-out { from { opacity: 1; } to { opacity: 0; } }
+
+        @keyframes fade-out {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
         .animate-fade-out { animation: fade-out 0.5s ease-out forwards; }
-        @keyframes scale-in { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+
+        @keyframes scale-in {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
         .animate-scale-in { animation: scale-in 0.3s ease-out forwards; }
-        @keyframes fade-in-long { from { opacity: 0; } to { opacity: 1; } }
+        
+        @keyframes fade-in-long {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
         .animate-fade-in-long { animation: fade-in-long 1.5s ease-in-out forwards; }
-        @keyframes fade-out-long { from { opacity: 1; } to { opacity: 0; } }
+
+        @keyframes fade-out-long {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
         .animate-fade-out-long { animation: fade-out-long 1.5s ease-in-out forwards; }
-        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
         .logo-spinning { animation: spin 8s linear infinite; }
+        
         .backdrop-blur-sm { -webkit-backdrop-filter: blur(4px); }
         .backdrop-blur-lg { -webkit-backdrop-filter: blur(16px); }
         .backdrop-blur-md { -webkit-backdrop-filter: blur(12px); }
@@ -847,8 +1097,15 @@
             -webkit-mask-image: linear-gradient(to right, black 90%, transparent 100%);
             mask-image: linear-gradient(to right, black 90%, transparent 100%);
         }
-        .h-screen-dynamic { height: 100vh; height: calc(var(--vh, 1vh) * 100); }
-        button, a, [role="button"] { touch-action: manipulation; }
+
+        .h-screen-dynamic {
+            height: 100vh; /* Fallback */
+            height: calc(var(--vh, 1vh) * 100);
+        }
+
+        button, a, [role="button"] {
+            touch-action: manipulation;
+        }
     </style>
   </body>
 </html>
