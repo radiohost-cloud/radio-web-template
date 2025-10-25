@@ -54,6 +54,22 @@
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" defer></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest" defer></script>
+    <script>
+      // Define the global callback for the Cast SDK to ensure it's available when the script loads.
+      window['__onGCastApiAvailable'] = function(isAvailable) {
+        if (isAvailable) {
+          try {
+            cast.framework.CastContext.getInstance().setOptions({
+              receiverApplicationId: chrome.cast.media.DEFAULT_MEDIA_RECEIVER_APP_ID,
+              autoJoinPolicy: chrome.cast.AutoJoinPolicy.ORIGIN_SCOPED
+            });
+            console.log("Chromecast context initialized via global callback.");
+          } catch(e) {
+            console.error("Failed to initialize Chromecast SDK in global callback", e);
+          }
+        }
+      };
+    </script>
     <script src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1" defer></script>
 
     
@@ -92,7 +108,6 @@
         const installPromptTimers = useRef({ show: null, hide: null });
         const flipTimeoutRef = useRef(null);
         const isInitialSongLoad = useRef(true);
-        const castInitialized = useRef(false);
         const remotePlayerControllerRef = useRef(null);
         const nowPlayingRef = useRef(nowPlaying);
 
@@ -222,78 +237,87 @@
         };
         
         useEffect(() => {
-            if (castInitialized.current) return;
-            castInitialized.current = true;
-        
-            window['__onGCastApiAvailable'] = isAvailable => {
-                if (!isAvailable) return;
-                
-                try {
-                    const castContext = cast.framework.CastContext.getInstance();
-                    castContext.setOptions({
-                        receiverApplicationId: chrome.cast.media.DEFAULT_MEDIA_RECEIVER_APP_ID,
-                        autoJoinPolicy: chrome.cast.AutoJoinPolicy.ORIGIN_SCOPED
-                    });
-        
-                    const remotePlayer = new cast.framework.RemotePlayer();
-                    const controller = new cast.framework.RemotePlayerController(remotePlayer);
-                    remotePlayerControllerRef.current = controller;
-        
-                    const castMedia = () => {
-                        const currentNowPlaying = nowPlayingRef.current;
-                        if (!currentNowPlaying) {
-                            console.warn("Cannot cast: nowPlaying data is not available yet.");
-                            return;
-                        }
-                        const song = currentNowPlaying.now_playing.song;
-                        
-                        const mediaInfo = new chrome.cast.media.MediaInfo(streamAudioUrl, 'application/x-mpegURL');
-                        mediaInfo.streamType = chrome.cast.media.StreamType.LIVE;
-                        
-                        const metadata = new chrome.cast.media.GenericMediaMetadata();
-                        metadata.title = song.title;
-                        metadata.artist = song.artist;
-                        metadata.albumName = 'radiomore.love';
-                        metadata.images = [new chrome.cast.Image(song.art)];
-                        
-                        mediaInfo.metadata = metadata;
-                        
-                        const request = new cast.framework.LoadRequest(mediaInfo);
-                        
-                        const castSession = castContext.getCurrentSession();
-                        if (castSession) {
-                            castSession.loadMedia(request).then(
-                                () => console.log('Media loaded successfully on Chromecast.'),
-                                errorCode => console.error('Error loading media on Chromecast: ', errorCode)
-                            );
-                        }
-                    };
-        
-                    controller.addEventListener(
-                        cast.framework.RemotePlayerEventType.IS_PLAYING_CHANGED,
-                        () => {
-                            if (castContext.getCastState() === cast.framework.CastState.CONNECTED) {
-                                setIsPlaying(remotePlayer.isPlaying);
-                            }
-                        }
-                    );
-        
-                    castContext.addEventListener(
-                        cast.framework.CastContextEventType.SESSION_STATE_CHANGED,
-                        event => {
-                            const castState = castContext.getCastState();
-                            setIsCasting(castState === cast.framework.CastState.CONNECTED);
-                            
-                            if (event.sessionState === cast.framework.SessionState.SESSION_STARTED) {
-                                if (audioRef.current) audioRef.current.pause();
-                                castMedia();
-                            } else if (event.sessionState === cast.framework.SessionState.SESSION_RESUMED) {
-                                if (audioRef.current) audioRef.current.pause();
-                            }
-                        }
-                    );
-                } catch(e) {
-                    console.error("Failed to initialize Chromecast SDK", e);
+            let onPlayingChanged;
+            let onSessionStateChanged;
+            let controller;
+            let castContext;
+
+            const setupCastListeners = () => {
+                castContext = cast.framework.CastContext.getInstance();
+                if (!castContext) return;
+
+                const remotePlayer = new cast.framework.RemotePlayer();
+                controller = new cast.framework.RemotePlayerController(remotePlayer);
+                remotePlayerControllerRef.current = controller;
+
+                const castMedia = () => {
+                    const currentNowPlaying = nowPlayingRef.current;
+                    if (!currentNowPlaying) {
+                        console.warn("Cannot cast: nowPlaying data is not available yet.");
+                        return;
+                    }
+                    const song = currentNowPlaying.now_playing.song;
+                    
+                    const mediaInfo = new chrome.cast.media.MediaInfo(streamAudioUrl, 'application/x-mpegURL');
+                    mediaInfo.streamType = chrome.cast.media.StreamType.LIVE;
+                    
+                    const metadata = new chrome.cast.media.GenericMediaMetadata();
+                    metadata.title = song.title;
+                    metadata.artist = song.artist;
+                    metadata.albumName = 'radiomore.love';
+                    metadata.images = [new chrome.cast.Image(song.art)];
+                    
+                    mediaInfo.metadata = metadata;
+                    
+                    const request = new cast.framework.LoadRequest(mediaInfo);
+                    
+                    const castSession = castContext.getCurrentSession();
+                    if (castSession) {
+                        castSession.loadMedia(request).then(
+                            () => console.log('Media loaded successfully on Chromecast.'),
+                            errorCode => console.error('Error loading media on Chromecast: ', errorCode)
+                        );
+                    }
+                };
+
+                onPlayingChanged = () => {
+                    if (castContext.getCastState() === cast.framework.CastState.CONNECTED) {
+                        setIsPlaying(remotePlayer.isPlaying);
+                    }
+                };
+
+                onSessionStateChanged = event => {
+                    const castState = castContext.getCastState();
+                    setIsCasting(castState === cast.framework.CastState.CONNECTED);
+                    
+                    if (event.sessionState === cast.framework.SessionState.SESSION_STARTED) {
+                        if (audioRef.current) audioRef.current.pause();
+                        castMedia();
+                    } else if (event.sessionState === cast.framework.SessionState.SESSION_RESUMED) {
+                        if (audioRef.current) audioRef.current.pause();
+                    }
+                };
+
+                controller.addEventListener(cast.framework.RemotePlayerEventType.IS_PLAYING_CHANGED, onPlayingChanged);
+                castContext.addEventListener(cast.framework.CastContextEventType.SESSION_STATE_CHANGED, onSessionStateChanged);
+
+                console.log("React Chromecast listeners attached.");
+            };
+
+            const intervalId = setInterval(() => {
+                if (window.cast && window.cast.framework) {
+                    clearInterval(intervalId);
+                    setupCastListeners();
+                }
+            }, 250);
+
+            return () => {
+                clearInterval(intervalId);
+                if (controller && onPlayingChanged) {
+                    controller.removeEventListener(cast.framework.RemotePlayerEventType.IS_PLAYING_CHANGED, onPlayingChanged);
+                }
+                if (castContext && onSessionStateChanged) {
+                    castContext.removeEventListener(cast.framework.CastContextEventType.SESSION_STATE_CHANGED, onSessionStateChanged);
                 }
             };
         }, []);
