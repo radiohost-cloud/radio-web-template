@@ -44,7 +44,6 @@
     <link rel="preconnect" href="https://raw.githubusercontent.com" />
     <link rel="preconnect" href="https://stream.radiohost.cloud" />
     <link rel="preconnect" href="https://cdn.jsdelivr.net" />
-    <link rel="preconnect" href="https://www.gstatic.com" />
   </head>
   <body class="overflow-hidden">
     <div id="root"></div>
@@ -54,24 +53,6 @@
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" defer></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest" defer></script>
-    <script>
-      // Define the global callback for the Cast SDK to ensure it's available when the script loads.
-      window['__onGCastApiAvailable'] = function(isAvailable) {
-        if (isAvailable) {
-          try {
-            cast.framework.CastContext.getInstance().setOptions({
-              receiverApplicationId: chrome.cast.media.DEFAULT_MEDIA_RECEIVER_APP_ID,
-              autoJoinPolicy: chrome.cast.AutoJoinPolicy.ORIGIN_SCOPED
-            });
-            console.log("Chromecast context initialized via global callback.");
-          } catch(e) {
-            console.error("Failed to initialize Chromecast SDK in global callback", e);
-          }
-        }
-      };
-    </script>
-    <script src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1" defer></script>
-
     
     <script type="text/babel">
       const App = () => {
@@ -95,7 +76,6 @@
         const [onboardingStep, setOnboardingStep] = useState(0);
         const [isInitialOnboarding, setIsInitialOnboarding] = useState(true);
         const [isOnboardingStepFading, setIsOnboardingStepFading] = useState(false);
-        const [isCasting, setIsCasting] = useState(false);
         
         const tickerContainerRef = useRef(null);
         const textRef = useRef(null);
@@ -108,12 +88,6 @@
         const installPromptTimers = useRef({ show: null, hide: null });
         const flipTimeoutRef = useRef(null);
         const isInitialSongLoad = useRef(true);
-        const remotePlayerControllerRef = useRef(null);
-        const nowPlayingRef = useRef(nowPlaying);
-
-        useEffect(() => {
-            nowPlayingRef.current = nowPlaying;
-        }, [nowPlaying]);
 
         const logoUrl = 'https://raw.githubusercontent.com/radiohost-cloud/radiomorelove/main/logo.png';
         const feedUrl = 'https://raw.githubusercontent.com/radiohost-cloud/radiomorelove/main/feed.txt';
@@ -235,92 +209,6 @@
                 nowPlayingTimeoutRef.current = setTimeout(fetchNowPlaying, 30000);
             }
         };
-        
-        useEffect(() => {
-            let onPlayingChanged;
-            let onSessionStateChanged;
-            let controller;
-            let castContext;
-
-            const setupCastListeners = () => {
-                castContext = cast.framework.CastContext.getInstance();
-                if (!castContext) return;
-
-                const remotePlayer = new cast.framework.RemotePlayer();
-                controller = new cast.framework.RemotePlayerController(remotePlayer);
-                remotePlayerControllerRef.current = controller;
-
-                const castMedia = () => {
-                    const currentNowPlaying = nowPlayingRef.current;
-                    if (!currentNowPlaying) {
-                        console.warn("Cannot cast: nowPlaying data is not available yet.");
-                        return;
-                    }
-                    const song = currentNowPlaying.now_playing.song;
-                    
-                    const mediaInfo = new chrome.cast.media.MediaInfo(streamAudioUrl, 'application/x-mpegURL');
-                    mediaInfo.streamType = chrome.cast.media.StreamType.LIVE;
-                    
-                    const metadata = new chrome.cast.media.GenericMediaMetadata();
-                    metadata.title = song.title;
-                    metadata.artist = song.artist;
-                    metadata.albumName = 'radiomore.love';
-                    metadata.images = [new chrome.cast.Image(song.art)];
-                    
-                    mediaInfo.metadata = metadata;
-                    
-                    const request = new cast.framework.LoadRequest(mediaInfo);
-                    
-                    const castSession = castContext.getCurrentSession();
-                    if (castSession) {
-                        castSession.loadMedia(request).then(
-                            () => console.log('Media loaded successfully on Chromecast.'),
-                            errorCode => console.error('Error loading media on Chromecast: ', errorCode)
-                        );
-                    }
-                };
-
-                onPlayingChanged = () => {
-                    if (castContext.getCastState() === cast.framework.CastState.CONNECTED) {
-                        setIsPlaying(remotePlayer.isPlaying);
-                    }
-                };
-
-                onSessionStateChanged = event => {
-                    const castState = castContext.getCastState();
-                    setIsCasting(castState === cast.framework.CastState.CONNECTED);
-                    
-                    if (event.sessionState === cast.framework.SessionState.SESSION_STARTED) {
-                        if (audioRef.current) audioRef.current.pause();
-                        castMedia();
-                    } else if (event.sessionState === cast.framework.SessionState.SESSION_RESUMED) {
-                        if (audioRef.current) audioRef.current.pause();
-                    }
-                };
-
-                controller.addEventListener(cast.framework.RemotePlayerEventType.IS_PLAYING_CHANGED, onPlayingChanged);
-                castContext.addEventListener(cast.framework.CastContextEventType.SESSION_STATE_CHANGED, onSessionStateChanged);
-
-                console.log("React Chromecast listeners attached.");
-            };
-
-            const intervalId = setInterval(() => {
-                if (window.cast && window.cast.framework) {
-                    clearInterval(intervalId);
-                    setupCastListeners();
-                }
-            }, 250);
-
-            return () => {
-                clearInterval(intervalId);
-                if (controller && onPlayingChanged) {
-                    controller.removeEventListener(cast.framework.RemotePlayerEventType.IS_PLAYING_CHANGED, onPlayingChanged);
-                }
-                if (castContext && onSessionStateChanged) {
-                    castContext.removeEventListener(cast.framework.CastContextEventType.SESSION_STATE_CHANGED, onSessionStateChanged);
-                }
-            };
-        }, []);
 
         useEffect(() => {
             const hasOnboarded = localStorage.getItem('hasCompletedOnboarding');
@@ -558,18 +446,11 @@
         }, [isPopupOpen, popupTitle]);
         
         const togglePlayPause = React.useCallback(() => {
-            const castContext = window.cast ? cast.framework.CastContext.getInstance() : null;
-            const castSession = castContext ? castContext.getCurrentSession() : null;
-
-            if (castSession && remotePlayerControllerRef.current) {
-                remotePlayerControllerRef.current.playOrPause();
+            if (!audioRef.current) return;
+            if (audioRef.current.paused) {
+                audioRef.current.play().catch(e => console.error("Playback error:", e));
             } else {
-                if (!audioRef.current) return;
-                if (audioRef.current.paused) {
-                    audioRef.current.play().catch(e => console.error("Playback error:", e));
-                } else {
-                    audioRef.current.pause();
-                }
+                audioRef.current.pause();
             }
         }, []);
 
@@ -820,7 +701,7 @@
                   </nav>
               </header>
               
-              <audio ref={audioRef} preload="auto" onPlay={() => !isCasting && setIsPlaying(true)} onPause={() => !isCasting && setIsPlaying(false)}></audio>
+              <audio ref={audioRef} preload="auto" onPlay={() => setIsPlaying(true)} onPause={() => setIsPlaying(false)}></audio>
               
               <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-xs z-30 [perspective:1000px]">
                 {nowPlaying ? (
@@ -843,22 +724,17 @@
                           <p className="text-white text-xl font-bold truncate">{nowPlaying.now_playing.song.title}</p>
                           <p className="text-gray-300 text-base mt-1 truncate">{nowPlaying.now_playing.song.artist}</p>
                         </div>
-                        <div className="flex items-center justify-center gap-6 mt-2">
-                          <button 
-                            onClick={togglePlayPause} 
-                            className="w-16 h-16 bg-white/20 text-white rounded-full flex items-center justify-center hover:bg-white/30 transition-all duration-300 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-white/50"
-                            aria-label={isPlaying ? "Pause" : "Play"}
-                          >
-                            {isPlaying ? (
-                              <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
-                            ) : (
-                              <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                            )}
-                          </button>
-                          <div className="w-10 h-10 flex items-center justify-center text-white">
-                             <google-cast-launcher style={{'--cast-button-color': 'white'}}></google-cast-launcher>
-                          </div>
-                        </div>
+                        <button 
+                          onClick={togglePlayPause} 
+                          className="w-16 h-16 mt-2 bg-white/20 text-white rounded-full flex items-center justify-center hover:bg-white/30 transition-all duration-300 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-white/50"
+                          aria-label={isPlaying ? "Pause" : "Play"}
+                        >
+                          {isPlaying ? (
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                          ) : (
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                          )}
+                        </button>
                       </div>
                       {/* Back Face */}
                       <div className="absolute top-0 left-0 w-full h-full bg-black/70 backdrop-blur-lg rounded-3xl shadow-2xl p-6 flex flex-col items-center justify-center text-center backface-hidden [transform:rotateY(180deg)]">
