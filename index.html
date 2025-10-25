@@ -209,29 +209,6 @@
                 nowPlayingTimeoutRef.current = setTimeout(fetchNowPlaying, 30000);
             }
         };
-        
-        useEffect(() => {
-            const hideAddressBar = () => {
-                const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-                const isStandalone = ('standalone' in window.navigator) && (window.navigator.standalone);
-
-                if (isIOS && !isStandalone) {
-                    // Give the browser a moment to settle before scrolling
-                    setTimeout(() => {
-                        // Only scroll if we are at the very top of the page
-                        if (window.scrollY === 0) {
-                            window.scrollTo(0, 1);
-                        }
-                    }, 200);
-                }
-            };
-            
-            window.addEventListener('load', hideAddressBar);
-
-            return () => {
-                window.removeEventListener('load', hideAddressBar);
-            };
-        }, []);
 
         useEffect(() => {
             const hasOnboarded = localStorage.getItem('hasCompletedOnboarding');
@@ -802,7 +779,7 @@
                   <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 animate-fade-in" onClick={() => setShowIosInstructions(false)}>
                       <div className="bg-black/80 backdrop-blur-sm text-white p-6 rounded-xl shadow-2xl text-center max-w-sm mx-4 animate-scale-in relative" onClick={(e) => e.stopPropagation()}>
                           <button onClick={() => setShowIosInstructions(false)} className="absolute top-2 right-2 text-gray-400 hover:text-white" aria-label="Close instructions">
-                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
                           </button>
                           <h3 className="text-xl font-bold mb-3">Add to Home Screen</h3>
                           <p className="mb-4 text-gray-300">To install the app, please follow these steps:</p>
@@ -818,7 +795,7 @@
                   <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 animate-fade-in" onClick={() => setShowGenericInstructions(false)}>
                       <div className="bg-black/80 backdrop-blur-sm text-white p-6 rounded-xl shadow-2xl text-center max-w-sm mx-4 animate-scale-in relative" onClick={(e) => e.stopPropagation()}>
                           <button onClick={() => setShowGenericInstructions(false)} className="absolute top-2 right-2 text-gray-400 hover:text-white" aria-label="Close instructions">
-                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
                           </button>
                           <h3 className="text-xl font-bold mb-3">Install App</h3>
                           <p className="mb-4 text-gray-300">To add this app to your home screen:</p>
@@ -872,7 +849,7 @@
                               Install
                           </button>
                           <button onClick={handleDismissInstall} className="text-gray-400 hover:text-white p-2 rounded-full" aria-label="Dismiss">
-                              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
                           </button>
                       </div>
                   </div>
