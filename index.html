@@ -211,12 +211,26 @@
         };
         
         useEffect(() => {
-            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-            if (isIOS) {
-                setTimeout(() => {
-                    window.scrollTo(0, 1);
-                }, 100);
-            }
+            const hideAddressBar = () => {
+                const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+                const isStandalone = ('standalone' in window.navigator) && (window.navigator.standalone);
+
+                if (isIOS && !isStandalone) {
+                    // Give the browser a moment to settle before scrolling
+                    setTimeout(() => {
+                        // Only scroll if we are at the very top of the page
+                        if (window.scrollY === 0) {
+                            window.scrollTo(0, 1);
+                        }
+                    }, 200);
+                }
+            };
+            
+            window.addEventListener('load', hideAddressBar);
+
+            return () => {
+                window.removeEventListener('load', hideAddressBar);
+            };
         }, []);
 
         useEffect(() => {
