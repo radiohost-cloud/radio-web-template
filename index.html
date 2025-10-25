@@ -58,7 +58,6 @@
       const App = () => {
         const { useState, useEffect, useRef, useLayoutEffect } = React;
         const [isMenuOpen, setIsMenuOpen] = useState(false);
-        const [isMounted, setIsMounted] = useState(false);
         const [tickerText, setTickerText] = useState('Loading latest updates...');
         const [isPopupOpen, setIsPopupOpen] = useState(false);
         const [popupTitle, setPopupTitle] = useState('');
@@ -246,8 +245,6 @@
         }, []);
 
         useEffect(() => {
-          setIsMounted(true);
-          
           fetchNowPlaying();
 
           const openTimer = setTimeout(() => {
@@ -641,6 +638,9 @@
           ? 'transition-all duration-700 ease-in-out'
           : 'transition-opacity duration-500 ease-in-out';
 
+        const containerTransition = 'transition-all duration-700 ease-out';
+        const childrenTransition = 'transition-all duration-700 ease-in-out';
+
         return (
           <React.Fragment>
             <div 
@@ -691,13 +691,13 @@
                       </div>
                   </div>
 
-                  <nav onClick={(e) => e.stopPropagation()} aria-label="Main navigation" className={`absolute ${isMenuOpen ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'} ${isMounted ? 'transition-opacity duration-[1100ms]' : ''} md:opacity-100 md:pointer-events-auto top-0 left-0 w-full h-full rounded-full bg-black/90 backdrop-blur-sm z-10 md:top-full md:left-0 md:w-16 md:h-auto md:bg-transparent md:backdrop-blur-none md:z-auto md:mt-2 md:rounded-lg`}>
+                  <nav onClick={(e) => e.stopPropagation()} aria-label="Main navigation" className={`absolute ${isMenuOpen ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'} transition-opacity duration-[1100ms] md:opacity-100 md:pointer-events-auto top-0 left-0 w-full h-full rounded-full bg-black/90 backdrop-blur-sm z-10 md:top-full md:left-0 md:w-16 md:h-auto md:bg-transparent md:backdrop-blur-none md:z-auto md:mt-2 md:rounded-lg`}>
                       <ul className="list-none m-0 p-0 h-full flex flex-row items-center justify-around pl-20 pr-16 md:justify-start md:pl-0 md:pr-0 md:flex-col md:items-center md:gap-2 md:h-auto">
                           {menuItemsToRender.map((item, index) => (
                               <li key={item.name}>
                                   <button
                                       onClick={() => handleMenuItemClick(item)}
-                                      className={`w-9 h-9 md:w-16 md:h-16 bg-black text-white rounded-full flex items-center justify-center md:shadow-lg hover:bg-white hover:text-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-gray-400 ${isMounted ? 'transition-all duration-500 ease-out' : ''} ${isMenuOpen ? 'opacity-100 translate-x-0 md:translate-y-0' : 'opacity-0 -translate-x-4 md:-translate-y-4'}`}
+                                      className={`w-9 h-9 md:w-16 md:h-16 bg-black text-white rounded-full flex items-center justify-center md:shadow-lg hover:bg-white hover:text-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-gray-400 transition-all duration-500 ease-out ${isMenuOpen ? 'opacity-100 translate-x-0 md:translate-y-0' : 'opacity-0 -translate-x-4 md:-translate-y-4'}`}
                                       style={{ transitionDelay: isMenuOpen ? `${index * 80}ms` : `${(menuItemsToRender.length - 1 - index) * 80}ms` }}
                                       tabIndex={isMenuOpen ? 0 : -1}
                                       aria-label={item.name}
@@ -711,14 +711,14 @@
               
               <audio ref={audioRef} preload="auto" onPlay={() => setIsPlaying(true)} onPause={() => setIsPlaying(false)}></audio>
               
-              <div className={`fixed z-30 [perspective:1000px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-all duration-700 ease-out ${isFullScreen ? 'w-screen h-screen-dynamic md:w-[400px] md:h-[520px] max-w-none' : 'w-[90%] max-w-xs'}`}>
+              <div className={`fixed z-30 [perspective:1000px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 ${containerTransition} ${isFullScreen ? 'w-screen h-screen-dynamic md:w-[400px] md:h-[520px] max-w-none' : 'w-[90%] max-w-xs'}`}>
                 {nowPlaying ? (
                   <div className="h-full">
                     <div
                       className={`relative transition-transform duration-1000 transform-style-3d h-full ${isPlayerFlipped ? 'rotate-y-180' : ''}`}
                     >
                       {/* Front Face */}
-                      <div className={`bg-black/70 backdrop-blur-lg shadow-2xl p-6 flex flex-col items-center gap-4 text-center backface-hidden transition-all duration-700 ease-in-out ${isFullScreen ? 'h-full justify-center rounded-none md:rounded-3xl' : 'rounded-3xl'}`}>
+                      <div className={`bg-black/70 backdrop-blur-lg shadow-2xl p-6 flex flex-col items-center gap-4 text-center backface-hidden ${childrenTransition} ${isFullScreen ? 'h-full justify-center rounded-none md:rounded-3xl' : 'rounded-3xl'}`}>
                         {isFullScreen && (
                             <button 
                               onClick={() => setIsFullScreen(false)}
@@ -731,17 +731,17 @@
                         <img 
                           src={nowPlaying.now_playing.song.art} 
                           alt={nowPlaying.now_playing.song.album} 
-                          className={`object-cover shadow-lg transition-all duration-700 ease-in-out ${isFullScreen ? 'w-[70vmin] h-[70vmin] md:w-80 md:h-80 rounded-3xl' : 'w-56 h-56 rounded-2xl'}`}
+                          className={`object-cover shadow-lg ${childrenTransition} ${isFullScreen ? 'w-[70vmin] h-[70vmin] md:w-80 md:h-80 rounded-3xl' : 'w-56 h-56 rounded-2xl'}`}
                           width="224"
                           height="224"
                           fetchpriority="high"
                           decoding="async"
                         />
-                        <div className={`w-full overflow-hidden transition-all duration-700 ease-in-out ${isFullScreen ? 'mt-6' : 'mt-2'}`}>
-                          <p className={`text-white font-bold truncate transition-all duration-700 ease-in-out ${isFullScreen ? 'text-3xl' : 'text-xl'}`}>{nowPlaying.now_playing.song.title}</p>
-                          <p className={`text-gray-300 mt-1 truncate transition-all duration-700 ease-in-out ${isFullScreen ? 'text-lg mt-2' : 'text-base mt-1'}`}>{nowPlaying.now_playing.song.artist}</p>
+                        <div className={`w-full overflow-hidden ${childrenTransition} ${isFullScreen ? 'mt-6' : 'mt-2'}`}>
+                          <p className={`text-white font-bold truncate ${childrenTransition} ${isFullScreen ? 'text-3xl' : 'text-xl'}`}>{nowPlaying.now_playing.song.title}</p>
+                          <p className={`text-gray-300 mt-1 truncate ${childrenTransition} ${isFullScreen ? 'text-lg mt-2' : 'text-base mt-1'}`}>{nowPlaying.now_playing.song.artist}</p>
                         </div>
-                        <div className={`flex items-center justify-center gap-6 transition-all duration-700 ease-in-out ${isFullScreen ? 'mt-8' : 'mt-2'}`}>
+                        <div className={`flex items-center justify-center gap-6 ${childrenTransition} ${isFullScreen ? 'mt-8' : 'mt-2'}`}>
                             <button 
                               onClick={togglePlayPause} 
                               className="w-16 h-16 bg-white/20 text-white rounded-full flex items-center justify-center hover:bg-white/30 transition-all duration-300 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-white/50"
@@ -864,25 +864,23 @@
                 </div>
             )}
 
-            {isMounted && (
-              <div className={`fixed bottom-0 left-0 right-0 bg-black/80 backdrop-blur-sm text-white z-50 shadow-lg h-[80px] flex items-center transition-transform duration-500 ease-in-out ${showInstallPrompt ? 'translate-y-0' : 'translate-y-full'}`}>
-                  <div className="container mx-auto flex items-center justify-between gap-3 px-4">
-                      <img src={logoUrl} alt="App Logo" className="w-12 h-12 rounded-lg hidden sm:block flex-shrink-0" width="48" height="48" />
-                      <div className="flex-grow">
-                          <p className="font-bold text-sm sm:text-base">Get the Full App Experience</p>
-                          <p className="text-xs sm:text-sm text-gray-300">Add radiomore.love to your home screen.</p>
-                      </div>
-                      <div className="flex items-center gap-2 flex-shrink-0">
-                          <button onClick={handleInstallClick} className="bg-white hover:bg-gray-200 text-black font-bold py-2 px-4 rounded-lg transition-colors text-sm">
-                              Install
-                          </button>
-                          <button onClick={handleDismissInstall} className="text-gray-400 hover:text-white p-2 rounded-full" aria-label="Dismiss">
-                              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
-                          </button>
-                      </div>
-                  </div>
-              </div>
-            )}
+            <div className={`fixed bottom-0 left-0 right-0 bg-black/80 backdrop-blur-sm text-white z-50 shadow-lg h-[80px] flex items-center transition-transform duration-500 ease-in-out ${showInstallPrompt ? 'translate-y-0' : 'translate-y-full'}`}>
+                <div className="container mx-auto flex items-center justify-between gap-3 px-4">
+                    <img src={logoUrl} alt="App Logo" className="w-12 h-12 rounded-lg hidden sm:block flex-shrink-0" width="48" height="48" />
+                    <div className="flex-grow">
+                        <p className="font-bold text-sm sm:text-base">Get the Full App Experience</p>
+                        <p className="text-xs sm:text-sm text-gray-300">Add radiomore.love to your home screen.</p>
+                    </div>
+                    <div className="flex items-center gap-2 flex-shrink-0">
+                        <button onClick={handleInstallClick} className="bg-white hover:bg-gray-200 text-black font-bold py-2 px-4 rounded-lg transition-colors text-sm">
+                            Install
+                        </button>
+                        <button onClick={handleDismissInstall} className="text-gray-400 hover:text-white p-2 rounded-full" aria-label="Dismiss">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
           </React.Fragment>
         );
       };
