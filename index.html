@@ -158,9 +158,9 @@
         // `menuItems`: An array of objects defining the navigation menu. Each object has a name, icon, and content (either direct HTML or a URL to fetch).
         const menuItems = [
             { 
-                name: 'Home', 
-                icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>',
-                contentUrl: 'https://raw.githubusercontent.com/radiohost-cloud/radiomorelove/main/home.txt'
+                name: 'Spotify', 
+                icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 496 512"><path d="M248 8C111.1 8 0 119.1 0 256s111.1 248 248 248 248-111.1 248-248S384.9 8 248 8zm100.7 364.9c-2.1 3.9-6.3 5.1-10.2 2.9-33.3-19.3-74.5-23.7-124.5-12.9-4.3 .9-8.4-1.1-9.3-5.4s1.1-8.4 5.4-9.3c53.9-11.6 98.7-6.8 135.8 14.1 4.1 2.3 5.4 6.9 3.1 10.6zm13.5-44.5c-2.7 4.9-8.3 6.3-13.2 3.6-40.3-23.1-104.3-29.6-146.8-16.3-5.1 1.6-10.4-1.5-12-6.6s1.5-10.4 6.6-12c48.1-14.6 117.8-7.5 163.4 18.4 4.9 2.8 6.3 8.8 3.5 13.5zm.1-49.7c-3.2 5.9-9.8 7.8-15.7 4.6-45.4-26.4-121.2-32.2-169.4-17.8-6.1 1.8-12.2-1.8-14-7.9s1.8-12.2 7.9-14c53.6-15.8 135.8-9.5 187.1 19.8 5.9 3.2 7.8 9.9 4.6 15.8z"/></svg>',
+                content: `<iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/album/1VKRV9yzzHHK7lil77gNm8?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>`
             },
             { 
                 name: 'X', 
@@ -785,7 +785,7 @@
 
         // RENDER LOGIC: Sorts menu items into a predefined order for consistent display.
         const menuItemsToRender = menuItems.sort((a, b) => {
-          const order = ['Home', 'X', 'Instagram', 'YouTube', 'Blog', 'App', 'About Us', 'Ko-fi'];
+          const order = ['Spotify', 'X', 'Instagram', 'YouTube', 'Blog', 'App', 'About Us', 'Ko-fi'];
           return order.indexOf(a.name) - order.indexOf(b.name);
         });
         
@@ -982,7 +982,7 @@
                     aria-labelledby="popup-title"
                 >
                     <div 
-                        className={`bg-black/80 rounded-2xl shadow-2xl p-6 w-full m-4 text-white relative animate-scale-in flex flex-col ${popupTitle === 'Instagram' || popupTitle === 'X' || popupTitle === 'YouTube' ? 'max-w-lg' : 'max-w-md'}`}
+                        className={`bg-black/80 rounded-2xl shadow-2xl p-6 w-full m-4 text-white relative animate-scale-in flex flex-col ${popupTitle === 'Spotify' || popupTitle === 'Instagram' || popupTitle === 'X' || popupTitle === 'YouTube' ? 'max-w-lg' : 'max-w-md'}`}
                         onClick={(e) => e.stopPropagation()} // Prevent clicks inside the popup from closing it
                     >
                         <button onClick={() => setIsPopupOpen(false)} className="absolute top-3 right-3 text-gray-400 hover:text-white transition-colors z-10" aria-label="Close popup">
