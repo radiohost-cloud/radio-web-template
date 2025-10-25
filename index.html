@@ -44,6 +44,7 @@
     <link rel="preconnect" href="https://raw.githubusercontent.com" />
     <link rel="preconnect" href="https://stream.radiohost.cloud" />
     <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+    <link rel="preconnect" href="https://www.gstatic.com" />
   </head>
   <body class="overflow-hidden">
     <div id="root"></div>
@@ -53,6 +54,7 @@
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" defer></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest" defer></script>
+    <script src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1" defer></script>
     
     <script type="text/babel">
       const App = () => {
@@ -76,6 +78,7 @@
         const [onboardingStep, setOnboardingStep] = useState(0);
         const [isInitialOnboarding, setIsInitialOnboarding] = useState(true);
         const [isOnboardingStepFading, setIsOnboardingStepFading] = useState(false);
+        const [castSession, setCastSession] = useState(null);
         
         const tickerContainerRef = useRef(null);
         const textRef = useRef(null);
@@ -88,6 +91,7 @@
         const installPromptTimers = useRef({ show: null, hide: null });
         const flipTimeoutRef = useRef(null);
         const isInitialSongLoad = useRef(true);
+        const remotePlayerControllerRef = useRef(null);
 
         const logoUrl = 'https://raw.githubusercontent.com/radiohost-cloud/radiomorelove/main/logo.png';
         const feedUrl = 'https://raw.githubusercontent.com/radiohost-cloud/radiomorelove/main/feed.txt';
@@ -365,6 +369,8 @@
         }, []);
         
         useEffect(() => {
+            if (castSession) return; // Don't setup local HLS if casting
+
             const audio = audioRef.current;
             if (!audio) return;
             
@@ -399,7 +405,7 @@
                     hls.destroy();
                 }
             };
-        }, []);
+        }, [castSession]);
 
         useEffect(() => {
           const fetchTickerText = async () => {
@@ -445,14 +451,93 @@
             };
         }, [isPopupOpen, popupTitle]);
         
+        // Chromecast integration
+        useEffect(() => {
+            const initializeCastApi = () => {
+                if (!window.cast || !window.chrome.cast) {
+                    console.warn("Cast SDK not available yet.");
+                    return;
+                }
+
+                const castContext = cast.framework.CastContext.getInstance();
+                castContext.setOptions({
+                    receiverApplicationId: chrome.cast.media.DEFAULT_MEDIA_RECEIVER_APP_ID,
+                    autoJoinPolicy: chrome.cast.AutoJoinPolicy.ORIGIN_SCOPED
+                });
+
+                const player = new cast.framework.RemotePlayer();
+                const controller = new cast.framework.RemotePlayerController(player);
+                remotePlayerControllerRef.current = controller;
+
+                const sessionStateChanged = (event) => {
+                    const session = castContext.getCurrentSession();
+                    if (event.sessionState === cast.framework.SessionState.SESSION_STARTED || event.sessionState === cast.framework.SessionState.SESSION_RESUMED) {
+                        setCastSession(session);
+                    } else if (event.sessionState === cast.framework.SessionState.SESSION_ENDED) {
+                        setCastSession(null);
+                    }
+                };
+                
+                const remotePlayerPauseChanged = () => {
+                    if (remotePlayerControllerRef.current) {
+                        setIsPlaying(!remotePlayerControllerRef.current.isPaused);
+                    }
+                };
+
+                castContext.addEventListener(cast.framework.CastContextEventType.SESSION_STATE_CHANGED, sessionStateChanged);
+                controller.addEventListener(cast.framework.RemotePlayerEventType.IS_PAUSED_CHANGED, remotePlayerPauseChanged);
+
+                return () => {
+                    castContext.removeEventListener(cast.framework.CastContextEventType.SESSION_STATE_CHANGED, sessionStateChanged);
+                    controller.removeEventListener(cast.framework.RemotePlayerEventType.IS_PAUSED_CHANGED, remotePlayerPauseChanged);
+                };
+            };
+
+            window['__onGCastApiAvailable'] = (isAvailable) => {
+                if (isAvailable) {
+                    initializeCastApi();
+                }
+            };
+        }, []);
+
+        useEffect(() => {
+            if (castSession && nowPlaying) {
+                audioRef.current?.pause();
+
+                const { song } = nowPlaying.now_playing;
+                const mediaInfo = new chrome.cast.media.MediaInfo(streamAudioUrl, 'application/vnd.apple.mpegurl');
+                
+                mediaInfo.streamType = chrome.cast.media.StreamType.LIVE;
+                mediaInfo.metadata = new chrome.cast.media.MusicTrackMediaMetadata();
+                mediaInfo.metadata.title = song.title;
+                mediaInfo.metadata.artist = song.artist;
+                mediaInfo.metadata.albumName = 'radiomore.love';
+                mediaInfo.metadata.images = [new chrome.cast.Image(song.art)];
+                
+                const request = new chrome.cast.media.LoadRequest(mediaInfo);
+                
+                castSession.loadMedia(request).then(
+                    () => { console.log('Casting media loaded successfully.'); },
+                    (errorCode) => { console.error('Casting Error: ' + errorCode); }
+                );
+            }
+        }, [castSession, nowPlaying]);
+
+
         const togglePlayPause = React.useCallback(() => {
+            if (castSession) {
+                if (remotePlayerControllerRef.current) {
+                    remotePlayerControllerRef.current.playOrPause();
+                }
+                return;
+            }
             if (!audioRef.current) return;
             if (audioRef.current.paused) {
                 audioRef.current.play().catch(e => console.error("Playback error:", e));
             } else {
                 audioRef.current.pause();
             }
-        }, []);
+        }, [castSession]);
 
         useEffect(() => {
             if (!('mediaSession' in navigator)) {
@@ -479,7 +564,7 @@
                 console.warn('Could not set media session playback state.', error);
             }
 
-        }, [nowPlaying, isPlaying, togglePlayPause]);
+        }, [nowPlaying, isPlaying, togglePlayPause, castSession]);
 
         useLayoutEffect(() => {
             if (tickerContainerRef.current && textRef.current) {
@@ -724,17 +809,20 @@
                           <p className="text-white text-xl font-bold truncate">{nowPlaying.now_playing.song.title}</p>
                           <p className="text-gray-300 text-base mt-1 truncate">{nowPlaying.now_playing.song.artist}</p>
                         </div>
-                        <button 
-                          onClick={togglePlayPause} 
-                          className="w-16 h-16 mt-2 bg-white/20 text-white rounded-full flex items-center justify-center hover:bg-white/30 transition-all duration-300 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-white/50"
-                          aria-label={isPlaying ? "Pause" : "Play"}
-                        >
-                          {isPlaying ? (
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
-                          ) : (
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                          )}
-                        </button>
+                        <div className="flex items-center justify-center gap-4 mt-2">
+                            <button 
+                              onClick={togglePlayPause} 
+                              className="w-16 h-16 bg-white/20 text-white rounded-full flex items-center justify-center hover:bg-white/30 transition-all duration-300 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-white/50"
+                              aria-label={isPlaying ? "Pause" : "Play"}
+                            >
+                              {isPlaying ? (
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                              ) : (
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                              )}
+                            </button>
+                            <google-cast-launcher id="castbutton"></google-cast-launcher>
+                        </div>
                       </div>
                       {/* Back Face */}
                       <div className="absolute top-0 left-0 w-full h-full bg-black/70 backdrop-blur-lg rounded-3xl shadow-2xl p-6 flex flex-col items-center justify-center text-center backface-hidden [transform:rotateY(180deg)]">
@@ -779,7 +867,7 @@
                   <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 animate-fade-in" onClick={() => setShowIosInstructions(false)}>
                       <div className="bg-black/80 backdrop-blur-sm text-white p-6 rounded-xl shadow-2xl text-center max-w-sm mx-4 animate-scale-in relative" onClick={(e) => e.stopPropagation()}>
                           <button onClick={() => setShowIosInstructions(false)} className="absolute top-2 right-2 text-gray-400 hover:text-white" aria-label="Close instructions">
-                             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
                           </button>
                           <h3 className="text-xl font-bold mb-3">Add to Home Screen</h3>
                           <p className="mb-4 text-gray-300">To install the app, please follow these steps:</p>
@@ -795,7 +883,7 @@
                   <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 animate-fade-in" onClick={() => setShowGenericInstructions(false)}>
                       <div className="bg-black/80 backdrop-blur-sm text-white p-6 rounded-xl shadow-2xl text-center max-w-sm mx-4 animate-scale-in relative" onClick={(e) => e.stopPropagation()}>
                           <button onClick={() => setShowGenericInstructions(false)} className="absolute top-2 right-2 text-gray-400 hover:text-white" aria-label="Close instructions">
-                             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
                           </button>
                           <h3 className="text-xl font-bold mb-3">Install App</h3>
                           <p className="mb-4 text-gray-300">To add this app to your home screen:</p>
@@ -974,6 +1062,20 @@
         /* Improve touch responsiveness on interactive elements */
         button, a, [role="button"] {
             touch-action: manipulation;
+        }
+
+        /* Chromecast button styles */
+        #castbutton {
+            width: 48px;
+            height: 48px;
+            --cast-button-color: white;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 9999px;
+            transition: all 0.3s ease-in-out;
+        }
+        #castbutton:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
         }
     </style>
   </body>
