@@ -713,12 +713,12 @@
               
               <div className={`fixed z-30 [perspective:1000px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-all duration-700 ease-out ${isFullScreen ? 'w-screen h-screen-dynamic md:w-[400px] md:h-[520px] max-w-none' : 'w-[90%] max-w-xs'}`}>
                 {nowPlaying ? (
-                  <div className="animate-fade-in-up h-full">
+                  <div className="h-full">
                     <div
                       className={`relative transition-transform duration-1000 transform-style-3d h-full ${isPlayerFlipped ? 'rotate-y-180' : ''}`}
                     >
                       {/* Front Face */}
-                      <div className={`bg-black/70 backdrop-blur-lg shadow-2xl p-6 flex flex-col items-center gap-4 text-center backface-hidden transition-all duration-700 ease-in-out ${isFullScreen ? 'h-full justify-center rounded-none' : 'rounded-3xl'}`}>
+                      <div className={`bg-black/70 backdrop-blur-lg shadow-2xl p-6 flex flex-col items-center gap-4 text-center backface-hidden transition-all duration-700 ease-in-out ${isFullScreen ? 'h-full justify-center rounded-none md:rounded-3xl' : 'rounded-3xl'}`}>
                         {isFullScreen && (
                             <button 
                               onClick={() => setIsFullScreen(false)}
@@ -765,13 +765,13 @@
                         </div>
                       </div>
                       {/* Back Face */}
-                      <div className={`absolute top-0 left-0 w-full h-full bg-black/70 backdrop-blur-lg shadow-2xl p-6 flex flex-col items-center justify-center text-center backface-hidden [transform:rotateY(180deg)] ${isFullScreen ? 'rounded-none' : 'rounded-3xl'}`}>
+                      <div className={`absolute top-0 left-0 w-full h-full bg-black/70 backdrop-blur-lg shadow-2xl p-6 flex flex-col items-center justify-center text-center backface-hidden [transform:rotateY(180deg)] ${isFullScreen ? 'rounded-none md:rounded-3xl' : 'rounded-3xl'}`}>
                         {backsideContent}
                       </div>
                     </div>
                   </div>
                 ) : (
-                  <div className="bg-black/70 backdrop-blur-lg rounded-3xl shadow-2xl p-6 flex flex-col items-center gap-4 text-center h-[416px] justify-center animate-fade-in">
+                  <div className="bg-black/70 backdrop-blur-lg rounded-3xl shadow-2xl p-6 flex flex-col items-center gap-4 text-center h-[416px] justify-center">
                       <div className="w-56 h-56 rounded-2xl bg-gray-800 animate-pulse"></div>
                       <div className="w-4/5 h-6 bg-gray-800 rounded-md animate-pulse mt-2"></div>
                       <div className="w-3/5 h-5 bg-gray-800 rounded-md animate-pulse mt-1"></div>
